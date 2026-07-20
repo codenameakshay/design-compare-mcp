@@ -442,7 +442,9 @@ input[type="range"]::-moz-range-thumb {
 .stat b { margin-left: auto; margin-right: auto; }
 
 /* ---------- calibration stats ---------- */
-.stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 40px 0; }
+/* margin: 40px auto (not 40px 0) so the grid stays centered in the full-bleed
+   dark section on wide screens — 0 left/right would override the centering. */
+.stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 40px auto; }
 .stat { border: 1px solid rgba(255,255,255,0.14); border-radius: 20px; padding: 26px 24px; }
 .stat b { font-family: var(--font-display); font-weight: 700; font-size: 3rem; letter-spacing: -0.03em; display: block; line-height: 1; margin-bottom: 12px; }
 .stat span { font-size: 14px; color: #b9bdbe; line-height: 1.45; }
