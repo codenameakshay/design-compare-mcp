@@ -124,6 +124,37 @@
       </p>
     </section>
 
+    <!-- BUILT FOR THE LOOP -->
+    <section class="section" id="loop" aria-labelledby="loop-eyebrow">
+      <p class="eyebrow reveal" id="loop-eyebrow">Built for the loop</p>
+      <h2 class="statement reveal">Give your agent one number to climb.</h2>
+      <p class="idea-note reveal">Point a <code>/loop</code> — or any goal-driven agent run — at
+      <code>overall</code>. It's the target: the agent renders, compares, fixes the top finding, and
+      repeats until it clears your threshold. Because the score is <strong>monotonic and
+      deterministic</strong>, a rising number is real, repeatable progress — safe to set as the goal and
+      to gate on.</p>
+      <div class="loop-wrap reveal">
+        <div class="code-block">
+          <div class="code-top"><span class="code-cap">the hill-climb loop</span>
+            <button class="copy-btn" type="button">copy</button></div>
+          <pre><code>target = 95
+while overall &lt; target:                     # the goal
+    render(candidate)                        # your build step
+    r = compare_designs(ref, candidate, mode="screen")
+    overall = r["overall"]                   # ← the number to climb
+    fix(r["cv_findings"][0])                 # highest-severity miss first</code></pre>
+        </div>
+        <ul class="loop-points">
+          <li><b>Set the goal.</b> Pick a target like <code>overall ≥ 95</code>, or gate a PR / CI check
+          on it.</li>
+          <li><b>Work the punch-list.</b> <code>cv_findings</code> is already ordered by severity — fix the
+          top item each pass.</li>
+          <li><b>Trust the delta.</b> Same inputs, same score — so a higher number is measured progress,
+          not luck.</li>
+        </ul>
+      </div>
+    </section>
+
     <!-- FEATURE CARDS -->
     <section class="section" id="features" aria-label="What makes it different">
       <div class="cards">
