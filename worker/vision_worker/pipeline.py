@@ -19,16 +19,20 @@ from .align import apply_warp, estimate_alignment
 from .io_utils import load_rgb
 from .metrics.color import color_score
 from .metrics.content import content_score
+from .metrics.spacing import spacing_score
 from .metrics.structure import structure_score
+from .metrics.typography import typography_score
 from .normalize import CANON_WIDTH, normalize_pair
 
 
-def _sub(score: float, reason: str, measurements: dict | None = None) -> dict:
-    return {"score": round(float(score), 2), "reason": reason, "measurements": measurements or {}}
-
-
-def _pending(reason: str = "not scored until a later phase") -> dict:
-    return {"score": None, "reason": reason, "measurements": {}}
+def _sub(score: float | None, reason: str, measurements: dict | None = None) -> dict:
+    """Build a sub-score entry. A None score marks the dimension not-applicable
+    for this pair (e.g. no text / no major regions); aggregate() excludes it."""
+    return {
+        "score": None if score is None else round(float(score), 2),
+        "reason": reason,
+        "measurements": measurements or {},
+    }
 
 
 def compare(
@@ -59,9 +63,17 @@ def compare(
         cand_gray_a, cand_rgb_a = cand_gray, cand_n
 
     # --- dimensions ---
+    # Only structure (SSIM) uses the ALIGNED candidate — SSIM is hypersensitive to
+    # any offset, so the global shift is registered away and layout measures shape.
+    # The other four run on the UNWARPED candidate: color/typography are
+    # alignment-invariant, and content/spacing must stay position-sensitive so a
+    # genuine global shift surfaces as a spacing/placement finding rather than
+    # being silently corrected. This also avoids warp interpolation artifacts.
     layout_score, ssim_map = structure_score(ref_gray, cand_gray_a)
-    color_val, color_findings, color_meas = color_score(ref_n, cand_rgb_a)
-    content_val, content_findings, content_meas, content_viz = content_score(ref_n, cand_rgb_a)
+    color_val, color_findings, color_meas = color_score(ref_n, cand_n)
+    content_val, content_findings, content_meas, content_viz = content_score(ref_n, cand_n)
+    typo_val, typo_findings, typo_meas = typography_score(ref_n, cand_n)
+    spacing_val, spacing_findings, spacing_meas = spacing_score(ref_n, cand_n)
 
     subscores = {
         "layout": _sub(
@@ -75,8 +87,8 @@ def compare(
         ),
         "color": _sub(color_val, "dominant-palette match (mean ΔE2000)", color_meas),
         "content": _sub(content_val, "reference-region coverage (IoU matching)", content_meas),
-        "typography": _pending(),
-        "spacing": _pending(),
+        "typography": _sub(typo_val, "text amount + scale (coarse; not font identity)", typo_meas),
+        "spacing": _sub(spacing_val, "block margins + vertical rhythm (coarse)", spacing_meas),
     }
 
     overall = aggregate(subscores, weights)
@@ -98,6 +110,8 @@ def compare(
         )
     findings.extend(content_findings)
     findings.extend(color_findings)
+    findings.extend(typo_findings)
+    findings.extend(spacing_findings)
 
     result: dict = {
         "overall": overall,
@@ -106,12 +120,13 @@ def compare(
         "visuals": [],
         "critique_rubric": (
             "Scored dimensions: layout (SSIM), color (ΔE palette), content-presence "
-            "(region coverage). Typography and spacing are not yet scored — assess "
-            "those qualitatively from the images. Assemble a punch-list ordered by "
-            "score impact: start with the lowest sub-score and the highest-severity "
-            "cv_findings. Use `content_regions` (green=matched, red=missing, "
-            "orange=extra), `diff_heatmap` (hot=structural divergence), and `overlay` "
-            "to ground each item. Report each fix as {area, observed, expected, "
+            "(region coverage), typography (text amount+scale), spacing (margins+rhythm). "
+            "Typography and spacing are coarse pixel heuristics — treat them as hints and "
+            "confirm font family/weight and fine spacing visually. Assemble a punch-list "
+            "ordered by score impact: start with the lowest sub-score and the "
+            "highest-severity cv_findings. Use `content_regions` (green=matched, "
+            "red=missing, orange=extra), `diff_heatmap` (hot=structural divergence), and "
+            "`overlay` to ground each item. Report each fix as {area, observed, expected, "
             "severity, suggested_fix}."
         ),
         "alignment": {"mode": mode, **align_diag},

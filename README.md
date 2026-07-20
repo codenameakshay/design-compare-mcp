@@ -8,16 +8,19 @@ See [PLAN.md](PLAN.md) for the full design and rationale.
 
 ## Status
 
-**Phase 2 — color + content dimensions + aggregation (done).** `compare_designs` scores three
-dimensions: **layout** (SSIM), **color** (dominant-palette ΔE2000 matching), and **content-presence**
-(region segmentation + IoU matching, reporting missing/extra elements). `overall` is the weighted
-**geometric mean** over scored dimensions (so no single dimension can be farmed); optional `weights`
-override the defaults. Findings name shifted colors as hex pairs and locate missing/extra regions.
-Four diagnostic images are returned: overlay, diff heatmap, content regions
-(green=matched/red=missing/orange=extra), side-by-side. Typography and spacing are still pending.
+**Phase 3 — all five dimensions live (done).** `compare_designs` scores **layout** (SSIM), **color**
+(dominant-palette ΔE2000 matching), **content-presence** (region segmentation + IoU, reporting
+missing/extra), **typography** (text amount + scale — not font identity), and **spacing** (block
+margins + vertical rhythm). `overall` is the weighted **geometric mean** over the *applicable*
+dimensions — a dimension returns `null` when not applicable (no text → typography; no major blocks →
+content/spacing), so identical inputs score ~100 for both card- and text-heavy screens. Optional
+`weights` override the defaults. Typography and spacing are coarse pixel heuristics (modest weight);
+font family/weight and fine spacing are left to the host's vision model. Four diagnostic images are
+returned: overlay, diff heatmap, content regions (green=matched/red=missing/orange=extra),
+side-by-side.
 
-Earlier: **Phase 1** — normalize → align (ECC) → SSIM + visuals. **Phase 0** — TS MCP server boots a
-long-lived Python worker and multiplexes requests over stdio.
+Earlier: **Phase 2** — color + content + geometric-mean aggregation. **Phase 1** — normalize → align
+(ECC) → SSIM + visuals. **Phase 0** — TS MCP server + long-lived Python worker over stdio.
 
 ## Architecture
 
@@ -75,8 +78,8 @@ Or in an MCP client config (e.g. Claude Desktop):
 
 - `ping` — health check; round-trips a message through the Python worker.
 - `compare_designs` — inputs: `reference` (path), `candidate` (path), `mode` (`widget`|`screen`),
-  optional `ignoreRegions`, `returnVisuals`. Returns overall score, five sub-scores
-  (layout/color/content/typography/spacing), `cv_findings`, `critique_rubric`, alignment diagnostics,
-  and diagnostic images as MCP image content blocks. Phase 1 scores `layout` (SSIM); the other
-  dimensions report `null` with a "pending" reason.
+  optional `ignoreRegions`, `weights`, `returnVisuals`. Returns overall score, five sub-scores
+  (layout/color/content/typography/spacing; each `null` when not applicable to the pair),
+  `cv_findings`, `critique_rubric`, alignment diagnostics, and diagnostic images as MCP image
+  content blocks.
 ```

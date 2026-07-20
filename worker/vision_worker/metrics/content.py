@@ -20,7 +20,11 @@ MIN_AREA_FRAC = 0.003
 BG_DELTA = 12
 
 
-def _regions(rgb: np.ndarray) -> list[Box]:
+def detect_regions(rgb: np.ndarray) -> list[Box]:
+    """Segment an image into major content blocks (foreground vs background).
+
+    Shared by the content and spacing dimensions.
+    """
     h, w = rgb.shape[:2]
     gray = cv2.cvtColor(rgb, cv2.COLOR_RGB2GRAY)
     # Background = the most common gray value. Robust when a corner falls inside a
@@ -54,9 +58,16 @@ def _iou(a: Box, b: Box) -> float:
 
 def content_score(
     ref_rgb: np.ndarray, cand_rgb: np.ndarray
-) -> tuple[float, list[dict], dict, dict]:
-    ref_boxes = _regions(ref_rgb)
-    cand_boxes = _regions(cand_rgb)
+) -> tuple[float | None, list[dict], dict, dict]:
+    ref_boxes = detect_regions(ref_rgb)
+    cand_boxes = detect_regions(cand_rgb)
+
+    # Content-presence measures reproduction of the reference's major blocks. If
+    # the reference has none (e.g. a pure-text screen), the dimension is not
+    # applicable — return None so it is excluded from the overall score.
+    if not ref_boxes:
+        viz = {"matched": [], "missing": [], "extra": [list(b[:4]) for b in cand_boxes]}
+        return None, [], {"note": "no major regions detected in reference", "ref_regions": 0}, viz
 
     total_ref_area = sum(b[4] for b in ref_boxes) or 1
     total_cand_area = sum(b[4] for b in cand_boxes) or 1
