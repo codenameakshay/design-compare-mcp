@@ -63,6 +63,22 @@ npm run dev        # run from source via tsx (no build step)
 
 `npm run smoke` should end with `ALL CHECKS PASSED ✅`.
 
+## Motion & calibration
+
+Real-pair calibration against a dark motion-component library (beUI → its Flutter port) surfaced two
+things static image comparison cannot do, addressed in `scripts/` + `worker/vision_worker/motion.py`:
+
+- **Weight calibration** (`scripts/calibrate.py`) — scores human-labeled pairs, reports per-dimension
+  Spearman, and searches weights. On that dataset only layout + typography tracked human judgment;
+  the `dark-ui` preset encodes the result.
+- **Capture harness** (`scripts/capture_pairs.mjs`) — puppeteer; reference by URL, Flutter candidate by
+  coordinate-clicking the sidebar (no URL deep-linking in the web build).
+- **Motion comparison** (`worker/vision_worker/motion.py`, `scripts/capture_frames.mjs` +
+  `scripts/motion_score.py`) — the calibration's biggest finding was a **motion ceiling**: a static
+  screenshot can't see animation, so the tool over-scored motion/interaction components. `motion.py`
+  compares two frame *sequences* by motion energy + temporal rhythm — the temporal signal a single
+  frame lacks. Foundation for a future `compare_motion` MCP tool.
+
 ## Configuration
 
 - `DESIGN_COMPARE_PYTHON` — Python interpreter for the worker. Defaults to `worker/.venv/bin/python`
