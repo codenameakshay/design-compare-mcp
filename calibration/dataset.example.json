@@ -1,0 +1,14 @@
+{
+  "_comment": "Example manifest using the synthetic test fixtures. Replace with real (reference, implementation) screenshot pairs from your app and your own 0-100 'how close is this' labels. Image paths are resolved relative to THIS file. Copy to dataset.json (gitignored) for your real data.",
+  "pairs": [
+    {"reference": "../test/fixtures/reference.png", "candidate": "../test/fixtures/identical.png", "label": 100, "mode": "screen", "note": "identical"},
+    {"reference": "../test/fixtures/reference.png", "candidate": "../test/fixtures/shifted.png", "label": 96, "mode": "screen", "note": "small vertical shift"},
+    {"reference": "../test/fixtures/reference.png", "candidate": "../test/fixtures/missing_button.png", "label": 84, "mode": "screen", "note": "CTA missing"},
+    {"reference": "../test/fixtures/reference.png", "candidate": "../test/fixtures/spacing_tight.png", "label": 78, "mode": "screen", "note": "tighter spacing"},
+    {"reference": "../test/fixtures/reference.png", "candidate": "../test/fixtures/recolored.png", "label": 66, "mode": "screen", "note": "wrong accent colors"},
+    {"reference": "../test/fixtures/reference.png", "candidate": "../test/fixtures/different.png", "label": 18, "mode": "screen", "note": "unrelated layout"},
+    {"reference": "../test/fixtures/text_ref.png", "candidate": "../test/fixtures/text_ref.png", "label": 100, "mode": "screen", "note": "identical text"},
+    {"reference": "../test/fixtures/text_ref.png", "candidate": "../test/fixtures/text_less.png", "label": 80, "mode": "screen", "note": "less text"},
+    {"reference": "../test/fixtures/text_ref.png", "candidate": "../test/fixtures/text_smaller.png", "label": 70, "mode": "screen", "note": "smaller type"}
+  ]
+}

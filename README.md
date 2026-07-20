@@ -8,6 +8,14 @@ See [PLAN.md](PLAN.md) for the full design and rationale.
 
 ## Status
 
+**Phase 4 — calibration (done).** Adds a calibration harness and label-free guarantees. See
+[calibration/README.md](calibration/README.md): monotonicity (perturbing a dimension drives its
+sub-score down, Spearman ≤ −0.9), gaming-resistance (geometric mean stays ≤ the weighted arithmetic
+mean), and determinism, all enforced by `worker/tests/test_calibration.py`. A manifest harness
+(`worker/calibration/run_calibration.py`) scores labeled real pairs and reports Spearman/MAE plus a
+(report-only) weight search. Drop real `(reference, implementation, label)` pairs into
+`calibration/` to tune against reality.
+
 **Phase 3 — all five dimensions live (done).** `compare_designs` scores **layout** (SSIM), **color**
 (dominant-palette ΔE2000 matching), **content-presence** (region segmentation + IoU, reporting
 missing/extra), **typography** (text amount + scale — not font identity), and **spacing** (block

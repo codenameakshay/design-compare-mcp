@@ -48,9 +48,28 @@ def compare(
     if not candidate:
         raise ValueError("'candidate' image path is required")
 
-    ref_rgb = load_rgb(reference)
-    cand_rgb = load_rgb(candidate)
+    return compare_arrays(
+        load_rgb(reference),
+        load_rgb(candidate),
+        mode=mode,
+        ignore_regions=ignore_regions,
+        return_visuals=return_visuals,
+        weights=weights,
+    )
 
+
+def compare_arrays(
+    ref_rgb,
+    cand_rgb,
+    mode: str = "screen",
+    ignore_regions: Any = None,
+    return_visuals: bool = True,
+    weights: dict | None = None,
+) -> dict:
+    """Compare two already-loaded RGB arrays (no file I/O).
+
+    Used by the file-based `compare()` and directly by the calibration harness.
+    """
     ref_n, cand_n, aspect_mismatch = normalize_pair(ref_rgb, cand_rgb)
     ref_gray = cv2.cvtColor(ref_n, cv2.COLOR_RGB2GRAY)
     cand_gray = cv2.cvtColor(cand_n, cv2.COLOR_RGB2GRAY)

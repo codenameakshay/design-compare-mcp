@@ -5,3 +5,6 @@ worker/.venv/
 *.pyc
 .DS_Store
 *.log
+
+# Personal calibration data (keep dataset.example.json tracked)
+calibration/dataset.json
