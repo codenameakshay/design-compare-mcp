@@ -20,8 +20,19 @@ import os
 import sys
 import traceback
 
-from . import PROTOCOL, __version__
-from .pipeline import compare as _compare
+# --- STDOUT ISOLATION (must run before importing heavy libs) ---------------
+# stdout is the framed JSON-lines protocol channel. Reserve the real stdout fd
+# for framed responses only, then repoint fd 1 (and sys.stdout) at stderr so any
+# stray print/native-library write to stdout can never corrupt the protocol.
+try:
+    _PROTOCOL_OUT = os.fdopen(os.dup(1), "w", buffering=1)
+    sys.stdout.flush()
+    os.dup2(2, 1)  # fd 1 -> stderr
+except OSError:  # pragma: no cover - non-fd stdout (unusual); fall back
+    _PROTOCOL_OUT = sys.__stdout__
+
+from . import PROTOCOL, __version__  # noqa: E402
+from .pipeline import compare as _compare  # noqa: E402
 
 
 def _log(msg: str) -> None:
@@ -29,8 +40,8 @@ def _log(msg: str) -> None:
 
 
 def _send(obj: dict) -> None:
-    sys.stdout.write(json.dumps(obj) + "\n")
-    sys.stdout.flush()
+    _PROTOCOL_OUT.write(json.dumps(obj) + "\n")
+    _PROTOCOL_OUT.flush()
 
 
 def handle_ping(params: dict) -> dict:

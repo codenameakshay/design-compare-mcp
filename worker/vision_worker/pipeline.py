@@ -81,34 +81,68 @@ def compare_arrays(
     else:
         cand_gray_a, cand_rgb_a = cand_gray, cand_n
 
-    # --- dimensions ---
+    # --- dimensions (each isolated: one failing metric -> that dimension only) ---
     # Only structure (SSIM) uses the ALIGNED candidate — SSIM is hypersensitive to
     # any offset, so the global shift is registered away and layout measures shape.
     # The other four run on the UNWARPED candidate: color/typography are
     # alignment-invariant, and content/spacing must stay position-sensitive so a
     # genuine global shift surfaces as a spacing/placement finding rather than
     # being silently corrected. This also avoids warp interpolation artifacts.
-    layout_score, ssim_map = structure_score(ref_gray, cand_gray_a)
-    color_val, color_findings, color_meas = color_score(ref_n, cand_n)
-    content_val, content_findings, content_meas, content_viz = content_score(ref_n, cand_n)
-    typo_val, typo_findings, typo_meas = typography_score(ref_n, cand_n)
-    spacing_val, spacing_findings, spacing_meas = spacing_score(ref_n, cand_n)
+    ssim_map = None
+    content_viz: dict = {"matched": [], "missing": [], "extra": []}
+    color_findings: list[dict] = []
+    content_findings: list[dict] = []
+    typo_findings: list[dict] = []
+    spacing_findings: list[dict] = []
 
-    subscores = {
-        "layout": _sub(
-            layout_score,
-            "structural similarity (SSIM) after alignment",
-            {
-                "ssim": round(layout_score / 100, 4),
-                "alignment": align_diag,
-                "aspect_mismatch": round(aspect_mismatch, 4),
-            },
-        ),
-        "color": _sub(color_val, "dominant-palette match (mean ΔE2000)", color_meas),
-        "content": _sub(content_val, "reference-region coverage (IoU matching)", content_meas),
-        "typography": _sub(typo_val, "text amount + scale (coarse; not font identity)", typo_meas),
-        "spacing": _sub(spacing_val, "block margins + vertical rhythm (coarse)", spacing_meas),
-    }
+    def _guard(name, fn):
+        """Run a metric; on failure return a None-scored sub-score with the error.
+        Isolates one bad dimension (e.g. a degenerate image) from the rest."""
+        try:
+            return fn(), None
+        except Exception as exc:  # keep the compare alive; dimension -> not applicable
+            return None, {
+                "score": None,
+                "reason": f"{name} metric failed",
+                "measurements": {"error": f"{type(exc).__name__}: {exc}"[:200]},
+            }
+
+    def _layout():
+        nonlocal ssim_map
+        score, ssim_map = structure_score(ref_gray, cand_gray_a)
+        return _sub(score, "structural similarity (SSIM) after alignment", {
+            "ssim": round(score / 100, 4),
+            "alignment": align_diag,
+            "aspect_mismatch": round(aspect_mismatch, 4),
+        })
+
+    def _color():
+        nonlocal color_findings
+        val, color_findings, meas = color_score(ref_n, cand_n)
+        return _sub(val, "dominant-palette match (mean ΔE2000)", meas)
+
+    def _content():
+        nonlocal content_findings, content_viz
+        val, content_findings, meas, content_viz = content_score(ref_n, cand_n)
+        return _sub(val, "reference-region coverage (IoU matching)", meas)
+
+    def _typography():
+        nonlocal typo_findings
+        val, typo_findings, meas = typography_score(ref_n, cand_n)
+        return _sub(val, "text amount + scale (coarse; not font identity)", meas)
+
+    def _spacing():
+        nonlocal spacing_findings
+        val, spacing_findings, meas = spacing_score(ref_n, cand_n)
+        return _sub(val, "block margins + vertical rhythm (coarse)", meas)
+
+    subscores = {}
+    for name, fn in [
+        ("layout", _layout), ("color", _color), ("content", _content),
+        ("typography", _typography), ("spacing", _spacing),
+    ]:
+        ok, failed = _guard(name, fn)
+        subscores[name] = failed if failed is not None else ok
 
     overall = aggregate(subscores, weights)
 
@@ -154,11 +188,17 @@ def compare_arrays(
     }
 
     if return_visuals:
-        result["visuals"] = [
+        visuals = [
             {"name": "overlay", "mime_type": "image/png", "base64": V.overlay(ref_n, cand_rgb_a)},
-            {"name": "diff_heatmap", "mime_type": "image/png", "base64": V.diff_heatmap(ssim_map)},
             {"name": "content_regions", "mime_type": "image/png", "base64": V.content_regions(ref_n, content_viz)},
             {"name": "side_by_side", "mime_type": "image/png", "base64": V.side_by_side(ref_n, cand_n)},
         ]
+        # diff_heatmap only exists if the structure metric produced an SSIM map.
+        if ssim_map is not None:
+            visuals.insert(1, {
+                "name": "diff_heatmap", "mime_type": "image/png",
+                "base64": V.diff_heatmap(ssim_map),
+            })
+        result["visuals"] = visuals
 
     return result

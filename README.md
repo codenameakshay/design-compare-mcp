@@ -8,6 +8,13 @@ See [PLAN.md](PLAN.md) for the full design and rationale.
 
 ## Status
 
+**Phase 5 — hardening (done).** The worker is now supervised and self-healing (a crash respawns on
+the next request with backoff instead of bricking the session), each of the five metrics is isolated
+(one failing on a degenerate input yields `null` for that dimension, not a failed compare), inputs
+are size-capped before decode, and the stdout protocol channel is isolated from stray library
+output. See **Hardening & limits** below. Verified by `worker/tests/test_robustness.py`,
+`scripts/resilience.mjs` (`npm run resilience`), and `scripts/stress.py`.
+
 **Phase 4 — calibration (done).** Adds a calibration harness and label-free guarantees. See
 [calibration/README.md](calibration/README.md): monotonicity (perturbing a dimension drives its
 sub-score down, Spearman ≤ −0.9), gaming-resistance (geometric mean stays ≤ the weighted arithmetic
@@ -58,8 +65,31 @@ npm run dev        # run from source via tsx (no build step)
 
 ## Configuration
 
-- `DESIGN_COMPARE_PYTHON` — path to the Python interpreter for the worker (default `python3`).
-  Point this at a venv once vision dependencies are added in Phase 1.
+- `DESIGN_COMPARE_PYTHON` — Python interpreter for the worker. Defaults to `worker/.venv/bin/python`
+  if present, else `python3`.
+- `DESIGN_COMPARE_ALLOWED_ROOTS` — optional `:`-separated directories. When set, the worker refuses
+  to read image paths outside these roots (after resolving symlinks). Unset (default) allows any
+  local path — the single-user local-trust assumption. Set this if the server is exposed to an
+  untrusted or prompt-injectable host.
+
+## Hardening & limits
+
+- **Supervised worker.** If the Python worker dies (OOM, native crash), the next request lazily
+  respawns it with exponential backoff; a previously-healthy crash triggers one idempotent retry. One
+  crash costs at most a single failed call, never the whole session.
+- **Per-metric isolation.** Each of the five dimensions runs independently — a metric that throws on
+  a degenerate input returns `null` (with the error in `measurements`) while the others and the
+  overall still compute.
+- **Input caps.** Images are rejected before pixel decode if larger than ~40 MP or 12000 px on a
+  side (`worker/vision_worker/io_utils.py`), bounding decode memory. PIL's decompression-bomb guard
+  is a second backstop. Non-images and bad paths return typed errors.
+- **Protocol isolation.** The worker reserves the real stdout fd for framed JSON responses and
+  repoints `sys.stdout`/fd 1 at stderr, so stray library output can never corrupt the channel.
+- **Serialization.** The worker processes requests one at a time; the 30 s per-request timeout is a
+  safety net for a dropped response. It is not a general concurrency layer.
+- **Trust model.** The tool reads whatever local image paths it is given and returns downscaled
+  thumbnails of them. It never returns raw file bytes (non-images error out). For untrusted hosts,
+  set `DESIGN_COMPARE_ALLOWED_ROOTS`.
 
 ## Register with a host
 
