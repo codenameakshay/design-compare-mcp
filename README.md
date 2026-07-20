@@ -5,6 +5,8 @@ implementation — and returns a score plus a concrete, actionable punch-list of
 to drive an iterative *"hill-climb the clone"* loop: an agent renders its implementation, compares it
 to the goal, fixes the biggest discrepancies, and repeats.
 
+**Website:** [codenameakshay.github.io/design-compare-mcp](https://codenameakshay.github.io/design-compare-mcp/) — overview, the five dimensions, install steps, and live interactive demos ([source in `site/`](site/)).
+
 It compares along two axes most tools ignore in combination:
 
 - **Static fidelity** (`compare_designs`) — layout, color, content, typography, spacing of a still frame.

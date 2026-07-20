@@ -1,0 +1,469 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>design-compare-mcp — score how faithfully your UI clones the design</title>
+  <meta name="description" content="An MCP server that scores how faithfully one UI reproduces another and returns an actionable punch-list. Built for the hill-climb-the-clone loop." />
+  <meta property="og:title" content="design-compare-mcp" />
+  <meta property="og:description" content="A reference goes in, your build goes in. Out comes a score that rises as you get closer — and a punch-list of what to fix." />
+  <meta property="og:type" content="website" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://images.unsplash.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Gabarito:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='24' fill='%23181d1f'/%3E%3Crect x='24' y='28' width='24' height='44' rx='6' fill='%23fd956d'/%3E%3Crect x='52' y='28' width='24' height='44' rx='6' fill='%23d7cef0'/%3E%3C/svg%3E" />
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <!-- NAV -->
+  <header class="nav" id="nav">
+    <div class="nav-inner">
+      <a class="brand" href="#top" aria-label="design-compare home">
+        <span class="brand-mark" aria-hidden="true"><span></span><span></span></span>
+        <span class="brand-word">design&#8288;-&#8288;compare</span>
+      </a>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="#idea">How it works</a>
+        <a href="#dimensions">Dimensions</a>
+        <a href="#try">Try it</a>
+        <a href="#install">Install</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+      <a class="btn btn-dark nav-cta" href="https://github.com/codenameakshay/design-compare-mcp" target="_blank" rel="noopener">
+        <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+        <span>GitHub</span>
+      </a>
+    </div>
+  </header>
+
+  <main id="main">
+    <span id="top"></span>
+
+    <!-- HERO -->
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-panel">
+        <p class="eyebrow reveal">MCP server · computer vision</p>
+        <h1 id="hero-title" class="hero-title reveal">
+          <span class="lens-line">
+            <span class="lens-base">Score how</span>
+            <span class="lens-fill" aria-hidden="true">Score how</span>
+          </span>
+          <span class="lens-line">
+            <span class="lens-base">faithfully your UI</span>
+            <span class="lens-fill" aria-hidden="true">faithfully your UI</span>
+          </span>
+          <span class="lens-line">
+            <span class="lens-base">clones the design.</span>
+            <span class="lens-fill" aria-hidden="true">clones the design.</span>
+          </span>
+        </h1>
+        <p class="hero-sub reveal">
+          A reference goes in, your build goes in. Out comes a score that
+          <em>rises as you get closer</em> — and a punch-list of what to fix.
+        </p>
+        <div class="hero-actions reveal">
+          <a class="btn btn-dark btn-lg" href="#install">Install it</a>
+          <a class="btn btn-outline btn-lg" href="https://github.com/codenameakshay/design-compare-mcp" target="_blank" rel="noopener">View on GitHub&nbsp;↗</a>
+        </div>
+      </div>
+
+      <!-- HERO VISUAL: reference vs candidate with score -->
+      <div class="hero-visual reveal">
+        <div class="hv-pair">
+          <figure class="hv-card">
+            <figcaption class="hv-label">reference</figcaption>
+            <div class="hv-img">
+              <img src="https://images.unsplash.com/photo-1557682224-5b8590cd9ec5?q=80&w=760&h=520&fit=crop&auto=format" alt="Reference design: a purple-to-orange brand gradient" loading="lazy" width="760" height="520" />
+            </div>
+          </figure>
+          <figure class="hv-card">
+            <figcaption class="hv-label">candidate</figcaption>
+            <div class="hv-img hv-shift">
+              <img src="https://images.unsplash.com/photo-1557682224-5b8590cd9ec5?q=80&w=760&h=520&fit=crop&auto=format" alt="Candidate build: the same gradient with its hues drifted" loading="lazy" width="760" height="520" />
+            </div>
+          </figure>
+        </div>
+        <div class="hv-score" aria-hidden="true">
+          <div class="hv-score-ring" style="--pct:82">
+            <div class="hv-score-num"><span data-count="82.4">0.0</span></div>
+            <div class="hv-score-cap">overall</div>
+          </div>
+          <ul class="hv-subs">
+            <li><span>layout</span><b>99.9</b></li>
+            <li class="warn"><span>color</span><b>44.0</b></li>
+            <li><span>content</span><b>100</b></li>
+            <li><span>spacing</span><b>100</b></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- THE IDEA -->
+    <section class="section" id="idea" aria-labelledby="idea-eyebrow">
+      <p class="eyebrow reveal" id="idea-eyebrow">The idea</p>
+      <h2 class="statement reveal">
+        A <mark>reference</mark>, a <mark>candidate</mark>, and a score that <em>rises as they converge</em>.
+      </h2>
+      <div class="idea-flow reveal" aria-hidden="true">
+        <div class="flow-node">reference<br/><small>design / site / component</small></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-node flow-engine">compare_designs<br/><small>5 CV dimensions</small></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-out">
+          <div class="flow-node flow-score">overall&nbsp;0–100</div>
+          <div class="flow-node flow-list">punch-list of fixes</div>
+        </div>
+      </div>
+      <p class="idea-note reveal">
+        Every run returns an <code>overall</code>, five sub-scores, a <code>cv_findings</code> punch-list,
+        and diagnostic images. The score is built to be <strong>actionable and monotonic</strong> — not a
+        single "true" number.
+      </p>
+    </section>
+
+    <!-- FEATURE CARDS -->
+    <section class="section" id="features" aria-label="What makes it different">
+      <div class="cards">
+        <article class="card card-peach reveal">
+          <div class="card-tag">monotonic</div>
+          <h3>A number that only goes up as you get closer.</h3>
+          <p>Deterministic and monotonic — so an agent can hill-climb it: render, compare, fix, repeat.</p>
+        </article>
+        <article class="card card-lav reveal">
+          <div class="card-tag">five dimensions</div>
+          <h3>Not one score. Five you can act on.</h3>
+          <p>Layout, color, content, typography, spacing — scored separately, so you see <em>which</em>
+          axis is off.</p>
+        </article>
+        <article class="card card-mint reveal">
+          <div class="card-tag">punch-list</div>
+          <h3>A punch-list, not just a grade.</h3>
+          <p>Findings name the exact problem — a hex that drifted, an element that's missing, with its box.</p>
+        </article>
+        <article class="card card-blue reveal">
+          <div class="card-tag">motion</div>
+          <h3>A screenshot can't see motion. This can.</h3>
+          <p><code>compare_motion</code> reads two frame sequences — do they animate with the same energy
+          and rhythm?</p>
+        </article>
+        <article class="card card-sand reveal">
+          <div class="card-tag">deterministic</div>
+          <h3>Same inputs, same score. Every time.</h3>
+          <p>Seeded k-means, fixed pipeline, nothing random. Safe to optimize against, safe to trust when
+          it moves.</p>
+        </article>
+        <article class="card card-pink reveal">
+          <div class="card-tag">honest</div>
+          <h3>It tells you where it's weak.</h3>
+          <p>Calibrated against human labels — with the correlation numbers <em>and</em> the failure modes
+          published.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- WHAT IT MEASURES / DIMENSIONS -->
+    <section class="section" id="dimensions" aria-labelledby="dim-eyebrow">
+      <p class="eyebrow reveal" id="dim-eyebrow">What it measures</p>
+      <h2 class="statement reveal">Everything that makes a clone feel faithful.</h2>
+
+      <div class="marquee reveal" aria-hidden="true">
+        <div class="marquee-track">
+          <span class="pill">SSIM</span><span class="pill">ΔE2000</span><span class="pill">CIELAB</span>
+          <span class="pill">k-means palette</span><span class="pill">Hungarian match</span>
+          <span class="pill">IoU region matching</span><span class="pill">ECC alignment</span>
+          <span class="pill">morphology</span><span class="pill">connected components</span>
+          <span class="pill">geometric mean</span><span class="pill">temporal correlation</span>
+          <span class="pill">motion energy</span><span class="pill">Otsu threshold</span>
+          <span class="pill">gradient edges</span>
+          <span class="pill">SSIM</span><span class="pill">ΔE2000</span><span class="pill">CIELAB</span>
+          <span class="pill">k-means palette</span><span class="pill">Hungarian match</span>
+          <span class="pill">IoU region matching</span><span class="pill">ECC alignment</span>
+          <span class="pill">morphology</span><span class="pill">connected components</span>
+          <span class="pill">geometric mean</span><span class="pill">temporal correlation</span>
+          <span class="pill">motion energy</span><span class="pill">Otsu threshold</span>
+          <span class="pill">gradient edges</span>
+        </div>
+      </div>
+
+      <div class="dim-grid">
+        <article class="dim reveal">
+          <div class="dim-head"><h3>Layout</h3><span class="dim-weight">weight 0.35</span></div>
+          <p class="dim-what">SSIM on the aligned grayscale. Measures <em>shape</em> — the global shift is
+          registered away first, so a 1-px offset doesn't tank it.</p>
+          <p class="dim-weak"><span>weakness</span> grayscale; plateaus under heavy blur.</p>
+        </article>
+        <article class="dim reveal">
+          <div class="dim-head"><h3>Color</h3><span class="dim-weight">weight 0.20</span></div>
+          <p class="dim-what">A seeded k-means palette in CIELAB, matched one-to-one by ΔE2000. Score =
+          <code>100·exp(−ΔE/19)</code>, each shift named as hex.</p>
+          <p class="dim-weak"><span>weakness</span> flat in a single-theme UI; ignores position.</p>
+        </article>
+        <article class="dim reveal">
+          <div class="dim-head"><h3>Content</h3><span class="dim-weight">weight 0.15</span></div>
+          <p class="dim-what">A contrast-adaptive detector matches the reference's blocks to yours by IoU.
+          Missing or extra blocks become findings.</p>
+          <p class="dim-weak"><span>weakness</span> coarse; region boxes wobble.</p>
+        </article>
+        <article class="dim reveal">
+          <div class="dim-head"><h3>Typography</h3><span class="dim-weight">weight 0.15</span></div>
+          <p class="dim-what">Text lines by morphology, compared on <em>amount</em> and <em>scale</em>. Not
+          OCR, not font identity.</p>
+          <p class="dim-weak"><span>weakness</span> misses a wrong font; <code>null</code> when no text.</p>
+        </article>
+        <article class="dim reveal">
+          <div class="dim-head"><h3>Spacing</h3><span class="dim-weight">weight 0.15</span></div>
+          <p class="dim-what">Outer margins and vertical rhythm from major blocks, each within a tolerance.</p>
+          <p class="dim-weak"><span>weakness</span> coarsest; <code>null</code> on sparse views.</p>
+        </article>
+        <article class="dim dim-agg reveal">
+          <div class="dim-head"><h3>Aggregate</h3><span class="dim-weight">geometric</span></div>
+          <p class="dim-what">The five combine as a <strong>weighted geometric mean</strong> — one weak
+          axis drags the whole score down.</p>
+          <p class="dim-formula"><code>overall = exp( Σ wᵢ·ln(scoreᵢ) )</code></p>
+        </article>
+      </div>
+    </section>
+
+    <!-- INTERACTIVE: TRY IT -->
+    <section class="section section-cream" id="try" aria-labelledby="try-eyebrow">
+      <p class="eyebrow reveal" id="try-eyebrow">Try it</p>
+      <h2 class="statement reveal">Play with the actual math.</h2>
+      <p class="idea-note reveal">These run the same formulas the worker does.</p>
+
+      <div class="demos">
+        <div class="demo reveal" id="demo-agg">
+          <div class="demo-head">
+            <h3>Weighted geometric mean</h3>
+            <div class="demo-presets" role="group" aria-label="Weight preset">
+              <button type="button" class="chip-btn is-active" data-preset="default">default</button>
+              <button type="button" class="chip-btn" data-preset="dark-ui">dark-ui</button>
+            </div>
+          </div>
+          <p class="demo-desc">One low dimension pulls the overall down far harder than an average would.</p>
+          <div class="sliders" id="agg-sliders"><!-- injected --></div>
+          <div class="demo-out">
+            <div class="agg-result">
+              <div class="agg-big"><span id="agg-geo">—</span></div>
+              <div class="agg-cap">weighted geometric mean</div>
+            </div>
+            <div class="agg-compare">
+              <div class="agg-vs"><span>arithmetic mean</span><b id="agg-arith">—</b></div>
+              <div class="agg-note" id="agg-gap">—</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="demo reveal" id="demo-color">
+          <div class="demo-head"><h3>Color · ΔE2000 → score</h3></div>
+          <p class="demo-desc">Each palette pair scores <code>100·exp(−ΔE/19)</code>, ΔE by CIEDE2000. Pick a
+          candidate color.</p>
+          <div class="color-demo">
+            <div class="color-pick">
+              <label>reference
+                <input type="color" id="ref-color" value="#2878dc" />
+                <code id="ref-hex">#2878dc</code>
+              </label>
+              <label>candidate
+                <input type="color" id="cand-color" value="#dc3c3c" />
+                <code id="cand-hex">#dc3c3c</code>
+              </label>
+            </div>
+            <div class="color-read">
+              <div class="color-swatches">
+                <span class="sw" id="sw-ref"></span>
+                <span class="sw-arrow">→</span>
+                <span class="sw" id="sw-cand"></span>
+              </div>
+              <div class="color-metrics">
+                <div><span>ΔE2000</span><b id="de-val">—</b></div>
+                <div><span>color score</span><b id="de-score">—</b></div>
+              </div>
+              <div class="finding" id="color-finding"><!-- injected --></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- INSTALL -->
+    <section class="section" id="install" aria-labelledby="install-eyebrow">
+      <p class="eyebrow reveal" id="install-eyebrow">Install &amp; register</p>
+      <h2 class="statement reveal">Running in about a minute.</h2>
+      <p class="idea-note reveal">Needs <strong>Node ≥ 20</strong>, <strong>Python ≥ 3.10</strong>, and —
+      for <code>capture_frames</code> — a local <strong>Chrome</strong>.</p>
+
+      <div class="install-steps">
+        <div class="code-block reveal">
+          <div class="code-top"><span class="code-cap">1 · clone &amp; build</span>
+            <button class="copy-btn" type="button">copy</button></div>
+          <pre><code>git clone https://github.com/codenameakshay/design-compare-mcp
+cd design-compare-mcp
+npm install
+npm run build</code></pre>
+        </div>
+        <div class="code-block reveal">
+          <div class="code-top"><span class="code-cap">2 · set up the Python vision worker</span>
+            <button class="copy-btn" type="button">copy</button></div>
+          <pre><code>python3 -m venv worker/.venv
+worker/.venv/bin/pip install numpy pillow scikit-image \
+  opencv-python-headless scikit-learn scipy
+npm run smoke   # ends with: ALL CHECKS PASSED ✅</code></pre>
+        </div>
+        <div class="code-block reveal">
+          <div class="code-top"><span class="code-cap">3 · register with Claude Code</span>
+            <button class="copy-btn" type="button">copy</button></div>
+          <pre><code>claude mcp add design-compare --scope user -- \
+  node /abs/path/to/design-compare-mcp/dist/index.js</code></pre>
+        </div>
+      </div>
+      <p class="idea-note reveal">Registers four tools: <code>ping</code>, <code>compare_designs</code>,
+      <code>compare_motion</code>, <code>capture_frames</code>.</p>
+    </section>
+
+    <!-- CALIBRATION / HONEST -->
+    <section class="section section-dark" id="calibration" aria-labelledby="cal-eyebrow">
+      <p class="eyebrow reveal" id="cal-eyebrow">Is it any good?</p>
+      <h2 class="statement reveal">Calibrated against human judgment.</h2>
+      <p class="idea-note reveal">Scored against 26 components of a dark component library vs. its Flutter
+      port, each rated 0–100 by eye. Correlation is Spearman.</p>
+
+      <div class="stats">
+        <div class="stat reveal"><b>−0.03</b><span>default preset, out of the box</span></div>
+        <div class="stat reveal stat-good"><b>+0.44</b><span><code>dark-ui</code> preset — the honest working number</span></div>
+        <div class="stat reveal"><b>+0.54</b><span>best possible weighting — a ceiling, overfit to 26 points</span></div>
+      </div>
+
+      <div class="perdim reveal">
+        <h3>Per-dimension correlation, on that dataset</h3>
+        <ul class="perdim-list">
+          <li><span>layout</span><div class="bar"><i style="--v:33"></i></div><b>+0.33</b></li>
+          <li><span>typography</span><div class="bar"><i style="--v:31"></i></div><b>+0.31</b></li>
+          <li><span>content</span><div class="bar"><i style="--v:23"></i></div><b>+0.23</b></li>
+          <li><span>color</span><div class="bar"><i style="--v:3"></i></div><b>+0.03</b></li>
+          <li class="neg"><span>spacing</span><div class="bar"><i style="--v:13"></i></div><b>−0.13</b></li>
+        </ul>
+        <p class="perdim-read">A decent <strong>layout + typography checker</strong> on this set — not a
+        full oracle. Drop your own labeled pairs into <code>calibration/</code> and re-run the tuner to
+        calibrate for your UI.</p>
+      </div>
+
+      <div class="limits reveal">
+        <h3>Where it can mislead you</h3>
+        <div class="limit-grid">
+          <div class="limit"><b>The motion ceiling.</b> A static screenshot can't see animation — use
+          <code>compare_motion</code>.</div>
+          <div class="limit"><b>Single-theme color.</b> One palette means no variance for ΔE. Don't weight
+          color.</div>
+          <div class="limit"><b>Typography ≠ font.</b> Amount and scale, not font family or weight.</div>
+          <div class="limit"><b>One-shot animations.</b> A reveal that finishes before sampling reads as
+          static.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="section" id="faq" aria-labelledby="faq-eyebrow">
+      <p class="eyebrow reveal" id="faq-eyebrow">FAQ</p>
+      <h2 class="statement reveal">Frequently asked questions</h2>
+      <div class="faq-list reveal">
+        <details class="faq-item">
+          <summary>What problem does this solve?<span class="faq-plus" aria-hidden="true"></span></summary>
+          <div class="faq-body"><p>Cloning a UI is a loop: render, compare to the reference, fix the
+          biggest gap, repeat. This replaces the eyeballing with a reproducible number and a specific
+          punch-list.</p></div>
+        </details>
+        <details class="faq-item">
+          <summary>What do I feed it?<span class="faq-plus" aria-hidden="true"></span></summary>
+          <div class="faq-body"><p>Two local images — a reference and a candidate. <code>widget</code> mode
+          for a tight crop, <code>screen</code> mode for a full view. For motion, two frame sequences.</p></div>
+        </details>
+        <details class="faq-item">
+          <summary>How is the score computed?<span class="faq-plus" aria-hidden="true"></span></summary>
+          <div class="faq-body"><p>Five dimensions measured independently, combined with a weighted
+          geometric mean. Anything that doesn't apply returns <code>null</code> and is excluded.</p></div>
+        </details>
+        <details class="faq-item">
+          <summary>Is the number accurate?<span class="faq-plus" aria-hidden="true"></span></summary>
+          <div class="faq-body"><p>Useful, not authoritative — about +0.44 Spearman with human judgment on
+          the calibration set. A first-pass gate and punch-list, not a replacement for a human's final
+          call.</p></div>
+        </details>
+        <details class="faq-item">
+          <summary>Can I calibrate it for my own UI?<span class="faq-plus" aria-hidden="true"></span></summary>
+          <div class="faq-body"><p>Yes. Drop <code>(reference, candidate, your 0–100 label)</code> pairs
+          into <code>calibration/</code> and run <code>scripts/calibrate.py</code>.</p></div>
+        </details>
+        <details class="faq-item">
+          <summary>Why TypeScript <em>and</em> Python?<span class="faq-plus" aria-hidden="true"></span></summary>
+          <div class="faq-body"><p>TypeScript speaks MCP and drives headless-Chrome capture; a resident
+          Python worker does the vision, so the heavy imports load once, not per call.</p></div>
+        </details>
+        <details class="faq-item">
+          <summary>Is it safe to run?<span class="faq-plus" aria-hidden="true"></span></summary>
+          <div class="faq-body"><p>It reads local paths and navigates to URLs you give it. Inputs are
+          size-capped, metrics isolated, the worker respawns on crash. Set
+          <code>DESIGN_COMPARE_ALLOWED_ROOTS</code> to sandbox reads.</p></div>
+        </details>
+        <details class="faq-item">
+          <summary>What's the license?<span class="faq-plus" aria-hidden="true"></span></summary>
+          <div class="faq-body"><p>MIT. Source, design notes, and the calibration workflow are on
+          <a href="https://github.com/codenameakshay/design-compare-mcp" target="_blank" rel="noopener">GitHub</a>.</p></div>
+        </details>
+      </div>
+    </section>
+
+    <!-- FINAL CTA -->
+    <section class="cta" aria-labelledby="cta-title">
+      <h2 id="cta-title" class="reveal">Stop eyeballing your clones.</h2>
+      <p class="reveal">Give an agent a number to climb.</p>
+      <div class="hero-actions reveal">
+        <a class="btn btn-dark btn-lg" href="https://github.com/codenameakshay/design-compare-mcp" target="_blank" rel="noopener">Get it on GitHub&nbsp;↗</a>
+        <a class="btn btn-outline btn-lg" href="#install">Install steps</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <a class="brand" href="#top" aria-label="design-compare home">
+          <span class="brand-mark" aria-hidden="true"><span></span><span></span></span>
+          <span class="brand-word">design&#8288;-&#8288;compare</span>
+        </a>
+        <p>Measures how faithfully one UI reproduces another — and tells you what to fix.</p>
+      </div>
+      <nav class="footer-cols" aria-label="Footer">
+        <div>
+          <h4>Product</h4>
+          <a href="#idea">How it works</a>
+          <a href="#dimensions">Dimensions</a>
+          <a href="#try">Try it</a>
+          <a href="#install">Install</a>
+        </div>
+        <div>
+          <h4>Resources</h4>
+          <a href="https://github.com/codenameakshay/design-compare-mcp#readme" target="_blank" rel="noopener">README</a>
+          <a href="https://github.com/codenameakshay/design-compare-mcp/blob/main/PLAN.md" target="_blank" rel="noopener">PLAN.md</a>
+          <a href="https://github.com/codenameakshay/design-compare-mcp/tree/main/calibration" target="_blank" rel="noopener">Calibration</a>
+        </div>
+        <div>
+          <h4>Code</h4>
+          <a href="https://github.com/codenameakshay/design-compare-mcp" target="_blank" rel="noopener">GitHub repo&nbsp;↗</a>
+          <a href="https://github.com/codenameakshay/design-compare-mcp/issues" target="_blank" rel="noopener">Issues</a>
+          <a href="https://github.com/codenameakshay/design-compare-mcp/blob/main/LICENSE" target="_blank" rel="noopener">MIT license</a>
+        </div>
+      </nav>
+    </div>
+    <div class="footer-bar">
+      <span>© 2026 codenameakshay · MIT licensed</span>
+      <span class="footer-meta">Built with its own <code>compare_designs</code> loop · photos via <a href="https://unsplash.com" target="_blank" rel="noopener">Unsplash</a></span>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.20/dist/lenis.min.js" defer></script>
+  <script src="app.js" defer></script>
+</body>
+</html>
