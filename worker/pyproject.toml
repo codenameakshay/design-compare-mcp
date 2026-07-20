@@ -1,0 +1,28 @@
+[project]
+name = "design-compare-vision-worker"
+version = "0.0.1"
+description = "Persistent vision worker for design-compare-mcp"
+requires-python = ">=3.10"
+dependencies = []
+
+# Vision dependencies are declared as extras so the Phase 0 transport skeleton
+# installs nothing heavy. Later phases install the `cv` extra (and optionally
+# `perceptual` / `text`).
+[project.optional-dependencies]
+cv = [
+  "numpy",
+  "opencv-python-headless",
+  "scikit-image",
+  "Pillow",
+  "scipy",
+  "scikit-learn",
+]
+perceptual = ["torch", "lpips"]
+text = ["pytesseract"]
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["vision_worker"]
