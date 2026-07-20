@@ -61,6 +61,7 @@ def handle_compare_designs(params: dict) -> dict:
         ignore_regions=params.get("ignoreRegions"),
         return_visuals=params.get("returnVisuals", True),
         weights=params.get("weights"),
+        preset=params.get("preset"),
     )
 
 

@@ -116,7 +116,10 @@ Or in an MCP client config (e.g. Claude Desktop):
 
 - `ping` — health check; round-trips a message through the Python worker.
 - `compare_designs` — inputs: `reference` (path), `candidate` (path), `mode` (`widget`|`screen`),
-  optional `ignoreRegions`, `weights`, `returnVisuals`. Returns overall score, five sub-scores
+  optional `preset` (`default` | `dark-ui`), `ignoreRegions`, `weights`, `returnVisuals`. The
+  `dark-ui` preset is layout-dominant with color down-weighted and content/spacing off — calibrated
+  on a dark, single-theme component-library port (raised Spearman vs. human labels from ~0 to ~0.44).
+  Returns overall score, five sub-scores
   (layout/color/content/typography/spacing; each `null` when not applicable to the pair),
   `cv_findings`, `critique_rubric`, alignment diagnostics, and diagnostic images as MCP image
   content blocks.

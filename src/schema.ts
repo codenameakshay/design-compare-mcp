@@ -25,6 +25,14 @@ export const CompareInputShape = {
     .describe(
       "Regions of the reference to exclude from scoring (e.g. an unreproducible hero image).",
     ),
+  preset: z
+    .enum(["default", "dark-ui"])
+    .optional()
+    .describe(
+      "Weighting preset. 'default' = balanced 5-dimension. 'dark-ui' = calibrated for dark, " +
+        "single-theme UI ports (layout-dominant, color down-weighted, content/spacing off). " +
+        "Explicit `weights` still override individual dimensions.",
+    ),
   weights: z
     .record(z.string(), z.number())
     .optional()

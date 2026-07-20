@@ -14,7 +14,7 @@ from typing import Any
 import cv2
 
 from . import visuals as V
-from .aggregate import aggregate
+from .aggregate import aggregate, resolve_weights
 from .align import apply_warp, estimate_alignment
 from .io_utils import load_rgb
 from .metrics.color import color_score
@@ -42,6 +42,7 @@ def compare(
     ignore_regions: Any = None,
     return_visuals: bool = True,
     weights: dict | None = None,
+    preset: str | None = None,
 ) -> dict:
     if not reference:
         raise ValueError("'reference' image path is required")
@@ -55,6 +56,7 @@ def compare(
         ignore_regions=ignore_regions,
         return_visuals=return_visuals,
         weights=weights,
+        preset=preset,
     )
 
 
@@ -65,6 +67,7 @@ def compare_arrays(
     ignore_regions: Any = None,
     return_visuals: bool = True,
     weights: dict | None = None,
+    preset: str | None = None,
 ) -> dict:
     """Compare two already-loaded RGB arrays (no file I/O).
 
@@ -144,7 +147,8 @@ def compare_arrays(
         ok, failed = _guard(name, fn)
         subscores[name] = failed if failed is not None else ok
 
-    overall = aggregate(subscores, weights)
+    resolved_weights = resolve_weights(preset, weights)
+    overall = aggregate(subscores, resolved_weights)
 
     # --- findings ---
     findings: list[dict] = []
@@ -184,6 +188,8 @@ def compare_arrays(
         ),
         "alignment": {"mode": mode, **align_diag},
         "canonical_width": CANON_WIDTH,
+        "preset": preset or "default",
+        "weights": {k: round(v, 3) for k, v in resolved_weights.items()},
         "stub": False,
     }
 

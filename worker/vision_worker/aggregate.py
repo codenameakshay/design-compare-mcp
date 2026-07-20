@@ -18,7 +18,39 @@ DEFAULT_WEIGHTS = {
     "typography": 0.15,
     "spacing": 0.15,
 }
+
+# Named weight presets for specific comparison domains. Selectable via the
+# `preset` argument; explicit `weights` still override individual dimensions.
+PRESETS = {
+    "default": DEFAULT_WEIGHTS,
+    # Calibrated on a dark, single-theme motion component library (beUI -> Flutter
+    # port), n=26 human-labeled component pairs. Layout dominates and typography
+    # is secondary (the two dimensions that tracked human judgment: rho +0.33 /
+    # +0.31); color is near-noise in a single dark theme; content & spacing are
+    # excluded because region segmentation is unreliable on low-contrast dark UIs.
+    "dark-ui": {
+        "layout": 0.60,
+        "color": 0.10,
+        "content": 0.0,
+        "typography": 0.30,
+        "spacing": 0.0,
+    },
+}
+
 FLOOR = 1.0
+
+
+def resolve_weights(preset: str | None = None, weights: dict | None = None) -> dict:
+    """Resolve a preset name and/or explicit overrides into a weight dict.
+
+    Precedence: explicit `weights` entries > the named preset > DEFAULT_WEIGHTS.
+    """
+    if preset and preset not in PRESETS:
+        raise ValueError(f"unknown weight preset: {preset!r} (have {list(PRESETS)})")
+    base = dict(PRESETS.get(preset or "default", DEFAULT_WEIGHTS))
+    if weights:
+        base.update({k: float(v) for k, v in weights.items()})
+    return base
 
 
 def aggregate(subscores: dict, weights: dict | None = None) -> float:
