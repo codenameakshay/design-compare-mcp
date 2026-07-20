@@ -74,3 +74,48 @@ export const CompareMotionInputShape = {
 
 export const CompareMotionInput = z.object(CompareMotionInputShape);
 export type CompareMotionInput = z.infer<typeof CompareMotionInput>;
+
+const Point = z.tuple([z.number(), z.number()]);
+
+export const CaptureFramesInputShape = {
+  url: z
+    .string()
+    .describe("Page URL to capture over time (e.g. a component preview; a local dev URL for your app)."),
+  frames: z.number().int().min(2).max(120).default(12).describe("Number of frames to capture."),
+  intervalMs: z.number().int().min(30).max(2000).default(130).describe("Milliseconds between frames."),
+  clip: z
+    .object({ x: z.number(), y: z.number(), width: z.number(), height: z.number() })
+    .optional()
+    .describe("Region to capture (default full viewport). Use to crop to the component preview."),
+  viewport: z
+    .object({ width: z.number(), height: z.number() })
+    .optional()
+    .describe("Viewport size in CSS px (default 1440x1600)."),
+  waitMs: z
+    .number()
+    .int()
+    .min(0)
+    .max(20000)
+    .default(1500)
+    .describe("Wait after load before capturing, for the page to settle/mount."),
+  waitForFlutter: z
+    .boolean()
+    .default(false)
+    .describe("Wait for a Flutter <flutter-view> to mount before capturing (Flutter web apps)."),
+  actions: z
+    .object({
+      click: Point.optional().describe("Click at [x, y] (e.g. navigate an SPA or open a component)."),
+      hover: Point.optional().describe("Move the pointer to [x, y] (e.g. reveal a tooltip)."),
+      wait: z.number().optional().describe("Wait this many ms after the step."),
+    })
+    .array()
+    .optional()
+    .describe("Pre-capture steps run in order to navigate or trigger an interaction before sampling frames."),
+  outDir: z
+    .string()
+    .optional()
+    .describe("Directory to write frames to (default: a fresh temp dir). Pass its path to compare_motion."),
+};
+
+export const CaptureFramesInput = z.object(CaptureFramesInputShape);
+export type CaptureFramesInput = z.infer<typeof CaptureFramesInput>;

@@ -3,13 +3,19 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
 import { PythonWorker } from "./worker-client.js";
-import { CompareInputShape, CompareMotionInputShape } from "./schema.js";
+import { readFileSync } from "node:fs";
+import { captureFrames } from "./capture.js";
+import {
+  CompareInputShape,
+  CompareMotionInputShape,
+  CaptureFramesInputShape,
+} from "./schema.js";
 
 const worker = new PythonWorker();
 
 const server = new McpServer({
   name: "design-compare-mcp",
-  version: "0.9.0",
+  version: "0.10.0",
 });
 
 interface Visual {
@@ -94,6 +100,43 @@ server.registerTool(
   async (args) => {
     const result = await worker.request<Record<string, unknown>>("compare_motion", args);
     return resultToContent(result);
+  },
+);
+
+// --- capture_frames: browser-driven frame-sequence capture (feeds compare_motion).
+server.registerTool(
+  "capture_frames",
+  {
+    description:
+      "Capture an ordered frame sequence of a live page over time (headless Chrome), for " +
+      "compare_motion. Point it at a component preview URL; use `clip` to crop to the preview, " +
+      "`actions` to navigate/trigger (click/hover/wait) before sampling, and `waitForFlutter` for " +
+      "Flutter web apps. Returns the output directory (pass it to compare_motion) plus first/last " +
+      "sample frames. Typical flow: capture_frames(reference) + capture_frames(candidate) -> " +
+      "compare_motion. Requires a local Chrome/Chromium (set DESIGN_COMPARE_CHROME if not found).",
+    inputSchema: CaptureFramesInputShape,
+  },
+  async (args) => {
+    const res = await captureFrames(args as Parameters<typeof captureFrames>[0]);
+    const summary = {
+      dir: res.dir,
+      count: res.count,
+      intervalMs: res.intervalMs,
+      url: res.url,
+      note: "Pass `dir` to compare_motion as `reference` or `candidate`. Sample frames (first, last) below — confirm they are not blank and that the last differs from the first (motion present).",
+    };
+    const content: Array<
+      | { type: "text"; text: string }
+      | { type: "image"; data: string; mimeType: string }
+    > = [{ type: "text", text: JSON.stringify(summary, null, 2) }];
+    for (const idx of [0, res.count - 1]) {
+      content.push({
+        type: "image",
+        data: readFileSync(res.frames[idx]).toString("base64"),
+        mimeType: "image/png",
+      });
+    }
+    return { content };
   },
 );
 

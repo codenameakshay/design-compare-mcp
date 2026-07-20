@@ -32,6 +32,7 @@ try {
   assert(names.includes("ping"), "ping tool registered");
   assert(names.includes("compare_designs"), "compare_designs tool registered");
   assert(names.includes("compare_motion"), "compare_motion tool registered");
+  assert(names.includes("capture_frames"), "capture_frames tool registered");
 
   const ping = await client.callTool({
     name: "ping",
@@ -112,6 +113,40 @@ try {
   assert(typeof mObj.motion_score === "number", "motion_score is numeric");
   assert(mObj.motion_score === 100, "identical sequences -> motion 100");
   assert(mImages.length === 1, "returns a motion-signature chart");
+
+  // capture_frames -> compare_motion, fully automated over an animated page.
+  const anim =
+    "data:text/html," +
+    encodeURIComponent(
+      "<style>*{margin:0}@keyframes m{from{transform:translateX(0)}to{transform:translateX(320px)}}" +
+        ".b{position:absolute;top:40px;left:20px;width:60px;height:60px;background:#e33;" +
+        "animation:m .8s linear infinite}</style><div class=b></div>",
+    );
+  try {
+    const cap = await client.callTool({
+      name: "capture_frames",
+      arguments: { url: anim, frames: 6, intervalMs: 120, clip: { x: 0, y: 0, width: 420, height: 160 } },
+    });
+    const capObj = JSON.parse(cap.content.find((c) => c.type === "text").text);
+    console.log("capture_frames ->", JSON.stringify({ count: capObj.count, dir: "(temp)" }));
+    assert(capObj.count === 6, "captured 6 frames");
+    assert(cap.content.filter((c) => c.type === "image").length === 2, "returns first/last samples");
+
+    const m2 = await client.callTool({
+      name: "compare_motion",
+      arguments: { reference: capObj.dir, candidate: capObj.dir },
+    });
+    const m2Obj = JSON.parse(m2.content.find((c) => c.type === "text").text);
+    console.log("capture->compare_motion ->", JSON.stringify({ motion_score: m2Obj.motion_score, ref_energy: m2Obj.ref_energy }));
+    assert(m2Obj.motion_score === 100, "captured seq vs itself -> 100");
+    assert(m2Obj.ref_energy > 0.002, "captured frames actually show motion");
+  } catch (e) {
+    if (/Chrome|Chromium|DESIGN_COMPARE_CHROME/.test(String(e.message))) {
+      console.log("capture_frames SKIPPED (no local Chrome):", e.message.slice(0, 60));
+    } else {
+      throw e;
+    }
+  }
 
   console.log("\nALL CHECKS PASSED ✅");
   await client.close();

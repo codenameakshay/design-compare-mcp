@@ -6,5 +6,5 @@ content-presence (region matching), typography (text amount/scale), and spacing
 visuals. Dimensions return None when not applicable (e.g. no text / no blocks).
 """
 
-__version__ = "0.9.0"
+__version__ = "0.10.0"
 PROTOCOL = 1

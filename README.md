@@ -77,12 +77,15 @@ things static image comparison cannot do, addressed in `scripts/` + `worker/visi
   `scripts/motion_score.py`) — the calibration's biggest finding was a **motion ceiling**: a static
   screenshot can't see animation, so the tool over-scored motion/interaction components. `motion.py`
   compares two frame *sequences* by motion energy + temporal rhythm — the temporal signal a single
-  frame lacks. Exposed as the **`compare_motion`** MCP tool (see Tools).
+  frame lacks. Exposed as the **`compare_motion`** MCP tool, fed by **`capture_frames`** (headless
+  Chrome, agent-driven) — no manual scripts needed (see Tools).
 
 ## Configuration
 
 - `DESIGN_COMPARE_PYTHON` — Python interpreter for the worker. Defaults to `worker/.venv/bin/python`
   if present, else `python3`.
+- `DESIGN_COMPARE_CHROME` — Chrome/Chromium executable for `capture_frames`. Auto-detected on
+  macOS/Linux/Windows if unset; set it when the browser lives elsewhere.
 - `DESIGN_COMPARE_ALLOWED_ROOTS` — optional `:`-separated directories. When set, the worker refuses
   to read image paths outside these roots (after resolving symlinks). Unset (default) allows any
   local path — the single-user local-trust assumption. Set this if the server is exposed to an
@@ -139,10 +142,18 @@ Or in an MCP client config (e.g. Claude Desktop):
   (layout/color/content/typography/spacing; each `null` when not applicable to the pair),
   `cv_findings`, `critique_rubric`, alignment diagnostics, and diagnostic images as MCP image
   content blocks.
+- `capture_frames` — inputs: `url`, optional `frames`, `intervalMs`, `clip` (crop to a preview),
+  `viewport`, `waitMs`, `waitForFlutter` (Flutter web apps), `actions` (pre-capture click/hover/wait
+  steps to navigate an SPA or trigger an interaction), `outDir`. Drives headless Chrome to capture an
+  ordered frame sequence over time and returns the output `dir` (pass to `compare_motion`) plus
+  first/last sample frames. Requires a local Chrome/Chromium (set `DESIGN_COMPARE_CHROME` if not
+  auto-found).
 - `compare_motion` — inputs: `reference`, `candidate` (each a directory of frames or an array of
   frame paths captured over time), optional `maxFrames`, `returnVisuals`. Returns `motion_score`
   (energy-ratio match; 0 when one side animates and the other is static), `temporal_corr` (rhythm
   match), per-side motion energy, and a `motion_signature` chart. Measures animation fidelity — the
   temporal dimension `compare_designs` is blind to. Content-agnostic (compares change over time, not
-  appearance), so it works even when the two sources show different example content. Capture frames
-  with `scripts/capture_frames.mjs`.
+  appearance), so it works even when the two sources show different example content.
+
+**Motion flow (fully agent-driven):** `capture_frames(url=reference)` → `capture_frames(url=candidate)`
+→ `compare_motion(reference=dir1, candidate=dir2)`. No manual scripts needed.
