@@ -9,7 +9,7 @@ const worker = new PythonWorker();
 
 const server = new McpServer({
   name: "design-compare-mcp",
-  version: "0.6.0",
+  version: "0.7.0",
 });
 
 interface Visual {

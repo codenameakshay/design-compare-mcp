@@ -16,10 +16,13 @@ from .content import detect_regions
 # gap/margin difference is treated as a full miss).
 TOL = 0.12
 FEATURES = ("left", "right", "top", "bottom", "mean_gap")
+# Spacing reads margins + rhythm from MAJOR blocks only; small inner detail would
+# dilute the gap signal (the fine-grained detector catches text/icons too).
+MAJOR_AREA_FRAC = 0.01
 
 
 def _features(rgb: np.ndarray) -> dict | None:
-    boxes = detect_regions(rgb)
+    boxes = detect_regions(rgb, min_area_frac=MAJOR_AREA_FRAC)
     if not boxes:
         return None
     h, w = rgb.shape[:2]

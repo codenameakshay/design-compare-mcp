@@ -65,8 +65,11 @@ def main() -> int:
 
     # --- not-applicable handling ---
     assert dims(ident)["typography"] is None, "card screen has no text -> typography N/A"
-    assert dims(text_ident)["content"] is None, "text screen has no major blocks -> content N/A"
-    assert dims(text_ident)["spacing"] is None, "text screen has no major blocks -> spacing N/A"
+    # Text screens now segment via the gradient detector, so content/spacing are
+    # scored (an improvement) — and identical text must score ~100, not diverge.
+    for dim in ("content", "spacing"):
+        v = dims(text_ident)[dim]
+        assert v is None or v >= 95, f"identical text {dim} should be N/A or ~100, got {v}"
 
     # --- color: recolor caught, structure intact ---
     rd = dims(recolored)

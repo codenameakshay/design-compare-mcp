@@ -1,6 +1,6 @@
 {
   "name": "design-compare-mcp",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "MCP server that scores how closely a candidate UI matches a reference design image, and returns a fix punch-list.",
   "type": "module",
   "engines": {
