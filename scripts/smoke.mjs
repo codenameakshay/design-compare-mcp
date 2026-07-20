@@ -42,25 +42,37 @@ try {
   assert(pingObj.pong === true, "worker replied pong");
   assert(pingObj.echo?.message === "round-trip", "worker echoed our message");
 
+  const refPath = path.join(ROOT, "test", "fixtures", "reference.png");
+  const candPath = path.join(ROOT, "test", "fixtures", "identical.png");
   const cmp = await client.callTool({
     name: "compare_designs",
-    arguments: { reference: "a.png", candidate: "b.png", mode: "widget" },
+    arguments: { reference: refPath, candidate: candPath, mode: "screen" },
   });
-  const cmpObj = JSON.parse(cmp.content[0].text);
+  const textBlock = cmp.content.find((c) => c.type === "text");
+  const imageBlocks = cmp.content.filter((c) => c.type === "image");
+  const cmpObj = JSON.parse(textBlock.text);
   console.log(
     "compare_designs ->",
     JSON.stringify({
       overall: cmpObj.overall,
-      subscoreKeys: Object.keys(cmpObj.subscores),
+      layout: cmpObj.subscores.layout.score,
       alignmentMode: cmpObj.alignment?.mode,
+      images: imageBlocks.length,
       stub: cmpObj.stub,
     }),
   );
-  assert(cmpObj.stub === true, "compare_designs returned stub");
-  assert(cmpObj.alignment?.mode === "widget", "mode threaded through to worker");
+  assert(cmpObj.stub === false, "compare_designs returned a real (non-stub) result");
+  assert(typeof cmpObj.overall === "number", "overall is numeric");
+  assert(cmpObj.overall >= 90, "identical images score high");
+  assert(cmpObj.alignment?.mode === "screen", "mode threaded through to worker");
   assert(
     Object.keys(cmpObj.subscores).length === 5,
     "five sub-score dimensions present",
+  );
+  assert(imageBlocks.length >= 1, "returns diagnostic image content");
+  assert(
+    imageBlocks.every((b) => typeof b.data === "string" && b.mimeType === "image/png"),
+    "image blocks are PNG data",
   );
 
   console.log("\nALL CHECKS PASSED ✅");

@@ -21,6 +21,7 @@ import sys
 import traceback
 
 from . import PROTOCOL, __version__
+from .pipeline import compare as _compare
 
 
 def _log(msg: str) -> None:
@@ -42,32 +43,13 @@ def handle_ping(params: dict) -> dict:
 
 
 def handle_compare_designs(params: dict) -> dict:
-    """Phase 0 stub. Returns the real result shape with zeroed values so the
-    TS layer and host can be wired against the final contract now."""
-    mode = params.get("mode", "screen")
-
-    def _sub() -> dict:
-        return {"score": 0.0, "reason": "stub — no analysis performed", "measurements": {}}
-
-    return {
-        "overall": 0.0,
-        "subscores": {
-            "layout": _sub(),
-            "color": _sub(),
-            "content": _sub(),
-            "typography": _sub(),
-            "spacing": _sub(),
-        },
-        "cv_findings": [],
-        "visuals": [],
-        "critique_rubric": (
-            "Phase 0 stub — no analysis performed yet. In later phases this "
-            "field will instruct the host on how to assemble a prioritized "
-            "punch-list from subscores, cv_findings, and the overlay image."
-        ),
-        "alignment": {"mode": mode, "transform": None, "residual": None, "note": "stub"},
-        "stub": True,
-    }
+    return _compare(
+        reference=params.get("reference", ""),
+        candidate=params.get("candidate", ""),
+        mode=params.get("mode", "screen"),
+        ignore_regions=params.get("ignoreRegions"),
+        return_visuals=params.get("returnVisuals", True),
+    )
 
 
 HANDLERS = {

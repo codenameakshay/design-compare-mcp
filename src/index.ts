@@ -9,8 +9,14 @@ const worker = new PythonWorker();
 
 const server = new McpServer({
   name: "design-compare-mcp",
-  version: "0.0.1",
+  version: "0.1.0",
 });
+
+interface Visual {
+  name: string;
+  mime_type: string;
+  base64: string;
+}
 
 // --- ping: smoke-tests the full host -> TS -> Python -> TS -> host round trip.
 server.registerTool(
@@ -38,15 +44,42 @@ server.registerTool(
   "compare_designs",
   {
     description:
-      "Compare a candidate UI image against a reference design image and return sub-scores plus a fix punch-list. " +
-      "Phase 0: returns a zeroed stub in the final result shape (no analysis yet).",
+      "Compare a candidate UI image (app screenshot / video frame / cropped widget) against a " +
+      "reference design image. Returns an overall score, per-dimension sub-scores, findings, and " +
+      "diagnostic images (overlay, diff heatmap, side-by-side) for assembling a fix punch-list. " +
+      "Phase 1 scores structure (SSIM) only; other dimensions are marked pending.",
     inputSchema: CompareInputShape,
   },
   async (args) => {
-    const result = await worker.request("compare_designs", args);
-    return {
-      content: [{ type: "text", text: JSON.stringify(result, null, 2) }],
+    const result = await worker.request<Record<string, unknown>>(
+      "compare_designs",
+      args,
+    );
+
+    const visuals = (result.visuals as Visual[] | undefined) ?? [];
+    // Keep the text block lean: strip base64 blobs, keep a descriptor. The
+    // pixels ride along as image content blocks the host's vision model can see.
+    const summary = {
+      ...result,
+      visuals: visuals.map((v) => ({ name: v.name, mime_type: v.mime_type })),
     };
+
+    const content: Array<
+      | { type: "text"; text: string }
+      | { type: "image"; data: string; mimeType: string }
+    > = [{ type: "text", text: JSON.stringify(summary, null, 2) }];
+
+    for (const v of visuals) {
+      if (v?.base64) {
+        content.push({
+          type: "image",
+          data: v.base64,
+          mimeType: v.mime_type ?? "image/png",
+        });
+      }
+    }
+
+    return { content };
   },
 );
 

@@ -1,8 +1,8 @@
 """Persistent vision worker for design-compare-mcp.
 
-Phase 0: transport skeleton only — no vision dependencies yet. The real
-normalize -> align -> metrics -> aggregate pipeline lands in later phases.
+Phase 1: load -> normalize -> align -> SSIM (structure) with diagnostic visuals.
+Color, content, typography, and spacing dimensions land in later phases.
 """
 
-__version__ = "0.0.1"
+__version__ = "0.1.0"
 PROTOCOL = 1

@@ -1,6 +1,7 @@
 import { spawn, type ChildProcess } from "node:child_process";
 import { createInterface, type Interface } from "node:readline";
 import { once } from "node:events";
+import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -9,6 +10,18 @@ const HERE = path.dirname(fileURLToPath(import.meta.url));
 // repo root, so `..` resolves the repo root in built and dev (tsx) runs alike.
 const REPO_ROOT = path.resolve(HERE, "..");
 const WORKER_CWD = path.join(REPO_ROOT, "worker");
+
+/** Prefer the project venv interpreter if it exists, else system python3. */
+function defaultPython(): string {
+  const candidates = [
+    path.join(WORKER_CWD, ".venv", "bin", "python"),
+    path.join(WORKER_CWD, ".venv", "Scripts", "python.exe"),
+  ];
+  for (const c of candidates) {
+    if (fs.existsSync(c)) return c;
+  }
+  return "python3";
+}
 
 interface Pending {
   resolve: (value: unknown) => void;
@@ -44,7 +57,7 @@ export class PythonWorker {
 
   constructor(opts: WorkerOptions = {}) {
     this.pythonBin =
-      opts.pythonBin ?? process.env.DESIGN_COMPARE_PYTHON ?? "python3";
+      opts.pythonBin ?? process.env.DESIGN_COMPARE_PYTHON ?? defaultPython();
     this.requestTimeoutMs = opts.requestTimeoutMs ?? 30_000;
     this.bootTimeoutMs = opts.bootTimeoutMs ?? 15_000;
   }
