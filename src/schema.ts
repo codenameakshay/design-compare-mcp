@@ -47,3 +47,30 @@ export const CompareInputShape = {
 
 export const CompareInput = z.object(CompareInputShape);
 export type CompareInput = z.infer<typeof CompareInput>;
+
+/** A frame sequence: a directory of frames (sorted by name) or explicit paths. */
+const FrameSource = z
+  .union([z.string(), z.string().array()])
+  .describe("Directory of frames (sorted by filename) or an array of frame image paths.");
+
+export const CompareMotionInputShape = {
+  reference: FrameSource.describe(
+    "Reference frame sequence — a directory of frames or an array of paths (captured over time).",
+  ),
+  candidate: FrameSource.describe(
+    "Candidate frame sequence — a directory of frames or an array of paths.",
+  ),
+  maxFrames: z
+    .number()
+    .int()
+    .positive()
+    .optional()
+    .describe("Cap frames loaded per sequence (default 240)."),
+  returnVisuals: z
+    .boolean()
+    .default(true)
+    .describe("Include the motion-signature chart (reference vs candidate over time)."),
+};
+
+export const CompareMotionInput = z.object(CompareMotionInputShape);
+export type CompareMotionInput = z.infer<typeof CompareMotionInput>;

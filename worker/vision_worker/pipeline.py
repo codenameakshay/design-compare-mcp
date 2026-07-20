@@ -16,7 +16,8 @@ import cv2
 from . import visuals as V
 from .aggregate import aggregate, resolve_weights
 from .align import apply_warp, estimate_alignment
-from .io_utils import load_rgb
+from .io_utils import load_frame_sequence, load_rgb
+from .motion import compare_sequences
 from .metrics.color import color_score
 from .metrics.content import content_score
 from .metrics.spacing import spacing_score
@@ -207,4 +208,53 @@ def compare_arrays(
             })
         result["visuals"] = visuals
 
+    return result
+
+
+def compare_motion(
+    reference,
+    candidate,
+    max_frames: int | None = None,
+    return_visuals: bool = True,
+) -> dict:
+    """Compare the MOTION of a component from two frame sequences.
+
+    `reference`/`candidate` are each a directory of frames or a list of frame
+    paths. Measures whether the two animate with similar energy and rhythm — the
+    temporal fidelity a static compare cannot see.
+    """
+    if not reference:
+        raise ValueError("'reference' frame source is required")
+    if not candidate:
+        raise ValueError("'candidate' frame source is required")
+
+    ref_frames = load_frame_sequence(reference, max_frames=max_frames)
+    cand_frames = load_frame_sequence(candidate, max_frames=max_frames)
+    result = compare_sequences(ref_frames, cand_frames)
+    result["frames"] = {"reference": len(ref_frames), "candidate": len(cand_frames)}
+
+    if not result["ref_moving"] and not result["cand_moving"]:
+        verdict = "neither side animates in these frames"
+    elif result["ref_moving"] != result["cand_moving"]:
+        side = "candidate" if result["cand_moving"] else "reference"
+        other = "reference" if result["cand_moving"] else "candidate"
+        verdict = f"motion mismatch: {side} animates but {other} is static"
+    else:
+        verdict = f"both animate; motion energy ratio {result['energy_ratio']:.2f}"
+    result["critique_rubric"] = (
+        f"Motion comparison ({verdict}). `motion_score` is the energy-ratio match "
+        "(0 when one side animates and the other is static). `temporal_corr` is the "
+        "rhythm match (null for steady motion with no profile). Inspect the "
+        "`motion_signature` chart (green=reference, blue=candidate): compare the "
+        "curves' height (animation intensity) and shape (timing). Note this samples "
+        "frames at a fixed cadence — a one-shot animation may have finished before "
+        "capture, so a low score can mean 'not captured' as well as 'not faithful'."
+    )
+    result["stub"] = False
+
+    if return_visuals:
+        result["visuals"] = [{
+            "name": "motion_signature", "mime_type": "image/png",
+            "base64": V.motion_signature(result["ref_signature"], result["cand_signature"]),
+        }]
     return result

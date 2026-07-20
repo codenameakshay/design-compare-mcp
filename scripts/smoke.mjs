@@ -31,6 +31,7 @@ try {
   console.log("tools:", names.join(", "));
   assert(names.includes("ping"), "ping tool registered");
   assert(names.includes("compare_designs"), "compare_designs tool registered");
+  assert(names.includes("compare_motion"), "compare_motion tool registered");
 
   const ping = await client.callTool({
     name: "ping",
@@ -96,6 +97,21 @@ try {
     }),
   );
   assert(rObj.subscores.color.score < rObj.subscores.layout.score - 20, "color caught the recolor");
+
+  // compare_motion over the full MCP path: feed fixture images as a frame sequence.
+  const fx = (n) => path.join(ROOT, "test", "fixtures", n);
+  const seq = [fx("reference.png"), fx("shifted.png"), fx("different.png")];
+  const motion = await client.callTool({
+    name: "compare_motion",
+    arguments: { reference: seq, candidate: seq },
+  });
+  const mText = motion.content.find((c) => c.type === "text");
+  const mImages = motion.content.filter((c) => c.type === "image");
+  const mObj = JSON.parse(mText.text);
+  console.log("compare_motion ->", JSON.stringify({ motion_score: mObj.motion_score, images: mImages.length }));
+  assert(typeof mObj.motion_score === "number", "motion_score is numeric");
+  assert(mObj.motion_score === 100, "identical sequences -> motion 100");
+  assert(mImages.length === 1, "returns a motion-signature chart");
 
   console.log("\nALL CHECKS PASSED ✅");
   await client.close();

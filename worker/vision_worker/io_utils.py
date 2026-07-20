@@ -2,11 +2,18 @@
 
 from __future__ import annotations
 
+import glob
 import os
 from pathlib import Path
 
 import numpy as np
 from PIL import Image, ImageOps
+
+FRAME_EXTS = ("*.png", "*.jpg", "*.jpeg", "*.webp")
+MAX_FRAMES = 240  # hard cap per sequence (DoS guard)
+# Grayscale working size for motion frames — small; motion measures relative
+# change, so fine detail is unnecessary and uniform size makes frame diffs valid.
+FRAME_WORK_SIZE = (240, 135)
 
 # Bound decode memory from hostile/huge inputs. We downscale to the canonical
 # width (768) for processing anyway, so materializing beyond this is wasted work
@@ -58,3 +65,40 @@ def load_rgb(path: str) -> np.ndarray:
         im = ImageOps.exif_transpose(im)
         arr = np.asarray(im.convert("RGB"))
     return np.ascontiguousarray(arr)
+
+
+def load_frame_sequence(source, max_frames: int | None = None) -> list[np.ndarray]:
+    """Load an ordered grayscale frame sequence for motion comparison.
+
+    `source` is either a directory (its image files, sorted by name) or an
+    explicit list of frame image paths. Frames are converted to grayscale and
+    resized to a fixed working size so within-sequence frame diffs are valid.
+    """
+    if isinstance(source, (list, tuple)):
+        paths = [str(p) for p in source]
+    else:
+        p = Path(str(source)).expanduser()
+        _check_allowed(p)
+        if not p.exists():
+            raise FileNotFoundError(f"frame source not found: {source}")
+        if not p.is_dir():
+            raise ValueError(f"frame source must be a directory or a list of paths: {source}")
+        paths = sorted(f for ext in FRAME_EXTS for f in glob.glob(str(p / ext)))
+
+    if not paths:
+        raise ValueError(f"no frames found in {source}")
+    cap = min(max_frames or MAX_FRAMES, MAX_FRAMES)
+    paths = paths[:cap]
+    if len(paths) < 2:
+        raise ValueError(f"need at least 2 frames, got {len(paths)}")
+
+    frames = []
+    for fp in paths:
+        fpp = Path(fp).expanduser()
+        _check_allowed(fpp)
+        if not fpp.exists():
+            raise FileNotFoundError(f"frame not found: {fp}")
+        with Image.open(fpp) as im:
+            im = im.convert("L").resize(FRAME_WORK_SIZE)
+            frames.append(np.asarray(im, dtype=np.float32))
+    return frames

@@ -33,6 +33,7 @@ except OSError:  # pragma: no cover - non-fd stdout (unusual); fall back
 
 from . import PROTOCOL, __version__  # noqa: E402
 from .pipeline import compare as _compare  # noqa: E402
+from .pipeline import compare_motion as _compare_motion  # noqa: E402
 
 
 def _log(msg: str) -> None:
@@ -65,9 +66,19 @@ def handle_compare_designs(params: dict) -> dict:
     )
 
 
+def handle_compare_motion(params: dict) -> dict:
+    return _compare_motion(
+        reference=params.get("reference"),
+        candidate=params.get("candidate"),
+        max_frames=params.get("maxFrames"),
+        return_visuals=params.get("returnVisuals", True),
+    )
+
+
 HANDLERS = {
     "ping": handle_ping,
     "compare_designs": handle_compare_designs,
+    "compare_motion": handle_compare_motion,
 }
 
 

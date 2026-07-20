@@ -77,7 +77,7 @@ things static image comparison cannot do, addressed in `scripts/` + `worker/visi
   `scripts/motion_score.py`) — the calibration's biggest finding was a **motion ceiling**: a static
   screenshot can't see animation, so the tool over-scored motion/interaction components. `motion.py`
   compares two frame *sequences* by motion energy + temporal rhythm — the temporal signal a single
-  frame lacks. Foundation for a future `compare_motion` MCP tool.
+  frame lacks. Exposed as the **`compare_motion`** MCP tool (see Tools).
 
 ## Configuration
 
@@ -139,4 +139,10 @@ Or in an MCP client config (e.g. Claude Desktop):
   (layout/color/content/typography/spacing; each `null` when not applicable to the pair),
   `cv_findings`, `critique_rubric`, alignment diagnostics, and diagnostic images as MCP image
   content blocks.
-```
+- `compare_motion` — inputs: `reference`, `candidate` (each a directory of frames or an array of
+  frame paths captured over time), optional `maxFrames`, `returnVisuals`. Returns `motion_score`
+  (energy-ratio match; 0 when one side animates and the other is static), `temporal_corr` (rhythm
+  match), per-side motion energy, and a `motion_signature` chart. Measures animation fidelity — the
+  temporal dimension `compare_designs` is blind to. Content-agnostic (compares change over time, not
+  appearance), so it works even when the two sources show different example content. Capture frames
+  with `scripts/capture_frames.mjs`.

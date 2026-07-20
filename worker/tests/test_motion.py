@@ -2,14 +2,20 @@
 
 from __future__ import annotations
 
+import base64
 import sys
+import tempfile
 from pathlib import Path
 
 import numpy as np
+from PIL import Image
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from vision_worker.motion import compare_sequences  # noqa: E402
+from vision_worker.pipeline import compare_motion  # noqa: E402
+
+PNG_MAGIC = b"\x89PNG\r\n\x1a\n"
 
 
 def moving_seq(n=8, step=4):
@@ -51,7 +57,26 @@ def main() -> int:
     print("speed mismatch:", {k: r4[k] for k in ("energy_ratio", "motion_score")})
     assert 0.0 < r4["motion_score"] < 90, r4["motion_score"]
 
-    print("\nMotion library checks PASSED ✅")
+    # End-to-end compare_motion: load frames from directories + build the visual.
+    def write_seq(frames):
+        d = tempfile.mkdtemp()
+        for i, f in enumerate(frames):
+            Image.fromarray(f.astype("uint8")).save(f"{d}/f_{i:02d}.png")
+        return d
+
+    d1, d2 = write_seq(moving_seq()), write_seq(moving_seq())
+    r5 = compare_motion(d1, d2, return_visuals=True)
+    print("compare_motion(dirs):", {k: r5[k] for k in ("motion_score", "frames")})
+    assert r5["motion_score"] > 90 and r5["frames"]["reference"] == 8
+    assert r5["visuals"][0]["name"] == "motion_signature"
+    assert base64.b64decode(r5["visuals"][0]["base64"])[:8] == PNG_MAGIC
+
+    # Also accepts an explicit list of frame paths.
+    paths = sorted(str(p) for p in Path(d1).glob("*.png"))
+    r6 = compare_motion(paths, paths, return_visuals=False)
+    assert r6["motion_score"] == 100.0, r6["motion_score"]
+
+    print("\nMotion library + compare_motion checks PASSED ✅")
     return 0
 
 

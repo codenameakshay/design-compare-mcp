@@ -47,6 +47,9 @@ def compare_sequences(ref_frames: list[np.ndarray], cand_frames: list[np.ndarray
     ref_moving, cand_moving = ref_e > STATIC_EPS, cand_e > STATIC_EPS
 
     energy_ratio = min(ref_e, cand_e) / max(ref_e, cand_e) if max(ref_e, cand_e) > 1e-6 else 1.0
+    # Temporal rhythm needs equal-length series; truncate to the shorter one.
+    m = min(len(rs), len(cs))
+    temporal = _temporal_corr(rs[:m], cs[:m]) if m >= 2 else None
     # If one side animates and the other is static, that's a hard motion miss
     # regardless of the energy ratio.
     if ref_moving != cand_moving:
@@ -58,7 +61,7 @@ def compare_sequences(ref_frames: list[np.ndarray], cand_frames: list[np.ndarray
         "ref_energy": round(ref_e, 5),
         "cand_energy": round(cand_e, 5),
         "energy_ratio": round(energy_ratio, 3),
-        "temporal_corr": _temporal_corr(rs, cs),
+        "temporal_corr": temporal,
         "ref_moving": ref_moving,
         "cand_moving": cand_moving,
         "motion_score": round(motion_score, 1),

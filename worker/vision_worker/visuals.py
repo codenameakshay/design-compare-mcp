@@ -37,6 +37,30 @@ def overlay(ref_rgb: np.ndarray, cand_rgb: np.ndarray, alpha: float = 0.5) -> st
     return _png_b64(_rgb_to_bgr(blend))
 
 
+def motion_signature(ref_sig: list, cand_sig: list, w: int = 520, h: int = 200) -> str:
+    """Line chart of the two motion signatures over time (reference vs candidate)."""
+    canvas = np.full((h, w, 3), 28, np.uint8)  # dark ground
+    pad = 14
+    peak = max(max(ref_sig, default=0.0), max(cand_sig, default=0.0), 1e-6)
+
+    def draw(sig, color):
+        n = len(sig)
+        if n < 2:
+            return
+        pts = []
+        for i, v in enumerate(sig):
+            x = pad + int(i / (n - 1) * (w - 2 * pad))
+            y = (h - pad) - int(min(v / peak, 1.0) * (h - 2 * pad))
+            pts.append([x, y])
+        cv2.polylines(canvas, [np.array(pts, np.int32)], False, color, 2, cv2.LINE_AA)
+
+    draw(ref_sig, (120, 210, 120))  # reference — green (BGR)
+    draw(cand_sig, (235, 150, 60))  # candidate — blue (BGR)
+    cv2.putText(canvas, "ref", (w - 90, 22), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (120, 210, 120), 1, cv2.LINE_AA)
+    cv2.putText(canvas, "cand", (w - 50, 22), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (235, 150, 60), 1, cv2.LINE_AA)
+    return _png_b64(canvas)
+
+
 def content_regions(ref_rgb: np.ndarray, viz: dict) -> str:
     """Draw content regions on the reference: matched=green, missing=red, extra=orange."""
     canvas = _rgb_to_bgr(ref_rgb).copy()

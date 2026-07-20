@@ -3,13 +3,13 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
 import { PythonWorker } from "./worker-client.js";
-import { CompareInputShape } from "./schema.js";
+import { CompareInputShape, CompareMotionInputShape } from "./schema.js";
 
 const worker = new PythonWorker();
 
 const server = new McpServer({
   name: "design-compare-mcp",
-  version: "0.8.0",
+  version: "0.9.0",
 });
 
 interface Visual {
@@ -39,47 +39,61 @@ server.registerTool(
   },
 );
 
-// --- compare_designs: Phase 0 returns a stub with the final result shape.
+// A worker result carries base64 `visuals`. Keep the text block lean (strip the
+// blobs to a descriptor) and attach each image as an MCP image content block the
+// host's vision model can actually see.
+function resultToContent(result: Record<string, unknown>) {
+  const visuals = (result.visuals as Visual[] | undefined) ?? [];
+  const summary = {
+    ...result,
+    visuals: visuals.map((v) => ({ name: v.name, mime_type: v.mime_type })),
+  };
+  const content: Array<
+    | { type: "text"; text: string }
+    | { type: "image"; data: string; mimeType: string }
+  > = [{ type: "text", text: JSON.stringify(summary, null, 2) }];
+  for (const v of visuals) {
+    if (v?.base64) {
+      content.push({ type: "image", data: v.base64, mimeType: v.mime_type ?? "image/png" });
+    }
+  }
+  return { content };
+}
+
+// --- compare_designs: static image comparison across five dimensions.
 server.registerTool(
   "compare_designs",
   {
     description:
       "Compare a candidate UI image (app screenshot / video frame / cropped widget) against a " +
-      "reference design image. Returns an overall score, per-dimension sub-scores, findings, and " +
-      "diagnostic images (overlay, diff heatmap, side-by-side) for assembling a fix punch-list. " +
-      "Phase 1 scores structure (SSIM) only; other dimensions are marked pending.",
+      "reference design image. Returns an overall score, five sub-scores (layout, color, content, " +
+      "typography, spacing), findings, and diagnostic images (overlay, diff heatmap, content " +
+      "regions, side-by-side) for assembling a fix punch-list. Use `preset: 'dark-ui'` for dark, " +
+      "single-theme UI ports. NOTE: static comparison cannot judge animation — for motion " +
+      "fidelity use compare_motion.",
     inputSchema: CompareInputShape,
   },
   async (args) => {
-    const result = await worker.request<Record<string, unknown>>(
-      "compare_designs",
-      args,
-    );
+    const result = await worker.request<Record<string, unknown>>("compare_designs", args);
+    return resultToContent(result);
+  },
+);
 
-    const visuals = (result.visuals as Visual[] | undefined) ?? [];
-    // Keep the text block lean: strip base64 blobs, keep a descriptor. The
-    // pixels ride along as image content blocks the host's vision model can see.
-    const summary = {
-      ...result,
-      visuals: visuals.map((v) => ({ name: v.name, mime_type: v.mime_type })),
-    };
-
-    const content: Array<
-      | { type: "text"; text: string }
-      | { type: "image"; data: string; mimeType: string }
-    > = [{ type: "text", text: JSON.stringify(summary, null, 2) }];
-
-    for (const v of visuals) {
-      if (v?.base64) {
-        content.push({
-          type: "image",
-          data: v.base64,
-          mimeType: v.mime_type ?? "image/png",
-        });
-      }
-    }
-
-    return { content };
+// --- compare_motion: temporal comparison of two frame sequences.
+server.registerTool(
+  "compare_motion",
+  {
+    description:
+      "Compare the MOTION of a component from two frame sequences (reference vs candidate), each a " +
+      "directory of frames or an array of frame paths captured over time. Returns motion energy, " +
+      "temporal rhythm (signature correlation), a motion score, and a signature chart. Measures " +
+      "animation fidelity — the dimension static image comparison is blind to. Content-agnostic, " +
+      "so it works even when the two sources show different example content.",
+    inputSchema: CompareMotionInputShape,
+  },
+  async (args) => {
+    const result = await worker.request<Record<string, unknown>>("compare_motion", args);
+    return resultToContent(result);
   },
 );
 
