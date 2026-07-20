@@ -1,8 +1,10 @@
-"""Phase 1 comparison pipeline: load -> normalize -> align -> SSIM -> visuals.
+"""Phase 2 comparison pipeline.
 
-Only the `layout` (structural) dimension is scored in Phase 1; the remaining
-dimensions are returned as pending so the result shape stays stable while later
-phases fill them in. `overall` is the mean of the scored dimensions.
+load -> normalize -> align -> {structure (SSIM), color (ΔE palette),
+content-presence (region matching)} -> weighted geometric-mean overall -> visuals.
+
+Typography and spacing are still returned as pending. `overall` combines only the
+scored dimensions (see aggregate.py).
 """
 
 from __future__ import annotations
@@ -12,14 +14,17 @@ from typing import Any
 import cv2
 
 from . import visuals as V
+from .aggregate import aggregate
 from .align import apply_warp, estimate_alignment
 from .io_utils import load_rgb
+from .metrics.color import color_score
+from .metrics.content import content_score
 from .metrics.structure import structure_score
 from .normalize import CANON_WIDTH, normalize_pair
 
 
 def _sub(score: float, reason: str, measurements: dict | None = None) -> dict:
-    return {"score": score, "reason": reason, "measurements": measurements or {}}
+    return {"score": round(float(score), 2), "reason": reason, "measurements": measurements or {}}
 
 
 def _pending(reason: str = "not scored until a later phase") -> dict:
@@ -32,6 +37,7 @@ def compare(
     mode: str = "screen",
     ignore_regions: Any = None,
     return_visuals: bool = True,
+    weights: dict | None = None,
 ) -> dict:
     if not reference:
         raise ValueError("'reference' image path is required")
@@ -52,8 +58,30 @@ def compare(
     else:
         cand_gray_a, cand_rgb_a = cand_gray, cand_n
 
+    # --- dimensions ---
     layout_score, ssim_map = structure_score(ref_gray, cand_gray_a)
+    color_val, color_findings, color_meas = color_score(ref_n, cand_rgb_a)
+    content_val, content_findings, content_meas, content_viz = content_score(ref_n, cand_rgb_a)
 
+    subscores = {
+        "layout": _sub(
+            layout_score,
+            "structural similarity (SSIM) after alignment",
+            {
+                "ssim": round(layout_score / 100, 4),
+                "alignment": align_diag,
+                "aspect_mismatch": round(aspect_mismatch, 4),
+            },
+        ),
+        "color": _sub(color_val, "dominant-palette match (mean ΔE2000)", color_meas),
+        "content": _sub(content_val, "reference-region coverage (IoU matching)", content_meas),
+        "typography": _pending(),
+        "spacing": _pending(),
+    }
+
+    overall = aggregate(subscores, weights)
+
+    # --- findings ---
     findings: list[dict] = []
     if aspect_mismatch > 0.02:
         findings.append(
@@ -68,36 +96,23 @@ def compare(
                 "suggested_fix": "match the overall height/proportions of the reference screen",
             }
         )
-
-    # Phase 1: overall == the only scored dimension (layout). Later phases combine
-    # dimensions via the weighted geometric mean described in PLAN.md.
-    overall = round(layout_score, 2)
+    findings.extend(content_findings)
+    findings.extend(color_findings)
 
     result: dict = {
         "overall": overall,
-        "subscores": {
-            "layout": _sub(
-                round(layout_score, 2),
-                "structural similarity (SSIM) after alignment",
-                {
-                    "ssim": round(layout_score / 100, 4),
-                    "alignment": align_diag,
-                    "aspect_mismatch": round(aspect_mismatch, 4),
-                },
-            ),
-            "color": _pending(),
-            "content": _pending(),
-            "typography": _pending(),
-            "spacing": _pending(),
-        },
+        "subscores": subscores,
         "cv_findings": findings,
         "visuals": [],
         "critique_rubric": (
-            "Phase 1 scores structure only (SSIM). Inspect the `overlay` and "
-            "`diff_heatmap` images to locate where the candidate diverges from the "
-            "reference — brighter heatmap regions mean larger structural difference. "
-            "Color, content, typography, and spacing are not yet scored, so do not "
-            "infer those from the number; call them out qualitatively from the images."
+            "Scored dimensions: layout (SSIM), color (ΔE palette), content-presence "
+            "(region coverage). Typography and spacing are not yet scored — assess "
+            "those qualitatively from the images. Assemble a punch-list ordered by "
+            "score impact: start with the lowest sub-score and the highest-severity "
+            "cv_findings. Use `content_regions` (green=matched, red=missing, "
+            "orange=extra), `diff_heatmap` (hot=structural divergence), and `overlay` "
+            "to ground each item. Report each fix as {area, observed, expected, "
+            "severity, suggested_fix}."
         ),
         "alignment": {"mode": mode, **align_diag},
         "canonical_width": CANON_WIDTH,
@@ -108,6 +123,7 @@ def compare(
         result["visuals"] = [
             {"name": "overlay", "mime_type": "image/png", "base64": V.overlay(ref_n, cand_rgb_a)},
             {"name": "diff_heatmap", "mime_type": "image/png", "base64": V.diff_heatmap(ssim_map)},
+            {"name": "content_regions", "mime_type": "image/png", "base64": V.content_regions(ref_n, content_viz)},
             {"name": "side_by_side", "mime_type": "image/png", "base64": V.side_by_side(ref_n, cand_n)},
         ]
 

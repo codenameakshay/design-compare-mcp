@@ -35,3 +35,13 @@ def diff_heatmap(ssim_map: np.ndarray) -> str:
 def overlay(ref_rgb: np.ndarray, cand_rgb: np.ndarray, alpha: float = 0.5) -> str:
     blend = cv2.addWeighted(ref_rgb, alpha, cand_rgb, 1.0 - alpha, 0.0)
     return _png_b64(_rgb_to_bgr(blend))
+
+
+def content_regions(ref_rgb: np.ndarray, viz: dict) -> str:
+    """Draw content regions on the reference: matched=green, missing=red, extra=orange."""
+    canvas = _rgb_to_bgr(ref_rgb).copy()
+    colors = {"matched": (0, 180, 0), "missing": (0, 0, 230), "extra": (0, 140, 255)}
+    for kind, color in colors.items():
+        for (x, y, w, h) in viz.get(kind, []):
+            cv2.rectangle(canvas, (x, y), (x + w, y + h), color, 2)
+    return _png_b64(canvas)

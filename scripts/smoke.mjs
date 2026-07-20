@@ -69,11 +69,33 @@ try {
     Object.keys(cmpObj.subscores).length === 5,
     "five sub-score dimensions present",
   );
-  assert(imageBlocks.length >= 1, "returns diagnostic image content");
+  assert(imageBlocks.length === 4, "returns four diagnostic images");
   assert(
     imageBlocks.every((b) => typeof b.data === "string" && b.mimeType === "image/png"),
     "image blocks are PNG data",
   );
+  assert(cmpObj.subscores.color.score !== null, "color dimension is scored");
+  assert(cmpObj.subscores.content.score !== null, "content dimension is scored");
+
+  // Recolor path: color should drop while layout stays high (grayscale-blind SSIM).
+  const recolor = await client.callTool({
+    name: "compare_designs",
+    arguments: {
+      reference: refPath,
+      candidate: path.join(ROOT, "test", "fixtures", "recolored.png"),
+      mode: "screen",
+    },
+  });
+  const rObj = JSON.parse(recolor.content.find((c) => c.type === "text").text);
+  console.log(
+    "recolored ->",
+    JSON.stringify({
+      overall: rObj.overall,
+      layout: rObj.subscores.layout.score,
+      color: rObj.subscores.color.score,
+    }),
+  );
+  assert(rObj.subscores.color.score < rObj.subscores.layout.score - 20, "color caught the recolor");
 
   console.log("\nALL CHECKS PASSED ✅");
   await client.close();

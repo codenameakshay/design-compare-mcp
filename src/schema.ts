@@ -25,6 +25,12 @@ export const CompareInputShape = {
     .describe(
       "Regions of the reference to exclude from scoring (e.g. an unreproducible hero image).",
     ),
+  weights: z
+    .record(z.string(), z.number())
+    .optional()
+    .describe(
+      "Optional per-dimension weight overrides (layout/color/content/typography/spacing) for the overall score.",
+    ),
   returnVisuals: z
     .boolean()
     .default(true)

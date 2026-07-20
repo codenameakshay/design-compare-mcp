@@ -18,6 +18,7 @@ def base(
     header=(40, 60, 120),
     card=(230, 230, 235),
     btn=(40, 120, 220),
+    draw_button: bool = True,
 ) -> Image.Image:
     img = Image.new("RGB", (W, H), (250, 250, 252))
     d = ImageDraw.Draw(img)
@@ -32,7 +33,8 @@ def base(
         d.rectangle([36, y + 16, 140, y + 30], fill=(180, 180, 185))
         d.rectangle([36, y + 44, W - 40, y + 56], fill=(210, 210, 215))
     # primary button
-    d.rectangle([120, 600 + s, 280, 645 + s], fill=btn)
+    if draw_button:
+        d.rectangle([120, 600 + s, 280, 645 + s], fill=btn)
     return img
 
 
@@ -43,6 +45,7 @@ def main() -> None:
     base().save(OUT / "identical.png")
     base(shift=12).save(OUT / "shifted.png")
     base(btn=(220, 60, 60), header=(120, 40, 60)).save(OUT / "recolored.png")
+    base(draw_button=False).save(OUT / "missing_button.png")  # reference minus the CTA
 
     # A structurally very different screen.
     img = Image.new("RGB", (W, H), (255, 255, 255))

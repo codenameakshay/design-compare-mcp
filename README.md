@@ -8,14 +8,16 @@ See [PLAN.md](PLAN.md) for the full design and rationale.
 
 ## Status
 
-**Phase 1 — SSIM comparison + visuals (done).** `compare_designs` runs a real pipeline: load →
-normalize (canonical width + pad) → align (ECC translation in `screen` mode, identity in `widget`
-mode) → SSIM → diagnostic images (overlay, diff heatmap, side-by-side). SSIM drives the `layout`
-sub-score and `overall`; color/content/typography/spacing are returned as pending. SSIM is
-grayscale, so pure recolors still score high until Phase 2 adds ΔE color scoring.
+**Phase 2 — color + content dimensions + aggregation (done).** `compare_designs` scores three
+dimensions: **layout** (SSIM), **color** (dominant-palette ΔE2000 matching), and **content-presence**
+(region segmentation + IoU matching, reporting missing/extra elements). `overall` is the weighted
+**geometric mean** over scored dimensions (so no single dimension can be farmed); optional `weights`
+override the defaults. Findings name shifted colors as hex pairs and locate missing/extra regions.
+Four diagnostic images are returned: overlay, diff heatmap, content regions
+(green=matched/red=missing/orange=extra), side-by-side. Typography and spacing are still pending.
 
-Earlier: **Phase 0** — TS MCP server boots a single long-lived Python worker and multiplexes
-requests over stdio.
+Earlier: **Phase 1** — normalize → align (ECC) → SSIM + visuals. **Phase 0** — TS MCP server boots a
+long-lived Python worker and multiplexes requests over stdio.
 
 ## Architecture
 
