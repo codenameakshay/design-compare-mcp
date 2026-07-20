@@ -8,3 +8,7 @@ worker/.venv/
 
 # Personal calibration data (keep dataset.example.json tracked)
 calibration/dataset.json
+
+# Calibration working data (regenerate via scripts/capture_pairs.mjs)
+calibration/pairs/
+calibration/contact_sheet.html
