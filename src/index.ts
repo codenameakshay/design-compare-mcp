@@ -144,21 +144,50 @@ async function main(): Promise<void> {
   await worker.start();
   const transport = new StdioServerTransport();
   await server.connect(transport);
+
+  // The host owns our lifetime, and it does not always tell us it is leaving:
+  // when it quits (or is killed) it simply closes the pipes, and we get
+  // reparented to init with no signal. StdioServerTransport only subscribes to
+  // stdin 'data'/'error', so nothing else notices that EOF — and the resident
+  // Python worker keeps the event loop alive, so we would linger forever.
+  // Treating end-of-stdin as "host is gone" is what stops us leaking.
+  process.stdin.on("end", () => shutdown("stdin-eof"));
+  process.stdin.on("close", () => shutdown("stdin-close"));
+
   // stderr only — stdout is the MCP protocol channel.
   process.stderr.write("[design-compare-mcp] server ready on stdio\n");
 }
 
-async function shutdown(): Promise<void> {
+let shuttingDown = false;
+
+async function shutdown(reason: string): Promise<void> {
+  // EOF and a signal often arrive together; only the first one counts.
+  if (shuttingDown) return;
+  shuttingDown = true;
+  process.stderr.write(`[design-compare-mcp] shutting down (${reason})\n`);
+
+  // Backstop: never let a wedged worker keep this process (and its child)
+  // resident. worker.stop() escalates to SIGKILL after 2s, so 5s is slack.
+  const forceExit = setTimeout(() => {
+    process.stderr.write("[design-compare-mcp] shutdown timed out; forcing exit\n");
+    process.exit(1);
+  }, 5000);
+  forceExit.unref();
+
   try {
     await worker.stop();
+  } catch {
+    /* worker already gone */
   } finally {
     await server.close().catch(() => {});
+    clearTimeout(forceExit);
     process.exit(0);
   }
 }
 
-process.on("SIGINT", shutdown);
-process.on("SIGTERM", shutdown);
+process.on("SIGINT", () => shutdown("SIGINT"));
+process.on("SIGTERM", () => shutdown("SIGTERM"));
+process.on("SIGHUP", () => shutdown("SIGHUP"));
 
 main().catch((err) => {
   process.stderr.write(`[design-compare-mcp] fatal: ${String(err?.stack ?? err)}\n`);
