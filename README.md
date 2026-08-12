@@ -392,6 +392,7 @@ Host agent ──MCP/stdio──► TS server ──spawns once──► Python 
 npm run build        # tsc -> dist/
 npm run smoke        # end-to-end over the MCP client: all four tools
 npm run resilience   # worker crash/restart + concurrency
+npm run lifecycle    # server + worker exit when the host goes away (no orphans)
 worker/.venv/bin/python worker/tests/test_pipeline.py       # per-dimension behavior, monotonicity
 worker/.venv/bin/python worker/tests/test_calibration.py    # monotonicity, gaming-resistance, determinism
 worker/.venv/bin/python worker/tests/test_robustness.py     # hostile/degenerate inputs
