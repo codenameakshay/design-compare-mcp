@@ -35,9 +35,10 @@ JetBrains Mono), so it also drops straight onto Netlify, Vercel, or any static h
 
 ## Notes
 
-- The interactive demos run the **same math the Python worker uses** — the geometric-mean formula
-  from `aggregate.py` and the `100·exp(−ΔE/19)` color score with a CIEDE2000 implementation ported
-  from `metrics/color.py`. They are illustrative, client-side, and stay in sync by mirroring those
-  formulas.
+- The interactive demos run the **same core math the Python worker uses** — the geometric-mean
+  formula from `aggregate.py` (floor 1.0) and the `100·exp(−ΔE/19)` color score with a CIEDE2000
+  implementation ported from `metrics/color.py`. The worker also penalizes unmatched palette mass;
+  the color picker demo is one pair, so that extra term does not apply. They stay in sync by
+  mirroring those formulas.
 - The visual language is an original adaptation inspired by editorial landing-page design; all copy is
   specific to this project.

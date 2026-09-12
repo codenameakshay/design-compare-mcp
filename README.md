@@ -64,7 +64,7 @@ Requirements: **Node ≥ 20**, **Python ≥ 3.10**, and (for `capture_frames`) a
 npm install
 npm run build                         # tsc -> dist/
 python3 -m venv worker/.venv
-worker/.venv/bin/pip install numpy pillow scikit-image opencv-python-headless scikit-learn scipy
+worker/.venv/bin/pip install -e './worker[cv]'
 npm run smoke                         # end-to-end check; ends with ALL CHECKS PASSED ✅
 ```
 
@@ -72,6 +72,19 @@ Register with Claude Code (user scope = available in every project):
 
 ```bash
 claude mcp add design-compare --scope user -- node /abs/path/to/design-compare-mcp/dist/index.js
+```
+
+Register with Cursor by adding this to `~/.cursor/mcp.json`, then restart Cursor:
+
+```json
+{
+  "mcpServers": {
+    "design-compare": {
+      "command": "node",
+      "args": ["/abs/path/to/design-compare-mcp/dist/index.js"]
+    }
+  }
+}
 ```
 
 Rebuild (`npm run build`) and restart your session after any change — the registered server runs the

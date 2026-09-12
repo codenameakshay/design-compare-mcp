@@ -119,7 +119,8 @@
       </div>
       <p class="idea-note reveal">
         Every run returns an <code>overall</code>, five sub-scores, a <code>cv_findings</code> punch-list,
-        and diagnostic images. The score is built to be <strong>actionable and monotonic</strong> — not a
+        and diagnostic images. Pass <code>ignoreRegions</code> in original reference pixels to mask
+        chrome. The score is built to be <strong>actionable and monotonic</strong> — not a
         single "true" number.
       </p>
     </section>
@@ -178,7 +179,7 @@ while overall &lt; target:                     # the goal
           <div class="card-tag">motion</div>
           <h3>A screenshot can't see motion. This can.</h3>
           <p><code>compare_motion</code> reads two frame sequences — do they animate with the same energy
-          and rhythm?</p>
+          and rhythm? Both still returns <code>null</code>, not a fake 100. Read <code>motion_status</code>.</p>
         </article>
         <article class="card card-sand reveal">
           <div class="card-tag">deterministic</div>
@@ -229,7 +230,7 @@ while overall &lt; target:                     # the goal
         <article class="dim reveal">
           <div class="dim-head"><h3>Color</h3><span class="dim-weight">weight 0.20</span></div>
           <p class="dim-what">A seeded k-means palette in CIELAB, matched one-to-one by ΔE2000. Score =
-          <code>100·exp(−ΔE/19)</code>, each shift named as hex.</p>
+          <code>100·exp(−ΔE/19)</code>, leftover unmatched mass penalized, each shift named as hex.</p>
           <p class="dim-weak"><span>weakness</span> flat in a single-theme UI; ignores position.</p>
         </article>
         <article class="dim reveal">
@@ -339,8 +340,7 @@ npm run build</code></pre>
           <div class="code-top"><span class="code-cap">2 · set up the Python vision worker</span>
             <button class="copy-btn" type="button">copy</button></div>
           <pre><code>python3 -m venv worker/.venv
-worker/.venv/bin/pip install numpy pillow scikit-image \
-  opencv-python-headless scikit-learn scipy
+worker/.venv/bin/pip install -e './worker[cv]'
 npm run smoke   # ends with: ALL CHECKS PASSED ✅</code></pre>
         </div>
         <div class="code-block reveal">
@@ -349,9 +349,23 @@ npm run smoke   # ends with: ALL CHECKS PASSED ✅</code></pre>
           <pre><code>claude mcp add design-compare --scope user -- \
   node /abs/path/to/design-compare-mcp/dist/index.js</code></pre>
         </div>
+        <div class="code-block reveal">
+          <div class="code-top"><span class="code-cap">4 · register with Cursor</span>
+            <button class="copy-btn" type="button">copy</button></div>
+          <pre><code>// ~/.cursor/mcp.json
+{
+  "mcpServers": {
+    "design-compare": {
+      "command": "node",
+      "args": ["/abs/path/to/design-compare-mcp/dist/index.js"]
+    }
+  }
+}</code></pre>
+        </div>
       </div>
       <p class="idea-note reveal">Registers four tools: <code>ping</code>, <code>compare_designs</code>,
-      <code>compare_motion</code>, <code>capture_frames</code>.</p>
+      <code>compare_motion</code>, <code>capture_frames</code>. Rebuild <code>dist/</code> and restart the
+      client after you pull.</p>
     </section>
 
     <!-- CALIBRATION / HONEST -->
@@ -384,13 +398,18 @@ npm run smoke   # ends with: ALL CHECKS PASSED ✅</code></pre>
       <div class="limits reveal">
         <h3>Where it can mislead you</h3>
         <div class="limit-grid">
-          <div class="limit"><b>The motion ceiling.</b> A static screenshot can't see animation — use
-          <code>compare_motion</code>.</div>
+          <div class="limit"><b>The motion ceiling.</b> A screenshot can't see animation. Use
+          <code>compare_motion</code>. Both still returns <code>null</code>, not 100. Read
+          <code>motion_status</code>.</div>
           <div class="limit"><b>Single-theme color.</b> One palette means no variance for ΔE. Don't weight
           color.</div>
           <div class="limit"><b>Typography ≠ font.</b> Amount and scale, not font family or weight.</div>
           <div class="limit"><b>One-shot animations.</b> A reveal that finishes before sampling reads as
-          static.</div>
+          static. <code>motion_status</code> will be <code>static</code>.</div>
+          <div class="limit"><b>Ignore chrome.</b> Status bars and OS chrome: pass
+          <code>ignoreRegions</code> as <code>[x, y, w, h]</code> in original reference pixels.</div>
+          <div class="limit"><b>Capture URLs.</b> <code>capture_frames</code> accepts http and https only.
+          Set <code>DESIGN_COMPARE_ALLOWED_ROOTS</code> to sandbox file reads and <code>outDir</code>.</div>
         </div>
       </div>
     </section>
@@ -409,12 +428,21 @@ npm run smoke   # ends with: ALL CHECKS PASSED ✅</code></pre>
         <details class="faq-item">
           <summary>What do I feed it?<span class="faq-plus" aria-hidden="true"></span></summary>
           <div class="faq-body"><p>Two local images — a reference and a candidate. <code>widget</code> mode
-          for a tight crop, <code>screen</code> mode for a full view. For motion, two frame sequences.</p></div>
+          for a tight crop, <code>screen</code> mode for a full view. Optional <code>ignoreRegions</code>
+          in original reference pixels. For motion, two frame sequences from <code>capture_frames</code>
+          (http or https URLs only).</p></div>
         </details>
         <details class="faq-item">
           <summary>How is the score computed?<span class="faq-plus" aria-hidden="true"></span></summary>
           <div class="faq-body"><p>Five dimensions measured independently, combined with a weighted
-          geometric mean. Anything that doesn't apply returns <code>null</code> and is excluded.</p></div>
+          geometric mean. A dimension that does not apply returns <code>null</code> and is left out.
+          A dimension that fails still counts, floored at 1.0, so <code>overall</code> cannot reach 0.</p></div>
+        </details>
+        <details class="faq-item">
+          <summary>Can I ignore a status bar?<span class="faq-plus" aria-hidden="true"></span></summary>
+          <div class="faq-body"><p>Yes. Pass <code>ignoreRegions</code> as <code>[x, y, w, h]</code> boxes
+          in original reference pixels. Finding boxes come back in the canonical 768 canvas. Use the
+          returned <code>canvas</code> mapping to translate.</p></div>
         </details>
         <details class="faq-item">
           <summary>Is the number accurate?<span class="faq-plus" aria-hidden="true"></span></summary>
@@ -434,9 +462,9 @@ npm run smoke   # ends with: ALL CHECKS PASSED ✅</code></pre>
         </details>
         <details class="faq-item">
           <summary>Is it safe to run?<span class="faq-plus" aria-hidden="true"></span></summary>
-          <div class="faq-body"><p>It reads local paths and navigates to URLs you give it. Inputs are
-          size-capped, metrics isolated, the worker respawns on crash. Set
-          <code>DESIGN_COMPARE_ALLOWED_ROOTS</code> to sandbox reads.</p></div>
+          <div class="faq-body"><p>It reads local paths you pass. <code>capture_frames</code> navigates only
+          to http or https URLs. Inputs are size-capped, metrics isolated, the worker respawns on crash.
+          Set <code>DESIGN_COMPARE_ALLOWED_ROOTS</code> to sandbox file reads and capture <code>outDir</code>.</p></div>
         </details>
         <details class="faq-item">
           <summary>What's the license?<span class="faq-plus" aria-hidden="true"></span></summary>
@@ -489,7 +517,7 @@ npm run smoke   # ends with: ALL CHECKS PASSED ✅</code></pre>
       </nav>
     </div>
     <div class="footer-bar">
-      <span>© 2026 codenameakshay · MIT licensed</span>
+      <span>© 2026 codenameakshay · MIT licensed · v0.11.0</span>
       <span class="footer-meta">Built with its own <code>compare_designs</code> loop · photos via <a href="https://unsplash.com" target="_blank" rel="noopener">Unsplash</a></span>
     </div>
   </footer>
