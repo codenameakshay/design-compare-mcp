@@ -1,0 +1,108 @@
+{
+  "latency": {
+    "visuals_false": {
+      "n": 40,
+      "p50_ms": 252.44,
+      "p95_ms": 263.91
+    },
+    "visuals_true": {
+      "n": 40,
+      "p50_ms": 266.63,
+      "p95_ms": 288.71
+    }
+  },
+  "rss": {
+    "n": 80,
+    "start_mb": 361.42,
+    "end_mb": 362.53,
+    "growth_mb": 1.11
+  },
+  "monotonicity": {
+    "color": {
+      "spearman": -1.0,
+      "scores": [
+        100.0,
+        87.5,
+        71.9,
+        60.2,
+        52.2,
+        42.3
+      ]
+    },
+    "content": {
+      "spearman": -1.0,
+      "scores": [
+        100.0,
+        84.7,
+        76.0,
+        67.6
+      ]
+    },
+    "layout": {
+      "spearman": -1.0,
+      "scores": [
+        100.0,
+        93.8,
+        90.5,
+        89.2,
+        88.8,
+        88.6
+      ]
+    },
+    "typography": {
+      "spearman": -1.0,
+      "scores": [
+        100.0,
+        87.9,
+        76.7,
+        66.5,
+        55.2,
+        38.6
+      ]
+    },
+    "spacing": {
+      "spearman": -0.828,
+      "scores": [
+        100.0,
+        100.0,
+        80.0,
+        80.0,
+        80.0,
+        80.0
+      ]
+    }
+  },
+  "gaming": {
+    "geometric": 34.64,
+    "arithmetic": 56.0
+  },
+  "ignore_regions": {
+    "without_ignore": 51.11,
+    "with_ignore": 80.19,
+    "delta": 29.08
+  },
+  "motion": {
+    "both_moving": {
+      "motion_status": "compared",
+      "motion_score": 100.0
+    },
+    "one_sided": {
+      "motion_status": "compared",
+      "motion_score": 0.0
+    },
+    "static": {
+      "motion_status": "static",
+      "motion_score": null
+    },
+    "capture_unreliable": {
+      "motion_status": "capture_unreliable",
+      "motion_score": null
+    }
+  },
+  "fixture_scores": {
+    "identical": 100.0,
+    "recolored": 82.4,
+    "shifted": 91.36,
+    "different": 24.21
+  }
+}
