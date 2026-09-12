@@ -1,9 +1,10 @@
 """Combine per-dimension sub-scores into an overall score.
 
-Weighted **geometric mean** over the scored dimensions (pending dimensions are
-skipped and the remaining weights renormalized). The geometric mean makes a weak
-dimension drag the whole score down far more than an arithmetic mean would, so no
-single dimension can be farmed to mask the others. Scores are floored at FLOOR so
+Weighted **geometric mean** over dimensions with a numeric score (scored and
+failed). Not-applicable dimensions (`score is None`) are skipped and the
+remaining weights renormalized. Zero-weight keys may remain in the dict; they
+add nothing. The geometric mean makes a weak dimension drag the whole score
+down far more than an arithmetic mean would. Scores are floored at FLOOR so
 one zeroed dimension pulls hard toward — but not exactly to — zero.
 """
 
@@ -19,15 +20,10 @@ DEFAULT_WEIGHTS = {
     "spacing": 0.15,
 }
 
-# Named weight presets for specific comparison domains. Selectable via the
-# `preset` argument; explicit `weights` still override individual dimensions.
+KNOWN = ("layout", "color", "content", "typography", "spacing")
+
 PRESETS = {
     "default": DEFAULT_WEIGHTS,
-    # Calibrated on a dark, single-theme motion component library (beUI -> Flutter
-    # port), n=26 human-labeled component pairs. Layout dominates and typography
-    # is secondary (the two dimensions that tracked human judgment: rho +0.33 /
-    # +0.31); color is near-noise in a single dark theme; content & spacing are
-    # excluded because region segmentation is unreliable on low-contrast dark UIs.
     "dark-ui": {
         "layout": 0.60,
         "color": 0.10,
@@ -44,19 +40,28 @@ def resolve_weights(preset: str | None = None, weights: dict | None = None) -> d
     """Resolve a preset name and/or explicit overrides into a weight dict.
 
     Precedence: explicit `weights` entries > the named preset > DEFAULT_WEIGHTS.
+    Unknown keys, negatives, or an all-zero result after merge raise ValueError.
     """
     if preset and preset not in PRESETS:
         raise ValueError(f"unknown weight preset: {preset!r} (have {list(PRESETS)})")
     base = dict(PRESETS.get(preset or "default", DEFAULT_WEIGHTS))
     if weights:
-        base.update({k: float(v) for k, v in weights.items()})
+        for k, v in weights.items():
+            if k not in KNOWN:
+                raise ValueError(f"unknown weight key: {k!r}")
+            fv = float(v)
+            if fv < 0:
+                raise ValueError(f"negative weight for {k!r}")
+            base[k] = fv
+    if all(float(v) == 0 for v in base.values()):
+        raise ValueError("all weights are zero")
     return base
 
 
 def aggregate(subscores: dict, weights: dict | None = None) -> float:
     w = dict(DEFAULT_WEIGHTS)
     if weights:
-        w.update({k: float(v) for k, v in weights.items()})
+        w.update({k: float(v) for k, v in weights.items() if k in KNOWN})
 
     scored = {
         k: v["score"]

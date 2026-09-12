@@ -1,4 +1,4 @@
-"""Structural similarity (SSIM) — the Phase 1 layout signal."""
+"""Structural similarity (SSIM) — the layout signal."""
 
 from __future__ import annotations
 

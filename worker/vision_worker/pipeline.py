@@ -1,20 +1,19 @@
-"""Phase 2 comparison pipeline.
+"""Comparison pipeline.
 
 load -> normalize -> align -> {structure (SSIM), color (ΔE palette),
-content-presence (region matching)} -> weighted geometric-mean overall -> visuals.
+content-presence (region matching), typography (text amount+scale),
+spacing (margins+rhythm)} -> weighted geometric-mean overall -> visuals.
 
-Typography and spacing are still returned as pending. `overall` combines only the
-scored dimensions (see aggregate.py).
+`overall` combines numeric scores (scored and failed); not-applicable
+dimensions are skipped (see aggregate.py).
 """
 
 from __future__ import annotations
 
 from typing import Any
 
-import cv2
-
 from . import visuals as V
-from .aggregate import aggregate, resolve_weights
+from .aggregate import FLOOR, aggregate, resolve_weights
 from .align import apply_warp, estimate_alignment
 from .io_utils import load_frame_sequence, load_rgb
 from .motion import compare_sequences
@@ -25,14 +24,18 @@ from .metrics.structure import structure_score
 from .metrics.typography import typography_score
 from .normalize import CANON_WIDTH, normalize_pair
 
+_SEV_ORDER = {"high": 0, "medium": 1, "low": 2}
 
-def _sub(score: float | None, reason: str, measurements: dict | None = None) -> dict:
-    """Build a sub-score entry. A None score marks the dimension not-applicable
-    for this pair (e.g. no text / no major regions); aggregate() excludes it."""
+
+def _sub(score: float | None, reason: str, measurements: dict | None = None,
+         status: str | None = None) -> dict:
+    if status is None:
+        status = "not_applicable" if score is None else "scored"
     return {
         "score": None if score is None else round(float(score), 2),
         "reason": reason,
         "measurements": measurements or {},
+        "status": status,
     }
 
 
@@ -74,9 +77,11 @@ def compare_arrays(
 
     Used by the file-based `compare()` and directly by the calibration harness.
     """
-    ref_n, cand_n, aspect_mismatch = normalize_pair(ref_rgb, cand_rgb)
-    ref_gray = cv2.cvtColor(ref_n, cv2.COLOR_RGB2GRAY)
-    cand_gray = cv2.cvtColor(cand_n, cv2.COLOR_RGB2GRAY)
+    pair = normalize_pair(ref_rgb, cand_rgb, ignore_boxes=ignore_regions)
+    aspect_mismatch = pair.aspect_mismatch
+    ref_n, cand_n = pair.ref.rgb, pair.cand.rgb
+    ref_gray = pair.ref.gray
+    cand_gray = pair.cand.gray
 
     warp, align_diag = estimate_alignment(ref_gray, cand_gray, mode)
     if warp is not None:
@@ -85,13 +90,6 @@ def compare_arrays(
     else:
         cand_gray_a, cand_rgb_a = cand_gray, cand_n
 
-    # --- dimensions (each isolated: one failing metric -> that dimension only) ---
-    # Only structure (SSIM) uses the ALIGNED candidate — SSIM is hypersensitive to
-    # any offset, so the global shift is registered away and layout measures shape.
-    # The other four run on the UNWARPED candidate: color/typography are
-    # alignment-invariant, and content/spacing must stay position-sensitive so a
-    # genuine global shift surfaces as a spacing/placement finding rather than
-    # being silently corrected. This also avoids warp interpolation artifacts.
     ssim_map = None
     content_viz: dict = {"matched": [], "missing": [], "extra": []}
     color_findings: list[dict] = []
@@ -100,16 +98,15 @@ def compare_arrays(
     spacing_findings: list[dict] = []
 
     def _guard(name, fn):
-        """Run a metric; on failure return a None-scored sub-score with the error.
-        Isolates one bad dimension (e.g. a degenerate image) from the rest."""
         try:
             return fn(), None
-        except Exception as exc:  # keep the compare alive; dimension -> not applicable
-            return None, {
-                "score": None,
-                "reason": f"{name} metric failed",
-                "measurements": {"error": f"{type(exc).__name__}: {exc}"[:200]},
-            }
+        except Exception as exc:
+            return None, _sub(
+                FLOOR,
+                f"{name} metric failed",
+                {"error": f"{type(exc).__name__}: {exc}"[:200]},
+                status="failed",
+            )
 
     def _layout():
         nonlocal ssim_map
@@ -151,7 +148,6 @@ def compare_arrays(
     resolved_weights = resolve_weights(preset, weights)
     overall = aggregate(subscores, resolved_weights)
 
-    # --- findings ---
     findings: list[dict] = []
     if aspect_mismatch > 0.02:
         findings.append(
@@ -166,10 +162,24 @@ def compare_arrays(
                 "suggested_fix": "match the overall height/proportions of the reference screen",
             }
         )
+    layout_score = subscores["layout"]["score"]
+    if isinstance(layout_score, (int, float)) and layout_score < 70:
+        findings.append(
+            {
+                "area": "layout",
+                "type": "layout_mismatch",
+                "severity": "high" if layout_score < 40 else "medium",
+                "observed": (
+                    f"layout score {layout_score:.1f} is below 70 after alignment"
+                ),
+                "suggested_fix": "match the reference structure, spacing, and proportions",
+            }
+        )
     findings.extend(content_findings)
     findings.extend(color_findings)
     findings.extend(typo_findings)
     findings.extend(spacing_findings)
+    findings.sort(key=lambda f: _SEV_ORDER.get(f.get("severity", "low"), 9))
 
     result: dict = {
         "overall": overall,
@@ -177,17 +187,20 @@ def compare_arrays(
         "cv_findings": findings,
         "visuals": [],
         "critique_rubric": (
-            "Scored dimensions: layout (SSIM), color (ΔE palette), content-presence "
-            "(region coverage), typography (text amount+scale), spacing (margins+rhythm). "
-            "Typography and spacing are coarse pixel heuristics — treat them as hints and "
-            "confirm font family/weight and fine spacing visually. Assemble a punch-list "
-            "ordered by score impact: start with the lowest sub-score and the "
-            "highest-severity cv_findings. Use `content_regions` (green=matched, "
-            "red=missing, orange=extra), `diff_heatmap` (hot=structural divergence), and "
-            "`overlay` to ground each item. Report each fix as {area, observed, expected, "
-            "severity, suggested_fix}."
+            "Scored on a 768-wide canonical canvas. Ignore regions are specified in "
+            "original reference pixels and filled before metrics. Dimensions: layout "
+            "(SSIM), color (ΔE palette), content-presence (region coverage), typography "
+            "(text amount+scale), spacing (margins+rhythm). Typography and spacing are "
+            "coarse pixel heuristics — treat them as hints and confirm font "
+            "family/weight and fine spacing visually. Assemble a punch-list ordered by "
+            "score impact: start with the lowest sub-score and the highest-severity "
+            "cv_findings. Use `content_regions` (green=matched, red=missing, "
+            "orange=extra on the candidate pane), `diff_heatmap` (hot=structural "
+            "divergence), and `overlay` to ground each item. Report each fix as "
+            "{area, observed, expected, severity, suggested_fix}."
         ),
         "alignment": {"mode": mode, **align_diag},
+        "canvas": pair.mapping,
         "canonical_width": CANON_WIDTH,
         "preset": preset or "default",
         "weights": {k: round(v, 3) for k, v in resolved_weights.items()},
@@ -195,12 +208,16 @@ def compare_arrays(
     }
 
     if return_visuals:
+        ignore_mask = pair.ignore.mask
+        ref_prev = V.hatch_ignore(pair.ref.preview_rgb, ignore_mask)
+        cand_prev = V.hatch_ignore(pair.cand.preview_rgb, ignore_mask)
         visuals = [
             {"name": "overlay", "mime_type": "image/png", "base64": V.overlay(ref_n, cand_rgb_a)},
-            {"name": "content_regions", "mime_type": "image/png", "base64": V.content_regions(ref_n, content_viz)},
-            {"name": "side_by_side", "mime_type": "image/png", "base64": V.side_by_side(ref_n, cand_n)},
+            {"name": "content_regions", "mime_type": "image/png",
+             "base64": V.content_regions(ref_prev, content_viz, cand_prev)},
+            {"name": "side_by_side", "mime_type": "image/png",
+             "base64": V.side_by_side(ref_prev, cand_prev)},
         ]
-        # diff_heatmap only exists if the structure metric produced an SSIM map.
         if ssim_map is not None:
             visuals.insert(1, {
                 "name": "diff_heatmap", "mime_type": "image/png",
@@ -233,7 +250,12 @@ def compare_motion(
     result = compare_sequences(ref_frames, cand_frames)
     result["frames"] = {"reference": len(ref_frames), "candidate": len(cand_frames)}
 
-    if not result["ref_moving"] and not result["cand_moving"]:
+    status = result.get("motion_status")
+    if status == "capture_unreliable":
+        verdict = "capture is unreliable (blank or near-uniform frames)"
+    elif status == "static" or (
+        result["motion_score"] is None and not result["ref_moving"] and not result["cand_moving"]
+    ):
         verdict = "neither side animates in these frames"
     elif result["ref_moving"] != result["cand_moving"]:
         side = "candidate" if result["cand_moving"] else "reference"
@@ -242,13 +264,14 @@ def compare_motion(
     else:
         verdict = f"both animate; motion energy ratio {result['energy_ratio']:.2f}"
     result["critique_rubric"] = (
-        f"Motion comparison ({verdict}). `motion_score` is the energy-ratio match "
-        "(0 when one side animates and the other is static). `temporal_corr` is the "
-        "rhythm match (null for steady motion with no profile). Inspect the "
-        "`motion_signature` chart (green=reference, blue=candidate): compare the "
-        "curves' height (animation intensity) and shape (timing). Note this samples "
-        "frames at a fixed cadence — a one-shot animation may have finished before "
-        "capture, so a low score can mean 'not captured' as well as 'not faithful'."
+        f"Motion comparison ({verdict}). `motion_status` is {status}. "
+        "A null `motion_score` is inconclusive (static or capture_unreliable), "
+        "not a perfect 100. `temporal_corr` is the rhythm match (null for steady "
+        "motion with no profile). Inspect the `motion_signature` chart "
+        "(green=reference, blue=candidate): compare the curves' height (animation "
+        "intensity) and shape (timing). Note this samples frames at a fixed cadence "
+        "— a one-shot animation may have finished before capture, so a low score "
+        "can mean 'not captured' as well as 'not faithful'."
     )
     result["stub"] = False
 

@@ -88,12 +88,37 @@ def content_score(
     ref_boxes = detect_regions(ref_rgb)
     cand_boxes = detect_regions(cand_rgb)
 
-    # Content-presence measures reproduction of the reference's major blocks. If
-    # the reference has none (e.g. a pure-text screen), the dimension is not
-    # applicable — return None so it is excluded from the overall score.
     if not ref_boxes:
-        viz = {"matched": [], "missing": [], "extra": [list(b[:4]) for b in cand_boxes]}
-        return None, [], {"note": "no major regions detected in reference", "ref_regions": 0}, viz
+        extra = cand_boxes
+        viz = {"matched": [], "missing": [], "extra": [list(b[:4]) for b in extra]}
+        meas = {
+            "note": "no major regions detected in reference",
+            "coverage": 0.0,
+            "extra_ratio": 1.0 if extra else 0.0,
+            "ref_regions": 0,
+            "cand_regions": len(extra),
+            "missing": 0,
+            "extra": len(extra),
+        }
+        if not extra:
+            return None, [], meas, viz
+        extra_ratio = 1.0
+        score = 100.0 * 0.0 * (1.0 - 0.5 * min(1.0, extra_ratio))
+        findings = []
+        total_cand_area = sum(b[4] for b in extra) or 1
+        for b in sorted(extra, key=lambda x: -x[4])[:4]:
+            findings.append(
+                {
+                    "area": "content",
+                    "type": "extra_region",
+                    "severity": "low",
+                    "box": [b[0], b[1], b[2], b[3]],
+                    "observed": f"an extra region at x={b[0]},y={b[1]} ({b[2]}x{b[3]}) is not in the reference",
+                    "suggested_fix": "remove or relocate this element",
+                }
+            )
+        meas["extra_ratio"] = round(sum(b[4] for b in extra) / total_cand_area, 3)
+        return score, findings, meas, viz
 
     total_ref_area = sum(b[4] for b in ref_boxes) or 1
     total_cand_area = sum(b[4] for b in cand_boxes) or 1

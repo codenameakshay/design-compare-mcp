@@ -36,8 +36,7 @@ def _text_lines(rgb: np.ndarray) -> list[tuple[int, int, int, int, int]]:
             continue
         aspect = bw_ / max(1, bh)
         fill = area / max(1, bw_ * bh)
-        # Text lines: wider than tall, thin, not a huge solid block.
-        if aspect >= 2.0 and bh <= 0.06 * h and bw_ >= 0.03 * w and 0.15 < fill < 0.98:
+        if aspect >= 2.0 and bh <= 0.22 * h and bw_ >= 0.03 * w and 0.15 < fill < 0.98:
             lines.append((int(x), int(y), int(bw_), int(bh), int(area)))
     return lines
 

@@ -1,13 +1,3 @@
-"""Calibration guarantees that do NOT require human labels:
-
-  1. Monotonicity — perturbing one dimension drives its sub-score down.
-  2. Gaming-resistance — a dimension can't be farmed to inflate the overall.
-  3. Determinism — identical inputs yield byte-identical scores.
-
-Run with the venv interpreter:
-    worker/.venv/bin/python worker/tests/test_calibration.py
-"""
-
 from __future__ import annotations
 
 import sys
@@ -43,9 +33,6 @@ def _weighted_arith(scores: dict) -> float:
 
 
 def main() -> int:
-    # 1. Monotonicity: each dimension decreases as its perturbation grows.
-    # spacing is the coarsest dimension and, with the contrast-adaptive detector,
-    # slightly noisier under perturbation — still strongly monotonic, just below -0.9.
     THRESH = {"spacing": -0.8}
     print("monotonicity (Spearman of level vs sub-score):")
     for name, dim, gen in [
@@ -61,7 +48,6 @@ def main() -> int:
         print(f"  {name:11s} rho={rho:+.3f} (want <= {limit})  {[round(s, 1) for s in scores]}")
         assert rho <= limit, f"{name} not monotonic: rho={rho}"
 
-    # 2. Gaming-resistance (unit): perfect color can't rescue broken structure.
     broken = _subs(layout=12, color=100, content=12, typography=100, spacing=100)
     overall = aggregate(broken)
     arith = _weighted_arith({k: v["score"] for k, v in broken.items()})
@@ -69,14 +55,12 @@ def main() -> int:
     assert overall < arith - 10, (overall, arith)
     assert overall < 45, overall
 
-    # 2b. Gaming-resistance (end-to-end): same palette, broken layout/content.
     r = compare_arrays(card_screen(), card_screen(n_cards=1, draw_button=False), return_visuals=False)
     scored = {k: v["score"] for k, v in r["subscores"].items() if v["score"] is not None}
     e2e_arith = _weighted_arith(scored)
-    assert r["overall"] <= e2e_arith + 0.5, (r["overall"], e2e_arith)  # geo <= arith always
+    assert r["overall"] <= e2e_arith + 0.5, (r["overall"], e2e_arith)
     assert r["overall"] < max(scored.values()), "overall must not equal the best dimension"
 
-    # 3. Determinism: identical inputs -> identical scores across runs.
     ref = card_screen()
     cand = card_screen(header=(120, 40, 60), btn=(220, 60, 60))
     a = compare_arrays(ref, cand, return_visuals=False)
@@ -86,7 +70,7 @@ def main() -> int:
         assert a["subscores"][k]["score"] == b["subscores"][k]["score"], k
     print("\ndeterminism: identical scores across repeated runs ✓")
 
-    print("\nPhase 4 calibration checks PASSED ✅")
+    print("\nCalibration checks PASSED")
     return 0
 
 
