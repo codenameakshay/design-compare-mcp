@@ -2,10 +2,23 @@ import puppeteer from "puppeteer-core";
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
+import { execSync } from "node:child_process";
+import {
+  assertHttpUrl,
+  assertWritableDir,
+  registerServerTempDir,
+} from "./path-and-url-guard.js";
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
-/** Resolve a Chrome/Chromium executable: env override, then common OS paths. */
+function whichChrome(name: string): string | undefined {
+  try {
+    const out = execSync(`which ${name}`, { encoding: "utf8" }).trim();
+    if (out && fs.existsSync(out)) return out;
+  } catch {}
+  return undefined;
+}
+
 function resolveChrome(): string {
   const env = process.env.DESIGN_COMPARE_CHROME;
   if (env) {
@@ -20,11 +33,17 @@ function resolveChrome(): string {
     "/usr/bin/google-chrome-stable",
     "/usr/bin/chromium",
     "/usr/bin/chromium-browser",
+    "/snap/bin/chromium",
+    "/opt/google/chrome/google-chrome",
+    whichChrome("google-chrome"),
+    whichChrome("google-chrome-stable"),
+    whichChrome("chromium"),
+    whichChrome("chromium-browser"),
     "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
     "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe",
   ];
   for (const c of candidates) {
-    if (fs.existsSync(c)) return c;
+    if (c && fs.existsSync(c)) return c;
   }
   throw new Error(
     "No Chrome/Chromium found. Set DESIGN_COMPARE_CHROME to a browser executable path.",
@@ -35,6 +54,12 @@ export interface CaptureAction {
   click?: [number, number];
   hover?: [number, number];
   wait?: number;
+}
+
+export interface FlutterWaitReport {
+  requested: boolean;
+  mounted: boolean;
+  waitedMs: number;
 }
 
 export interface CaptureOptions {
@@ -55,6 +80,8 @@ export interface CaptureResult {
   count: number;
   url: string;
   intervalMs: number;
+  blank: boolean;
+  flutterWait?: FlutterWaitReport;
 }
 
 /**
@@ -64,10 +91,20 @@ export interface CaptureResult {
  */
 export async function captureFrames(opts: CaptureOptions): Promise<CaptureResult> {
   if (!opts.url) throw new Error("'url' is required");
-  const frames = Math.min(Math.max(Math.round(opts.frames ?? 12), 2), 120);
+  assertHttpUrl(opts.url);
+
+  const frames = Math.min(Math.max(Math.round(opts.frames ?? 12), 1), 120);
   const interval = Math.min(Math.max(Math.round(opts.intervalMs ?? 130), 30), 2000);
   const viewport = opts.viewport ?? { width: 1440, height: 1600 };
-  const dir = opts.outDir ?? fs.mkdtempSync(path.join(os.tmpdir(), "dcm-frames-"));
+
+  let dir: string;
+  if (opts.outDir) {
+    assertWritableDir(opts.outDir);
+    dir = opts.outDir;
+  } else {
+    dir = fs.mkdtempSync(path.join(os.tmpdir(), "dcm-frames-"));
+    registerServerTempDir(dir);
+  }
   fs.mkdirSync(dir, { recursive: true });
 
   const browser = await puppeteer.launch({
@@ -75,16 +112,30 @@ export async function captureFrames(opts: CaptureOptions): Promise<CaptureResult
     headless: true,
     args: ["--hide-scrollbars", "--disable-gpu"],
   });
+  let flutterWait: FlutterWaitReport | undefined;
   try {
     const page = await browser.newPage();
     await page.setViewport({ ...viewport, deviceScaleFactor: 1 });
     await page.goto(opts.url, { waitUntil: "domcontentloaded", timeout: 45000 });
 
     if (opts.waitForFlutter) {
-      // String predicate: evaluated in the page, so no DOM lib needed server-side.
-      await page
-        .waitForFunction("!!document.querySelector('flutter-view')", { timeout: 60000 })
-        .catch(() => {}); // fall through to the settle wait even if it never mounts
+      const t0 = Date.now();
+      try {
+        await page.waitForFunction("!!document.querySelector('flutter-view')", {
+          timeout: 60000,
+        });
+        flutterWait = {
+          requested: true,
+          mounted: true,
+          waitedMs: Date.now() - t0,
+        };
+      } catch {
+        flutterWait = {
+          requested: true,
+          mounted: false,
+          waitedMs: Date.now() - t0,
+        };
+      }
     }
     await sleep(opts.waitMs ?? 1500);
 
@@ -101,7 +152,17 @@ export async function captureFrames(opts: CaptureOptions): Promise<CaptureResult
       framePaths.push(p);
       if (i < frames - 1) await sleep(interval);
     }
-    return { dir, frames: framePaths, count: framePaths.length, url: opts.url, intervalMs: interval };
+
+    const blank = framePaths.length === 0;
+    return {
+      dir,
+      frames: framePaths,
+      count: framePaths.length,
+      url: opts.url,
+      intervalMs: interval,
+      blank,
+      ...(flutterWait ? { flutterWait } : {}),
+    };
   } finally {
     await browser.close();
   }

@@ -5,8 +5,30 @@ import { z } from "zod";
 export const CompareMode = z.enum(["widget", "screen"]);
 export type CompareMode = z.infer<typeof CompareMode>;
 
-/** Box as [x, y, w, h] in pixels of the normalized reference canvas. */
+/** Box as [x, y, w, h] in original reference image pixels (before 768 normalization). */
 export const Box = z.tuple([z.number(), z.number(), z.number(), z.number()]);
+
+const WEIGHT_KEYS = [
+  "layout",
+  "color",
+  "content",
+  "typography",
+  "spacing",
+] as const;
+
+const WeightsShape = z
+  .object({
+    layout: z.number().min(0).optional(),
+    color: z.number().min(0).optional(),
+    content: z.number().min(0).optional(),
+    typography: z.number().min(0).optional(),
+    spacing: z.number().min(0).optional(),
+  })
+  .strict()
+  .refine(
+    (w) => Object.values(w).some((v) => v !== undefined && v > 0),
+    { message: "weights must include at least one dimension > 0" },
+  );
 
 export const CompareInputShape = {
   reference: z
@@ -23,7 +45,9 @@ export const CompareInputShape = {
   ignoreRegions: Box.array()
     .optional()
     .describe(
-      "Regions of the reference to exclude from scoring (e.g. an unreproducible hero image).",
+      "Regions to exclude from scoring, as [x,y,w,h] in original reference image pixels. " +
+        "The worker scales these to its 768px normalized canvas. Finding boxes in the result are " +
+        "always in that canonical 768 canvas space.",
     ),
   preset: z
     .enum(["default", "dark-ui"])
@@ -33,12 +57,10 @@ export const CompareInputShape = {
         "single-theme UI ports (layout-dominant, color down-weighted, content/spacing off). " +
         "Explicit `weights` still override individual dimensions.",
     ),
-  weights: z
-    .record(z.string(), z.number())
-    .optional()
-    .describe(
-      "Optional per-dimension weight overrides (layout/color/content/typography/spacing) for the overall score.",
-    ),
+  weights: WeightsShape.optional().describe(
+    "Optional per-dimension weight overrides (layout, color, content, typography, spacing) " +
+      "for the overall score. Unknown keys are rejected; each value must be >= 0 with at least one > 0.",
+  ),
   returnVisuals: z
     .boolean()
     .default(true)
@@ -77,11 +99,34 @@ export type CompareMotionInput = z.infer<typeof CompareMotionInput>;
 
 const Point = z.tuple([z.number(), z.number()]);
 
+function isHttpUrl(url: string): boolean {
+  try {
+    const p = new URL(url);
+    return p.protocol === "http:" || p.protocol === "https:";
+  } catch {
+    return false;
+  }
+}
+
 export const CaptureFramesInputShape = {
   url: z
     .string()
-    .describe("Page URL to capture over time (e.g. a component preview; a local dev URL for your app)."),
-  frames: z.number().int().min(2).max(120).default(12).describe("Number of frames to capture."),
+    .refine(isHttpUrl, {
+      message: "url must be http: or https: (file:, data:, and other schemes are rejected)",
+    })
+    .describe(
+      "Page URL to capture (http or https only). Use a local dev server URL for your app " +
+        "(e.g. http://localhost:5173/preview). file: and data: URLs are not allowed.",
+    ),
+  frames: z
+    .number()
+    .int()
+    .min(1)
+    .max(120)
+    .default(12)
+    .describe(
+      "Number of frames to capture (1–120). Use frames: 1 for a still screenshot to pass to compare_designs.",
+    ),
   intervalMs: z.number().int().min(30).max(2000).default(130).describe("Milliseconds between frames."),
   clip: z
     .object({ x: z.number(), y: z.number(), width: z.number(), height: z.number() })
@@ -101,7 +146,10 @@ export const CaptureFramesInputShape = {
   waitForFlutter: z
     .boolean()
     .default(false)
-    .describe("Wait for a Flutter <flutter-view> to mount before capturing (Flutter web apps)."),
+    .describe(
+      "Wait for a Flutter <flutter-view> to mount before capturing (Flutter web apps). " +
+        "Timeout is reported in the result (capture still proceeds).",
+    ),
   actions: z
     .object({
       click: Point.optional().describe("Click at [x, y] (e.g. navigate an SPA or open a component)."),
@@ -114,7 +162,10 @@ export const CaptureFramesInputShape = {
   outDir: z
     .string()
     .optional()
-    .describe("Directory to write frames to (default: a fresh temp dir). Pass its path to compare_motion."),
+    .describe(
+      "Directory to write frames to (default: a fresh temp dir). When DESIGN_COMPARE_ALLOWED_ROOTS is set, " +
+        "must lie inside one of those roots. Pass its path to compare_motion.",
+    ),
 };
 
 export const CaptureFramesInput = z.object(CaptureFramesInputShape);

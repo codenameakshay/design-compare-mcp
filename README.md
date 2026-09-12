@@ -37,6 +37,7 @@ for the calibration workflow.
 - [Architecture](#architecture)
 - [Hardening, determinism & trust model](#hardening-determinism--trust-model)
 - [Configuration](#configuration)
+- [Benchmark](#benchmark)
 - [Development](#development)
 - [Repo layout](#repo-layout)
 
@@ -84,6 +85,10 @@ Four tools: `ping`, `compare_designs`, `compare_motion`, `capture_frames`.
 
 Inputs: `reference` (path), `candidate` (path), `mode` (`"widget"` | `"screen"`), optional
 `preset` (`"default"` | `"dark-ui"`), `weights`, `ignoreRegions`, `returnVisuals`.
+
+`ignoreRegions` are `[x, y, w, h]` boxes in **original reference image pixels** (before the
+768 px normalization). Finding boxes in `cv_findings` are reported in the **canonical 768-wide**
+canvas space — use the returned `canvas` mapping to translate between the two.
 
 Example — comparing a reference card screen against a version with recolored accents:
 
@@ -149,10 +154,13 @@ the reference's.
 
 ### `capture_frames` — get frames for `compare_motion`
 
-Inputs: `url`, optional `frames`, `intervalMs`, `clip` (crop to a preview), `viewport`, `waitMs`,
-`waitForFlutter` (waits for `<flutter-view>` to mount), `actions` (ordered click/hover/wait steps to
-navigate an SPA or trigger an interaction before sampling), `outDir`. Drives headless Chrome, writes a
-PNG sequence, and returns the output `dir` plus first/last sample frames to confirm the capture isn't blank.
+Inputs: `url` (**http or https only**), optional `frames`, `intervalMs`, `clip` (crop to a preview),
+`viewport`, `waitMs`, `waitForFlutter` (waits for `<flutter-view>` to mount — the outcome is always
+reported as `flutterWait`), `actions` (ordered click/hover/wait steps to navigate an SPA or trigger
+an interaction before sampling), `outDir`. Drives headless Chrome, writes a PNG sequence, and returns
+the output `dir` plus first/last sample frames to confirm the capture isn't blank. **`frames: 1`**
+captures a still (pass the frame path to `compare_designs`). When `DESIGN_COMPARE_ALLOWED_ROOTS` is
+set, `outDir` must lie inside one of those roots (server-created temp dirs are always allowed).
 
 ### The motion flow — fully agent-driven
 
@@ -176,8 +184,9 @@ distrusting) a score.
    - `screen` mode → ECC translation (`cv2.findTransformECC`), falling back to identity if it doesn't
      converge (flagged in diagnostics);
    - `widget` mode → identity (a tight crop is assumed pre-aligned).
-4. **Score five dimensions** — each in isolation (a metric that throws on a degenerate input yields
-   `null` for *that* dimension only; the rest still compute).
+4. **Score five dimensions** — each in isolation. A metric that throws on a degenerate input marks
+   that dimension **`failed`** with score floored at **1.0** and still contributes to `overall`; a
+   dimension that doesn't apply returns `null` and is excluded.
 5. **Aggregate** — weighted geometric mean over the scored dimensions.
 6. **Visuals** — render diagnostic images (unless `returnVisuals:false`).
 
@@ -261,8 +270,7 @@ the preset). The resolved preset + weights are echoed back in every result for t
 - **overlay** — reference and aligned candidate blended 50/50; ghosting shows where they diverge.
 - **diff_heatmap** — the SSIM difference map; **hot = larger structural divergence**. (Omitted if the
   layout metric couldn't run.)
-- **content_regions** — detected blocks drawn on the reference: **green = matched, red = missing,
-  orange = extra**. This is the visual behind the content score.
+- **content_regions** — two panes when extras exist: matched/missing on the reference, extras on the candidate. Green = matched, red = missing, orange = extra.
 - **side_by_side** — reference and candidate at matched size, for a direct human look.
 - **motion_signature** — line chart of per-frame motion over time: **green = reference, blue =
   candidate**. Compare curve height (intensity) and shape (timing).
@@ -274,8 +282,12 @@ A single frame can't measure animation, so `compare_motion` compares two **frame
 - **Signature** — for each consecutive frame pair, the mean absolute grayscale change (0–1). The series
   over time is the component's *motion signature*.
 - **Motion energy** — mean of the signature: how much it animates. Below ~0.0008 a side is "static."
-- **`motion_score`** — the energy ratio `min/max × 100`, i.e. do they animate a *similar amount* — but
-  **0 if one animates and the other is static** (a hard miss).
+- **`motion_status`** — `compared` (a numeric `motion_score` is meaningful), `static` (both sides
+  below the motion threshold), or `capture_unreliable` (blank/near-uniform frames). Read this before
+  trusting `motion_score`.
+- **`motion_score`** — when `motion_status` is `compared`, the energy ratio `min/max × 100` (similar
+  animation amount), **0 if one animates and the other is static**. When status is `static` or
+  `capture_unreliable`, the score is **`null`** — never a fake 100.
 - **`temporal_corr`** — Pearson correlation of the two signatures (do they move at the same *times*);
   `null` for steady motion that has no temporal profile to correlate.
 
@@ -367,8 +379,9 @@ Host agent ──MCP/stdio──► TS server ──spawns once──► Python 
 - **Supervised worker.** If the Python worker dies (OOM, native crash), the next request lazily
   respawns it with backoff; a previously-healthy crash triggers one idempotent retry. One crash costs a
   single failed call, never the session.
-- **Per-metric isolation.** A dimension that throws on a degenerate input returns `null` (with the error
-  in `measurements`); the others and `overall` still compute.
+- **Per-metric isolation.** A dimension that throws on a degenerate input is marked `failed` with score
+  floored at 1.0 (error in `measurements`); the others and `overall` still compute. Not-applicable
+  dimensions return `null` and are excluded from the geo-mean.
 - **Input caps.** Images larger than ~40 MP / 12000 px per side are rejected *before* decode (bounding
   memory); PIL's decompression-bomb guard is a backstop; non-images and bad paths return typed errors.
 - **Protocol isolation.** The worker reserves the real stdout fd for framed JSON and repoints
@@ -383,21 +396,56 @@ Host agent ──MCP/stdio──► TS server ──spawns once──► Python 
   present, else `python3`.
 - `DESIGN_COMPARE_CHROME` — Chrome/Chromium executable for `capture_frames`. Auto-detected on
   macOS/Linux/Windows if unset.
-- `DESIGN_COMPARE_ALLOWED_ROOTS` — optional `:`-separated directories; when set, file reads outside them
-  are refused (after resolving symlinks). Unset = any local path.
+- `DESIGN_COMPARE_ALLOWED_ROOTS` — optional path-separated directories (`:` on macOS/Linux, `;` on Windows). When set, file reads and `capture_frames` `outDir` outside them are refused (after resolving symlinks). Unset = any local path.
+
+## Benchmark
+
+Rerunnable on this machine via `npm run bench` (writes `docs/bench/results.json` and SVG charts).
+Numbers below are from the last local run; re-run to refresh after code changes.
+
+| Metric | Result |
+|---|---|
+| Latency (`visuals=false`, p50 / p95) | **252 / 264 ms/call** |
+| Latency (`visuals=true`, p50 / p95) | 267 / 289 ms/call |
+| RSS growth (80 in-process calls, visuals=true) | +1.1 MB |
+| Monotonicity Spearman (color / layout / spacing) | −1.00 / −1.00 / −0.83 |
+| Gaming (geo vs arith on `{layout:12, color:100, …}`) | **34.6 vs 56.0** |
+| ignoreRegions (without → with ignore) | 51.1 → 80.2 (+29.1) |
+| Motion: both-moving / one-sided / static / unreliable | 100 / 0 / null / null |
+| Fixture overall: identical / recolored / shifted / different | 100 / 82.4 / 91.4 / 24.2 |
+
+![Latency](docs/bench/latency.svg)
+
+![Monotonicity](docs/bench/monotonicity.svg)
+
+![Fixture scores](docs/bench/scores.svg)
+
+![Motion](docs/bench/motion.svg)
+
+See [`docs/bench/results.json`](docs/bench/results.json) for the full structured output.
 
 ## Development
 
 ```bash
+npm test             # build + four Python test scripts + smoke + resilience
+npm run bench        # latency, RSS, monotonicity, gaming, ignoreRegions, motion → docs/bench/
 npm run build        # tsc -> dist/
 npm run smoke        # end-to-end over the MCP client: all four tools
 npm run resilience   # worker crash/restart + concurrency
 npm run lifecycle    # server + worker exit when the host goes away (no orphans)
-worker/.venv/bin/python worker/tests/test_pipeline.py       # per-dimension behavior, monotonicity
-worker/.venv/bin/python worker/tests/test_calibration.py    # monotonicity, gaming-resistance, determinism
-worker/.venv/bin/python worker/tests/test_robustness.py     # hostile/degenerate inputs
-worker/.venv/bin/python worker/tests/test_motion.py         # motion library + compare_motion
-worker/.venv/bin/python scripts/stress.py                   # leak + latency probe
+```
+
+CI (`.github/workflows/ci.yml`) runs `npm run build`, the four Python test scripts, and `npm run smoke`
+on every PR and push to `main`. Chrome is not required in CI — `capture_frames` smoke checks skip when
+Chrome is absent.
+
+Individual Python tests (also run by `npm test`):
+
+```bash
+worker/.venv/bin/python worker/tests/test_pipeline.py
+worker/.venv/bin/python worker/tests/test_calibration.py
+worker/.venv/bin/python worker/tests/test_robustness.py
+worker/.venv/bin/python worker/tests/test_motion.py
 ```
 
 Calibration helpers: `scripts/capture_pairs.mjs` (capture reference/candidate pairs),
@@ -412,6 +460,7 @@ src/                       # TypeScript MCP server
   worker-client.ts         #   supervises + multiplexes the Python worker
   capture.ts               #   headless-Chrome frame capture (capture_frames)
   schema.ts                #   zod input schemas
+  path-and-url-guard.ts    #   http(s) URLs + DESIGN_COMPARE_ALLOWED_ROOTS
 worker/vision_worker/      # Python vision worker
   pipeline.py              #   compare / compare_arrays / compare_motion orchestration
   normalize.py align.py    #   canonical-size + registration

@@ -16,6 +16,7 @@ is alive and its stdout pipe is flowing:
 from __future__ import annotations
 
 import json
+import math
 import os
 import sys
 import traceback
@@ -27,7 +28,7 @@ import traceback
 try:
     _PROTOCOL_OUT = os.fdopen(os.dup(1), "w", buffering=1)
     sys.stdout.flush()
-    os.dup2(2, 1)  # fd 1 -> stderr
+    os.dup2(2, 1)
 except OSError:  # pragma: no cover - non-fd stdout (unusual); fall back
     _PROTOCOL_OUT = sys.__stdout__
 
@@ -40,8 +41,28 @@ def _log(msg: str) -> None:
     print(f"[vision_worker] {msg}", file=sys.stderr, flush=True)
 
 
+def _json_safe(obj):
+    if obj is None or isinstance(obj, (str, bool, int)):
+        return obj
+    if isinstance(obj, float):
+        return obj if math.isfinite(obj) else None
+    if isinstance(obj, dict):
+        return {str(k): _json_safe(v) for k, v in obj.items()}
+    if isinstance(obj, (list, tuple)):
+        return [_json_safe(v) for v in obj]
+    try:
+        import numpy as np
+        if isinstance(obj, np.ndarray):
+            return _json_safe(obj.tolist())
+        if isinstance(obj, np.generic):
+            return _json_safe(obj.item())
+    except ImportError:
+        pass
+    return obj
+
+
 def _send(obj: dict) -> None:
-    _PROTOCOL_OUT.write(json.dumps(obj) + "\n")
+    _PROTOCOL_OUT.write(json.dumps(_json_safe(obj), allow_nan=False) + "\n")
     _PROTOCOL_OUT.flush()
 
 

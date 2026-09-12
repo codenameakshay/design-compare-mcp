@@ -55,7 +55,22 @@ def color_score(ref_rgb: np.ndarray, cand_rgb: np.ndarray) -> tuple[float, list[
 
     rows, cols = linear_sum_assignment(cost)
     matched_de = cost[rows, cols]
-    mean_de = float(matched_de.mean())
+    UNMATCHED_DE = 40.0
+    matched_ref = np.zeros(len(ref_w), dtype=bool)
+    matched_cand = np.zeros(len(cand_w), dtype=bool)
+    matched_ref[rows] = True
+    matched_cand[cols] = True
+    unmatched_ref_mass = float(ref_w[~matched_ref].sum()) if np.any(~matched_ref) else 0.0
+    unmatched_cand_mass = float(cand_w[~matched_cand].sum()) if np.any(~matched_cand) else 0.0
+    leftover = unmatched_ref_mass + unmatched_cand_mass
+    penalty = leftover * UNMATCHED_DE
+    mass_num = (float((ref_w[rows] * matched_de).sum()) if len(rows) else 0.0) + penalty
+    mass_den = (float(ref_w[rows].sum()) if len(rows) else 0.0) + leftover
+    eq_num = (float(matched_de.sum()) if len(matched_de) else 0.0) + penalty
+    eq_den = float(len(matched_de)) + leftover
+    mass_mean = mass_num / mass_den if mass_den > 0 else 0.0
+    eq_mean = eq_num / eq_den if eq_den > 0 else 0.0
+    mean_de = float(max(mass_mean, eq_mean))
     score = 100.0 * float(np.exp(-mean_de / DECAY))
 
     # Findings: the most-shifted dominant colors, worst first.

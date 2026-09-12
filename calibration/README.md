@@ -4,7 +4,7 @@ Checks that `overall` tracks human judgment and that each dimension is well-beha
 
 ## Two kinds of check
 
-**1. Label-free guarantees (run in CI today, no data needed)** — `worker/tests/test_calibration.py`:
+**1. Label-free guarantees (run in CI — see `.github/workflows/ci.yml`, no data needed)** — `worker/tests/test_calibration.py`:
 - **Monotonicity** — perturbing one dimension (color shift, element removal, blur, text scaling,
   spacing change) drives that sub-score down (Spearman ≤ −0.9).
 - **Gaming-resistance** — a perfect dimension can't inflate the overall past the weighted arithmetic

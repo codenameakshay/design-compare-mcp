@@ -6,12 +6,9 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
-// Both dist/worker-client.js and src/worker-client.ts sit one level below the
-// repo root, so `..` resolves the repo root in built and dev (tsx) runs alike.
 const REPO_ROOT = path.resolve(HERE, "..");
 const WORKER_CWD = path.join(REPO_ROOT, "worker");
 
-/** Prefer the project venv interpreter if it exists, else system python3. */
 function defaultPython(): string {
   const candidates = [
     path.join(WORKER_CWD, ".venv", "bin", "python"),
@@ -42,13 +39,15 @@ export interface WorkerOptions {
   bootTimeoutMs?: number;
 }
 
+function workerError(type: string, message: string): Error & { workerError: WorkerError } {
+  return Object.assign(new Error(message), {
+    workerError: { type, message },
+  });
+}
+
 /**
  * Supervises a single long-lived Python vision worker and multiplexes
  * request/response pairs over its stdio using newline-delimited JSON.
- *
- * The worker stays resident so heavy imports load once. It is self-healing: if
- * the worker dies, the next request lazily respawns it (with backoff), so one
- * crash costs at most a single failed call instead of bricking the session.
  */
 export class PythonWorker {
   private proc: ChildProcess | null = null;
@@ -71,12 +70,10 @@ export class PythonWorker {
     this.bootTimeoutMs = opts.bootTimeoutMs ?? 15_000;
   }
 
-  /** PID of the live worker, if any (diagnostics / tests). */
   get pid(): number | undefined {
     return this.proc?.pid;
   }
 
-  /** Idempotent: ensures a live, ready worker, coalescing concurrent callers. */
   async start(): Promise<void> {
     if (this.stopped) throw new Error("vision worker has been stopped");
     if (this.proc && this.ready) return;
@@ -89,7 +86,6 @@ export class PythonWorker {
   }
 
   private async boot(): Promise<void> {
-    // Exponential backoff throttles crash/boot loops (reset on a real response).
     if (this.failureStreak > 0) {
       await sleep(Math.min(5000, 100 * 2 ** Math.min(this.failureStreak - 1, 6)));
     }
@@ -102,6 +98,14 @@ export class PythonWorker {
     }
   }
 
+  private rejectAllPending(err: Error): void {
+    for (const p of this.pending.values()) {
+      clearTimeout(p.timer);
+      p.reject(err);
+    }
+    this.pending.clear();
+  }
+
   private spawnWorker(): Promise<void> {
     const proc = spawn(this.pythonBin, ["-m", "vision_worker"], {
       cwd: WORKER_CWD,
@@ -111,8 +115,6 @@ export class PythonWorker {
     this.proc = proc;
     this.ready = false;
 
-    // Worker stderr is diagnostics only — forward to our stderr, never stdout
-    // (our stdout is the MCP protocol channel to the host).
     proc.stderr?.setEncoding("utf8");
     proc.stderr?.on("data", (chunk: string) => process.stderr.write(chunk));
 
@@ -127,17 +129,9 @@ export class PythonWorker {
         new Error(`vision worker exited (code=${code}, signal=${signal})`),
         { workerCrashed: true },
       );
-      for (const p of this.pending.values()) {
-        clearTimeout(p.timer);
-        p.reject(err);
-      }
-      this.pending.clear();
-
-      // Fail an in-flight boot immediately instead of waiting for bootTimer
-      // (e.g. a Python import error that exits before emitting `ready`).
+      this.rejectAllPending(err);
       this.bootReject?.(err);
 
-      // Count unexpected deaths of a healthy worker toward the backoff streak.
       if (!this.stopped && wasReady) this.failureStreak++;
     });
 
@@ -176,6 +170,13 @@ export class PythonWorker {
         }
 
         if (msg.event === "ready") {
+          if (msg.protocol !== undefined && msg.protocol !== 1) {
+            settleReject(
+              new Error(`unsupported worker protocol: ${String(msg.protocol)}`),
+            );
+            this.proc?.kill("SIGKILL");
+            return;
+          }
           this.ready = true;
           cleanup();
           resolve();
@@ -194,7 +195,6 @@ export class PythonWorker {
       );
       return;
     }
-    // A well-formed response proves the worker is alive and doing work.
     this.failureStreak = 0;
 
     const p = this.pending.get(id);
@@ -221,9 +221,6 @@ export class PythonWorker {
     try {
       return await this.send<T>(method, params);
     } catch (e) {
-      // A crash of a previously-healthy worker → retry once on a fresh worker.
-      // Comparisons are idempotent, so a single replay is safe. Timeouts and
-      // worker-reported errors are not retried.
       if ((e as { workerCrashed?: boolean })?.workerCrashed && !this.stopped) {
         return this.send<T>(method, params);
       }
@@ -245,11 +242,9 @@ export class PythonWorker {
     return new Promise<T>((resolve, reject) => {
       const timer = setTimeout(() => {
         this.pending.delete(id);
-        reject(
-          new Error(
-            `worker request '${method}' timed out after ${this.requestTimeoutMs}ms`,
-          ),
-        );
+        const message = `worker request '${method}' timed out after ${this.requestTimeoutMs}ms`;
+        reject(workerError("WorkerTimeout", message));
+        this.proc?.kill("SIGKILL");
       }, this.requestTimeoutMs);
 
       this.pending.set(id, {
@@ -270,10 +265,12 @@ export class PythonWorker {
 
   async stop(): Promise<void> {
     this.stopped = true;
+    this.rejectAllPending(
+      workerError("WorkerShutdown", "vision worker shut down"),
+    );
+
     const proc = this.proc;
     if (!proc) return;
-    // Already exited (or exiting): nothing to wait on — avoids hanging on a
-    // `once('exit')` that will never fire.
     if (proc.exitCode !== null || proc.signalCode !== null) return;
 
     proc.stdin?.end();
@@ -281,7 +278,6 @@ export class PythonWorker {
     try {
       await once(proc, "exit");
     } catch {
-      /* already gone */
     } finally {
       clearTimeout(killTimer);
     }
