@@ -43,6 +43,7 @@
       const target = document.querySelector(href);
       if (!target) return;
       e.preventDefault();
+      if (target.id === "drylender-case-study") target.focus({ preventScroll: true });
       if (lenis) lenis.scrollTo(target, { offset: -68 });
       else target.scrollIntoView({ behavior: prefersReduced ? "auto" : "smooth" });
       history.replaceState(null, "", href);

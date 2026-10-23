@@ -64,8 +64,9 @@
           A reference goes in, your build goes in. Out comes a score that
           <em>rises as you get closer</em> — and a punch-list of what to fix.
         </p>
-        <div class="hero-actions reveal">
+        <div class="hero-actions">
           <a class="btn btn-dark btn-lg" href="#install">Install it</a>
+          <a class="btn btn-outline btn-lg case-study-jump" href="#drylender-case-study">Watch the case study</a>
           <a class="btn btn-outline btn-lg" href="https://github.com/codenameakshay/design-compare-mcp" target="_blank" rel="noopener">View on GitHub&nbsp;↗</a>
         </div>
       </div>
@@ -99,6 +100,79 @@
           </ul>
         </div>
       </div>
+    </section>
+
+    <section class="section case-study" id="drylender-case-study" aria-labelledby="case-study-title" tabindex="-1">
+      <p class="eyebrow">In practice · iOS recreation</p>
+      <h2 class="statement" id="case-study-title">Drylendar, rebuilt as DryLender.</h2>
+      <p class="idea-note">See how regional image diagnostics and sampled transitions helped guide an independent iOS recreation. Play and scrub the reference and clone separately.</p>
+
+      <div class="case-study-pair">
+        <figure class="case-study-film">
+          <figcaption>
+            <p class="case-study-role" id="original-video-role">Original reference</p>
+            <h3 id="original-video-title">Drylendar</h3>
+          </figcaption>
+          <video controls playsinline preload="none" width="590" height="1278" poster="assets/drylender/original-poster.jpg" aria-labelledby="original-video-role original-video-title" aria-describedby="original-video-description original-video-context original-video-walkthrough">
+            <source src="assets/drylender/original.mp4" type="video/mp4" />
+            Your browser cannot play this video. Use the direct link below.
+          </video>
+          <div class="case-study-caption">
+            <p id="original-video-description">Silent excerpts of the settings, calendar settings and drink editor. Watch the settings controls and the logging card's changing drink count and appearance.</p>
+            <p id="original-video-context">Edited and redacted reference footage. Original app: <a href="https://drylendar.com/">Drylendar</a> by App Craft Consulting.</p>
+            <details class="case-study-method">
+              <summary>Read the visual walkthrough</summary>
+              <p id="original-video-walkthrough">The portrait recording opens in Settings with purchases, notifications, calendar, social-account and privacy controls. A cut shows Intermediate shades, appearance choices and a timezone row whose value is covered. Another cut opens the green zero-drink editor. It briefly closes to the calendar and reopens. The count rises through ten as the card changes through yellow, orange and red. A Blackout toggle changes it between red and dark gray. Down/up arrows, Submit and Cancel remain visible. There is no audio.</p>
+            </details>
+            <a class="case-study-media-link" href="assets/drylender/original.mp4">Open original video <span aria-hidden="true">↗</span></a>
+          </div>
+        </figure>
+
+        <figure class="case-study-film case-study-film-clone">
+          <figcaption>
+            <p class="case-study-role" id="clone-video-role">Independent clone</p>
+            <h3 id="clone-video-title">DryLender</h3>
+          </figcaption>
+          <video controls playsinline preload="none" width="720" height="1680" poster="assets/drylender/clone-poster.jpg" aria-labelledby="clone-video-role clone-video-title" aria-describedby="clone-video-description clone-video-context clone-video-walkthrough">
+            <source src="assets/drylender/clone.mp4" type="video/mp4" />
+            Your browser cannot play this video. Use the direct link below.
+          </video>
+          <div class="case-study-caption">
+            <p id="clone-video-description">Silent demo of the recreated calendar, logging card and supporting screens. Watch the calendar layout, card opening and number changes in the recreation.</p>
+            <p id="clone-video-context">Edited DryLender development demo.</p>
+            <details class="case-study-method">
+              <summary>Read the visual walkthrough</summary>
+              <p id="clone-video-walkthrough">A title introduces DryLender. Captioned segments show a monthly calendar, a SobriScore sheet and yearly grids, then range selection and a multi-day drink card. Balloons cross the calendar. A past-day editor changes a drink count and returns to the calendar. Party mode opens a drink card and then a Lock Screen Live Activity with the iOS permission prompt still open. Reward cards open and animate. The final section opens Settings and a CSV export share sheet. The edit includes cuts and held frames. There is no audio.</p>
+            </details>
+            <a class="case-study-media-link" href="assets/drylender/clone.mp4">Open clone video <span aria-hidden="true">↗</span></a>
+          </div>
+        </figure>
+      </div>
+
+      <p class="case-study-credit">Independent recreation. No affiliation with or endorsement by Drylendar. Third-party UI and footage are not covered by this repository's MIT license.</p>
+
+      <div class="case-study-notes">
+        <div>
+          <h3>Compare a region. Refine the detail.</h3>
+          <p>We extracted reference frames and paired them with clone screenshots. Regional <code>compare_designs</code> diagnostics guided calendar geometry and log-card styling, separating local differences from changes in scroll position.</p>
+          <p>For the log-card opening and a number change, we used <code>compare_motion</code> on selected frame sequences to inspect motion energy and timing.</p>
+        </div>
+        <div>
+          <h3>The useful lesson</h3>
+          <p>Select the same state first, then compare it. Extracting matching frames was a manual step here; keeping frame selection separate from scoring made the diagnostics easier to interpret.</p>
+          <p>Visual scores do not establish gesture correctness. Taps, swipes and navigation need separate behavioral checks.</p>
+          <p>That preparation step now has a tool. <code>extract_video_frames</code> takes a short window from a local recording and returns absolute frame paths, source timestamps and a saved manifest for repeatable comparisons.</p>
+        </div>
+      </div>
+
+      <details class="case-study-method">
+        <summary>Recording context and comparison limits</summary>
+        <div class="case-study-method-body">
+          <p>These edits follow different routes and timings, so playback is independent. The original includes only settings, calendar settings and the drink editor. The clone demo predates the build-4 tap fix and does not show the latest build.</p>
+          <p>The development comparisons used matching regions and selected interactions, not these complete edits. For a repeatable comparison, retain each source timestamp and crop, and sample the same action at a comparable cadence and duration. Read <code>motion_status</code> first; static or unreliable captures are inconclusive. No whole-app fidelity score is claimed.</p>
+        </div>
+      </details>
+      <a class="case-study-install" href="#install">Use Design Compare MCP in your workflow <span aria-hidden="true">↓</span></a>
     </section>
 
     <!-- THE IDEA -->
@@ -498,6 +572,7 @@ npm run smoke   # ends with: ALL CHECKS PASSED ✅</code></pre>
         <div>
           <h4>Product</h4>
           <a href="#idea">How it works</a>
+          <a href="#drylender-case-study">DryLender case study</a>
           <a href="#dimensions">Dimensions</a>
           <a href="#try">Try it</a>
           <a href="#install">Install</a>

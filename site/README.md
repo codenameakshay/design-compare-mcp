@@ -35,6 +35,42 @@ JetBrains Mono), so it also drops straight onto Netlify, Vercel, or any static h
 
 ## Notes
 
+### DryLender case study
+
+The case study sits immediately after the hero at `#drylender-case-study`. Its HTML, descriptions,
+native video controls, direct-file links and method disclosure work without JavaScript. The hero
+CTA and footer link jump to it; the only JavaScript addition transfers keyboard focus to the section
+when the existing smooth-scroll handler intercepts that jump.
+
+The media lives at these project-relative paths:
+
+```
+assets/drylender/original.mp4
+assets/drylender/original-poster.jpg
+assets/drylender/clone.mp4
+assets/drylender/clone-poster.jpg
+```
+
+Both edits are silent H.264 MP4s. Native playback is independent, with no autoplay and
+`preload="none"`. The 590×1278 reference and 720×1680 clone keep their full portrait frames,
+capped at 600px tall and stacked below 780px. Descriptions sit beside each player.
+
+The original includes only settings, calendar settings and the drink editor. The clone demo
+predates the build-4 tap fix. Keep edits, source credit and build context accurate when replacing
+media. Third-party UI and footage are not covered by this repository's MIT license.
+
+Development evidence: `/tmp/drylender-parity/parity.py` and `score.mjs` for regional
+`compare_designs` diagnostics; `motion.mjs` for selected `compare_motion` runs. Extraction was
+manual. The new <code>extract_video_frames</code> tool turns a bounded local recording window into
+absolute frame paths and a provenance manifest. It was added after the recorded development work.
+
+Before publishing, review footage permissions and redactions, confirm posters and descriptions,
+and test playback/seek/fullscreen on real iOS Safari. Check 320px reflow, 200% zoom, keyboard
+focus, disabled JavaScript, reduced motion and failed-media fallback links. Verify relative URLs
+under `/design-compare-mcp/`; local checks do not establish deployed availability.
+
+### Existing demos
+
 - The interactive demos run the **same core math the Python worker uses** — the geometric-mean
   formula from `aggregate.py` (floor 1.0) and the `100·exp(−ΔE/19)` color score with a CIEDE2000
   implementation ported from `metrics/color.py`. The worker also penalizes unmatched palette mass;
