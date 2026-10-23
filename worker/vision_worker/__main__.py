@@ -76,6 +76,8 @@ def handle_ping(params: dict) -> dict:
 
 
 def handle_compare_designs(params: dict) -> dict:
+    if "comparisonContext" in params and params["comparisonContext"] is None:
+        raise ValueError("comparisonContext must be an object when supplied")
     return _compare(
         reference=params.get("reference", ""),
         candidate=params.get("candidate", ""),
@@ -84,6 +86,7 @@ def handle_compare_designs(params: dict) -> dict:
         return_visuals=params.get("returnVisuals", True),
         weights=params.get("weights"),
         preset=params.get("preset"),
+        comparison_context=params.get("comparisonContext"),
     )
 
 

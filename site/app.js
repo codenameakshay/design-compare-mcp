@@ -1,8 +1,8 @@
 /* =============================================================
    design-compare-mcp landing — interactions
-   The two demos below run the SAME math the Python worker uses:
-   - weighted geometric mean (aggregate.py)
-   - color score = 100 * exp(-meanΔE / 19), ΔE via CIEDE2000 (color.py)
+   Browser-only formula illustrations, not full worker comparisons:
+   - weighted geometric mean on illustrative slider inputs
+   - single-color ΔE via CIEDE2000, with illustrative feedback
    ============================================================= */
 (function () {
   "use strict";
@@ -43,7 +43,7 @@
       const target = document.querySelector(href);
       if (!target) return;
       e.preventDefault();
-      if (target.id === "drylender-case-study") target.focus({ preventScroll: true });
+      if (target.id === "drylender-case-study" || target.id === "reliability-examples") target.focus({ preventScroll: true });
       if (lenis) lenis.scrollTo(target, { offset: -68 });
       else target.scrollIntoView({ behavior: prefersReduced ? "auto" : "smooth" });
       history.replaceState(null, "", href);
@@ -61,7 +61,10 @@
       (entries) => entries.forEach((e) => { if (e.isIntersecting) show(e.target); }),
       { threshold: 0, rootMargin: "0px 0px -50px 0px" }
     );
-    revealEls.forEach((el) => io.observe(el));
+    revealEls.forEach((el) => {
+      el.classList.add("reveal-pending");
+      io.observe(el);
+    });
     // Safety net: IntersectionObserver delivers async and can miss elements during
     // fast/programmatic scrolls, leaving whole sections invisible. On every scroll,
     // reveal anything already within (or above) the viewport so nothing stays hidden.
@@ -81,7 +84,7 @@
     sweep(); // reveal above-the-fold immediately
   }
 
-  /* ---------- hero score count-up ---------- */
+  /* ---------- illustrative hero score count-up, not measured output ---------- */
   const counter = $("[data-count]");
   if (counter) {
     const target = parseFloat(counter.getAttribute("data-count"));
@@ -127,7 +130,7 @@
   });
 
   /* =============================================================
-     DEMO 1 — weighted geometric mean (mirrors aggregate.py)
+     DEMO 1 — weighted geometric mean illustration, without worker status handling
      ============================================================= */
   const DIMS = [
     { key: "layout", label: "layout" },
@@ -136,6 +139,7 @@
     { key: "typography", label: "typography" },
     { key: "spacing", label: "spacing" },
   ];
+  // Preset weights and floor checked against aggregate.py. START is illustrative.
   const PRESETS = {
     default: { layout: 0.35, color: 0.2, content: 0.15, typography: 0.15, spacing: 0.15 },
     "dark-ui": { layout: 0.6, typography: 0.3, color: 0.1, content: 0, spacing: 0 },
@@ -193,13 +197,8 @@
     geoEl.textContent = geo.toFixed(1);
     arithEl.textContent = arith.toFixed(1);
     const gap = arith - geo;
-    if (gap >= 1.5) {
-      gapEl.textContent = `arithmetic hides the weak dimension by +${gap.toFixed(1)} — geometric won't let you.`;
-      gapEl.style.color = "";
-    } else {
-      gapEl.textContent = "balanced scores — the two means nearly agree.";
-      gapEl.style.color = "var(--ink-mute)";
-    }
+    gapEl.textContent = `The geometric mean is ${gap.toFixed(1)} points below the arithmetic mean for these inputs.`;
+    gapEl.style.color = "var(--ink-mute)";
   }
 
   $$(".demo-presets .chip-btn").forEach((btn) => {
@@ -214,10 +213,8 @@
   if (slidersEl) { buildSliders(); recompute(); }
 
   /* =============================================================
-     DEMO 2 — color ΔE2000 → score (mirrors color.py)
+     DEMO 2 — illustrative single-color ΔE2000, not the worker's color metric
      ============================================================= */
-  const DECAY = 19;
-
   function hexToRgb(hex) {
     const h = hex.replace("#", "");
     return [parseInt(h.slice(0, 2), 16), parseInt(h.slice(2, 4), 16), parseInt(h.slice(4, 6), 16)];
@@ -285,7 +282,7 @@
   if (refColor && candColor) {
     const refHex = $("#ref-hex"), candHex = $("#cand-hex");
     const swRef = $("#sw-ref"), swCand = $("#sw-cand");
-    const deVal = $("#de-val"), deScore = $("#de-score");
+    const deVal = $("#de-val");
     const finding = $("#color-finding");
 
     function updateColor() {
@@ -293,19 +290,17 @@
       refHex.textContent = rh; candHex.textContent = ch;
       swRef.style.background = rh; swCand.style.background = ch;
       const dE = ciede2000(rgbToLab(hexToRgb(rh)), rgbToLab(hexToRgb(ch)));
-      const score = 100 * Math.exp(-dE / DECAY);
       deVal.textContent = dE.toFixed(1);
-      deScore.textContent = score.toFixed(1);
+      // A browser-only feedback threshold, not worker finding/severity rules.
       if (dE < 2) {
         finding.className = "finding ok";
-        finding.innerHTML = `<span class="f-type">no finding</span>ΔE ${dE.toFixed(1)} is below the just-noticeable threshold — this color matches. Score ${score.toFixed(1)}.`;
+        finding.innerHTML = `<span class="f-type">Illustrative feedback</span>ΔE ${dE.toFixed(1)} is below this illustration's feedback threshold.`;
       } else {
         finding.className = "finding";
-        const sev = dE >= 10 ? "high" : dE >= 4 ? "medium" : "low";
         finding.innerHTML =
-          `<span class="f-type">color_shift · ${sev}</span>` +
-          `a dominant color reads as <b>${ch}</b> but the reference uses <b>${rh}</b> (ΔE ${dE.toFixed(0)}). ` +
-          `suggested_fix: shift ${ch} toward ${rh}.`;
+          `<span class="f-type">Illustrative feedback</span>` +
+          `The chosen candidate <b>${ch}</b> differs from reference <b>${rh}</b> by ΔE ${dE.toFixed(1)}. ` +
+          `Try moving the candidate toward the reference to explore the difference.`;
       }
     }
     refColor.addEventListener("input", updateColor);

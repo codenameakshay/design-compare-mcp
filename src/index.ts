@@ -102,10 +102,16 @@ server.registerTool(
       "reference design image. Returns an overall score, five sub-scores (layout, color, content, " +
       "typography, spacing) each with status scored | not_applicable | failed, findings, a canvas " +
       "mapping (reference pixels ↔ 768 normalized space), and diagnostic images. " +
+      "Read diagnostics.status and issues before treating scores as product differences. " +
+      "Alignment fallback, near-uniform inputs, applied translations and mask fill require review; " +
+      "an empty comparison scope is inconclusive even if overall is high. " +
+      "provenance.comparison_key identifies reference/settings/runtime; run_key also identifies " +
+      "candidate pixels. Re-score baselines when comparison_key changes. Caller-declared " +
+      "comparisonContext records external scope/protocol identity without verifying capture. " +
       "ignoreRegions are [x,y,w,h] in original reference image pixels; finding boxes are in the " +
       "canonical 768 canvas. Failed dimensions still contribute a floor to the overall geo-mean. " +
       "Use preset: 'dark-ui' for dark single-theme UI ports. Static comparison cannot judge " +
-      "animation — use compare_motion for motion fidelity.",
+      "animation — use compare_motion for sampled motion diagnostics, not animation fidelity.",
     inputSchema: CompareInputShape,
   },
   async (args) => {
@@ -126,9 +132,12 @@ server.registerTool(
     description:
       "Compare the MOTION of a component from two frame sequences (reference vs candidate), each a " +
       "directory of frames or an array of frame paths captured over time. Returns motion energy, " +
-      "temporal rhythm (signature correlation), motion_status (compared | static | capture_unreliable), " +
-      "and motion_score (number or null). Read motion_status before trusting motion_score: null means " +
-      "inconclusive, not a perfect 100. static and capture_unreliable never imply a score of 100. " +
+      "frame-index profile correlation, motion_status (compared | static | capture_unreliable), " +
+      "and motion_energy_score (number or null; motion_score is its compatibility alias). " +
+      "Energy similarity does not measure animation fidelity. Read timing_diagnostics separately: " +
+      "inputs have no timestamps, so timing is inconclusive and cadence is not verified. " +
+      "Unequal-length sequences have no profile correlation; they are never silently truncated. " +
+      "Null energy scores mean static or unreliable captures, not a perfect 100. " +
       "Includes a motion-signature chart when returnVisuals is true.",
     inputSchema: CompareMotionInputShape,
   },

@@ -22,6 +22,8 @@ def estimate_alignment(
         return None, {
             "method": "identity",
             "fallback": True,
+            "outcome": "not_requested",
+            "reason": "widget_identity",
             "note": "widget mode assumes a pre-aligned crop",
         }
 
@@ -30,8 +32,9 @@ def estimate_alignment(
     warp = np.eye(2, 3, dtype=np.float32)
     criteria = (cv2.TERM_CRITERIA_EPS | cv2.TERM_CRITERIA_COUNT, 200, 1e-6)
 
-    def _identity(note: str, **extra) -> tuple[None, dict]:
-        diag = {"method": "identity", "fallback": True, "note": note}
+    def _identity(reason: str, note: str, **extra) -> tuple[None, dict]:
+        diag = {"method": "identity", "fallback": True, "note": note,
+                "outcome": "identity_fallback", "reason": reason}
         diag.update(extra)
         return None, diag
 
@@ -41,6 +44,7 @@ def estimate_alignment(
         )
     except Exception as exc:
         return _identity(
+            "ecc_nonconvergence",
             f"ECC did not converge; fell back to identity ({exc.__class__.__name__})"
         )
 
@@ -50,9 +54,10 @@ def estimate_alignment(
     extra = {"cc": round(cc_f, 4), "dx": round(dx, 2), "dy": round(dy, 2)}
 
     if cc_f < 0.3:
-        return _identity(f"ECC correlation {cc_f:.3f} below 0.3", **extra)
+        return _identity("ecc_low_correlation", f"ECC correlation {cc_f:.3f} below 0.3", **extra)
     if abs(dx) > limit or abs(dy) > limit:
         return _identity(
+            "ecc_translation_limit",
             f"ECC translation too large (dx={dx:.1f}, dy={dy:.1f})", **extra
         )
 
@@ -60,16 +65,21 @@ def estimate_alignment(
         warped = apply_warp(cand_gray, warp, (h, w))
         ssim_warp, _ = structure_score(ref_gray, warped)
         ssim_id, _ = structure_score(ref_gray, cand_gray)
+        extra["_layout_identity_score"] = ssim_id
         if ssim_warp < ssim_id:
-            return _identity("ECC warp reduced SSIM vs identity", **extra)
+            return _identity("ecc_worsened_ssim", "ECC warp reduced SSIM vs identity", **extra)
     except Exception as exc:
         return _identity(
+            "ecc_ssim_check_failed",
             f"ECC warp SSIM check failed ({exc.__class__.__name__})", **extra
         )
 
     return warp, {
         "method": "ecc_translation",
         "fallback": False,
+        "outcome": "applied",
+        "reason": "ecc_accepted",
+        "_layout_identity_score": ssim_id,
         "cc": round(cc_f, 4),
         "dx": round(dx, 2),
         "dy": round(dy, 2),
