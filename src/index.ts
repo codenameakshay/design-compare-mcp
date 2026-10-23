@@ -5,13 +5,18 @@ import { z } from "zod";
 import { PythonWorker, type WorkerError } from "./worker-client.js";
 import { readFileSync } from "node:fs";
 import { captureFrames } from "./capture.js";
+import { extractVideoFrames } from "./extract-video.js";
+import { VideoExtractionError } from "./video-process.js";
 import {
   CompareInputShape,
   CompareMotionInputShape,
   CaptureFramesInputShape,
+  ExtractVideoFramesInput,
 } from "./schema.js";
 
 const worker = new PythonWorker();
+const extractionShutdown = new AbortController();
+const activeExtractions = new Set<ReturnType<typeof extractVideoFrames>>();
 
 const server = new McpServer({
   name: "design-compare-mcp",
@@ -140,6 +145,32 @@ server.registerTool(
 );
 
 server.registerTool(
+  "extract_video_frames",
+  {
+    description: "Extract PNGs from an absolute local self-contained MP4/MOV path. Samples the half-open window at fps (default 5), at most 20 seconds and 120 requests. Uses actual decoded presentation timestamps, never an fps filter. Returns unique ordered absolute frames and a provenance manifest with selected/shared/unavailable sample mappings. Review sparse/incomplete sampling before comparing motion. No alignment or scoring. Requires ffmpeg and ffprobe on PATH.",
+    inputSchema: ExtractVideoFramesInput,
+  },
+  async (args, { signal }) => {
+    const extraction = extractVideoFrames(args, AbortSignal.any([signal, extractionShutdown.signal]));
+    activeExtractions.add(extraction);
+    try {
+      const result = await extraction;
+      return { content: [{ type: "text", text: JSON.stringify(result, null, 2) }] };
+    } catch (error) {
+      return {
+        isError: true,
+        content: [{ type: "text", text: JSON.stringify({
+          type: error instanceof VideoExtractionError ? error.code : "ExtractionError",
+          message: error instanceof Error ? error.message : String(error),
+        }) }],
+      };
+    } finally {
+      activeExtractions.delete(extraction);
+    }
+  },
+);
+
+server.registerTool(
   "capture_frames",
   {
     description:
@@ -148,7 +179,7 @@ server.registerTool(
       "Use clip to crop to a preview, actions to navigate/trigger before sampling, and " +
       "waitForFlutter for Flutter web apps — flutter wait outcome is always reported, never swallowed. " +
       "When DESIGN_COMPARE_ALLOWED_ROOTS is set, outDir must lie inside one of those roots " +
-      "(server-created temp dirs are always allowed). Returns the output directory, blank detection, " +
+      "and should be set explicitly for restricted comparisons. Returns ordered frames, the output directory, blank detection, " +
       "flutterWait when requested, and sample frames. Requires Chrome/Chromium (DESIGN_COMPARE_CHROME).",
     inputSchema: CaptureFramesInputShape,
   },
@@ -158,6 +189,7 @@ server.registerTool(
       const summary: Record<string, unknown> = {
         dir: res.dir,
         count: res.count,
+        frames: res.frames,
         intervalMs: res.intervalMs,
         url: res.url,
         blank: res.blank,
@@ -206,6 +238,8 @@ async function shutdown(reason: string): Promise<void> {
   if (shuttingDown) return;
   shuttingDown = true;
   process.stderr.write(`[design-compare-mcp] shutting down (${reason})\n`);
+  extractionShutdown.abort(new Error("Server is shutting down"));
+  await Promise.allSettled(activeExtractions);
 
   const forceExit = setTimeout(() => {
     process.stderr.write("[design-compare-mcp] shutdown timed out; forcing exit\n");

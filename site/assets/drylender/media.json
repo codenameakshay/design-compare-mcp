@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "reference": {
+    "src": "original.mp4",
+    "poster": "original-poster.jpg",
+    "label": "Drylendar reference, edited and redacted",
+    "durationSeconds": 13.377031,
+    "bytes": 1996537,
+    "width": 590,
+    "height": 1278,
+    "hasAudio": false,
+    "alt": "Edited Drylendar reference showing Settings, calendar appearance controls with the timezone hidden, and the drink-count editor changing from green through yellow, orange and red to a dark blackout state.",
+    "description": "A portrait phone recording opens in Settings with purchases, notifications, calendar, social-account and privacy controls. A hard cut shows Intermediate shades, appearance choices and a timezone row whose value is covered by an opaque rectangle. Another cut opens the zero-drink editor. It briefly closes to the user's calendar and reopens. The count rises through ten while the card changes color, and a Blackout toggle changes it between red and dark gray. Down/up arrows, Submit and Cancel remain visible. This silent excerpt does not establish persistence or all gesture behavior.",
+    "posterAlt": "Drylendar's green zero-drink editor with down/up arrows, Submit and Cancel.",
+    "posterSeekSeconds": 4.5,
+    "credit": "Reference UI: Drylendar by App Craft Consulting. User-supplied screen recording. Independent DryLender recreation; no affiliation or endorsement implied."
+  },
+  "clone": {
+    "src": "clone.mp4",
+    "poster": "clone-poster.jpg",
+    "label": "Edited simulator walkthrough; demo replays user-provided history",
+    "durationSeconds": 53.766667,
+    "bytes": 6920593,
+    "width": 720,
+    "height": 1680,
+    "hasAudio": false,
+    "alt": "Edited DryLender simulator walkthrough with captions, showing the calendar and SobriScore, multi-day fill, a past-day editor, Party-mode Live Activity with a permission prompt, reward cards, and CSV export controls.",
+    "description": "A title introduces DryLender. Captioned segments show a monthly calendar, a SobriScore sheet and yearly grids, then range selection and a multi-day drink card. Balloon animations cross the calendar. A past-day editor changes a drink count and returns to the calendar. Party mode opens a drink card and then a Lock Screen Live Activity with the iOS permission prompt still open. Reward cards open and animate. The final section opens Settings and a CSV export share sheet. The supplied edit retains all cuts and held frames. There is no audio.",
+    "posterAlt": "DryLender's orange five-drink editor beneath the caption Edit any past day, with down/up arrows, Submit and Cancel.",
+    "posterSeekSeconds": 26,
+    "limitations": [
+      "The Live Activity permission prompt remains open; successful Lock Screen arrow interactions and removal on close are not demonstrated.",
+      "This pre-build-4 recording predates the real-touch single-tap gesture fix and does not demonstrate that fix.",
+      "Balloons are visible, but no balloon pop or haptics are recorded.",
+      "The export share sheet is shown, but a completed import or export/import round trip is not.",
+      "Cuts and held frames prevent latency claims. Existing captions are retained section labels, not independent behavior verification."
+    ]
+  }
+}

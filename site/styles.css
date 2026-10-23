@@ -211,6 +211,51 @@ mark { background: transparent; color: var(--coral); }
 .hero-sub em { font-style: italic; color: var(--ink); }
 .hero-actions { display: flex; gap: 14px; justify-content: flex-start; flex-wrap: wrap; }
 
+.case-study { scroll-margin-top: 88px; }
+.case-study .statement { max-width: 23ch; text-wrap: balance; }
+.case-study-pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; margin-top: 32px; }
+.case-study-film {
+  min-width: 0; margin: 0; padding: clamp(16px, 3vw, 28px);
+  border-radius: var(--radius-card); background: var(--cream);
+  display: flex; flex-direction: column; align-items: stretch;
+}
+.case-study-film-clone { background: var(--lav); }
+.case-study-film figcaption { margin-bottom: 24px; }
+.case-study-role { margin: 0 0 4px; font-size: 15px; color: var(--ink); }
+.case-study-film h3 {
+  font-family: var(--font-display); font-weight: 500; font-size: clamp(1.5rem, 3vw, 2rem);
+  line-height: 1.2; letter-spacing: -0.02em; margin: 0;
+}
+.case-study-film video {
+  display: block; width: min(100%, 277px); height: auto; aspect-ratio: 590 / 1278;
+  max-height: 600px; margin: 0 auto; object-fit: contain;
+  background: var(--ink); border-radius: var(--radius-sm);
+}
+.case-study-film-clone video { width: min(100%, calc(600px * 3 / 7)); aspect-ratio: 3 / 7; }
+.case-study-caption { margin-top: 24px; }
+.case-study-caption p { margin: 0 0 14px; color: var(--ink); }
+.case-study a { text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; }
+.case-study a:hover { text-decoration-thickness: 2px; }
+.case-study-media-link, .case-study-install { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; font-weight: 600; }
+.case-study-credit { margin: 20px 0 0; max-width: 75ch; color: var(--ink-soft); font-size: 15px; }
+.case-study-notes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 48px; margin-top: 56px; }
+.case-study-notes h3 { font-family: var(--font-display); font-size: 1.4rem; font-weight: 500; line-height: 1.25; margin: 0 0 16px; }
+.case-study-notes p { margin: 0 0 16px; color: var(--ink-soft); }
+.case-study-method { margin-top: 24px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.case-study-method summary { cursor: pointer; padding: 22px 0; font-family: var(--font-display); font-weight: 500; font-size: 1.15rem; }
+.case-study-method-body { max-width: 75ch; padding-bottom: 24px; color: var(--ink-soft); }
+.case-study-method-body p { margin: 0; }
+.case-study-method-body p + p { margin-top: 16px; }
+.case-study-install { margin-top: 20px; }
+.case-study :focus-visible, .case-study-jump:focus-visible, .case-study:focus-visible {
+  outline: 3px solid var(--ink); outline-offset: 5px;
+}
+.case-study:focus:not(:focus-visible) { outline: none; }
+@media (max-width: 780px) {
+  .case-study-pair, .case-study-notes { grid-template-columns: minmax(0, 1fr); }
+  .case-study-notes { gap: 24px; margin-top: 40px; }
+}
+
 /* hero visual */
 .hero-visual {
   margin: 16px auto 0; max-width: var(--maxw);
@@ -360,8 +405,8 @@ mark { background: transparent; color: var(--coral); }
 /* ---------- interactive demos ---------- */
 .demos { display: grid; grid-template-columns: 1.15fr 1fr; gap: 20px; margin-top: 44px; align-items: start; }
 @media (max-width: 900px) { .demos { grid-template-columns: 1fr; } }
-.demo { background: #fff; border-radius: 24px; padding: 28px; border: 1px solid var(--line); }
-.demo-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 6px; }
+.demo { min-width: 0; background: #fff; border-radius: 24px; padding: 28px; border: 1px solid var(--line); }
+.demo-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 6px; }
 .demo-head h3 { font-family: var(--font-display); font-weight: 600; font-size: 1.35rem; margin: 0; letter-spacing: -0.01em; }
 .demo-desc { font-family: var(--font-display); font-size: 0.98rem; color: var(--ink-soft); line-height: 1.45; margin: 0 0 22px; }
 .demo-presets { display: flex; gap: 6px; }

@@ -3,13 +3,24 @@ import path from "node:path";
 
 const serverTempDirs = new Set<string>();
 
-function allowedRoots(): string[] {
+export function allowedRoots(): string[] {
   const raw = process.env.DESIGN_COMPARE_ALLOWED_ROOTS ?? "";
   if (!raw.trim()) return [];
   return raw
     .split(path.delimiter)
     .map((p) => p.trim())
     .filter(Boolean);
+}
+
+export function assertReadableFile(file: string): string {
+  if (!path.isAbsolute(file)) throw new Error("Use an absolute local file path; relative paths resolve in the server working directory, not the caller project");
+  const resolved = fs.realpathSync(file);
+  const roots = allowedRoots();
+  if (roots.length && !roots.some(root => isInsideRoot(resolved, resolveReal(root)))) {
+    throw new Error(`File is outside DESIGN_COMPARE_ALLOWED_ROOTS: ${file}`);
+  }
+  if (!fs.statSync(resolved).isFile()) throw new Error(`Not a regular local file: ${file}`);
+  return resolved;
 }
 
 function resolveReal(p: string): string {

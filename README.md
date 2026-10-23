@@ -59,6 +59,8 @@ The core design principle: **the score's job is to be actionable and monotonic, 
 ## Install & register
 
 Requirements: **Node ≥ 20**, **Python ≥ 3.10**, and (for `capture_frames`) a local **Chrome/Chromium**.
+`extract_video_frames` additionally requires **FFmpeg and ffprobe** on PATH. Install them with
+`brew install ffmpeg` on macOS or your OS package manager. Nothing is installed automatically.
 
 ```bash
 npm install
@@ -92,7 +94,11 @@ built `dist/`.
 
 ## The tools
 
-Four tools: `ping`, `compare_designs`, `compare_motion`, `capture_frames`.
+Five tools: `ping`, `compare_designs`, `compare_motion`, `capture_frames`, `extract_video_frames`.
+
+Use absolute local image/frame paths with comparison tools. Relative paths resolve in the MCP
+server's working directory, which can differ from the calling project. Extraction returns absolute
+paths ready to pass through without reconstructing filenames.
 
 ### `compare_designs` — static comparison
 
@@ -171,9 +177,82 @@ Inputs: `url` (**http or https only**), optional `frames`, `intervalMs`, `clip` 
 `viewport`, `waitMs`, `waitForFlutter` (waits for `<flutter-view>` to mount — the outcome is always
 reported as `flutterWait`), `actions` (ordered click/hover/wait steps to navigate an SPA or trigger
 an interaction before sampling), `outDir`. Drives headless Chrome, writes a PNG sequence, and returns
-the output `dir` plus first/last sample frames to confirm the capture isn't blank. **`frames: 1`**
+the output `dir`, ordered `frames` paths, and first/last sample images. **`frames: 1`**
 captures a still (pass the frame path to `compare_designs`). When `DESIGN_COMPARE_ALLOWED_ROOTS` is
-set, `outDir` must lie inside one of those roots (server-created temp dirs are always allowed).
+set, use an explicit `outDir` inside one of those roots for subsequent Python comparisons. Node's
+registration of a default capture temp directory does not extend the Python read allowlist.
+
+### `extract_video_frames` — bounded local recording samples
+
+```json
+{
+  "videoPath": "/absolute/path/to/recording with spaces.mp4",
+  "startMs": 1500,
+  "durationMs": 1000,
+  "fps": 5
+}
+```
+
+`videoPath` must be an absolute regular local `.mp4` or `.mov` file. `startMs` defaults to 0.
+`durationMs` is required, an integer from 1 through 20000. `fps` is an integer from 1 through 30,
+default 5. Unknown fields are rejected. The window must fit the video stream duration and
+`ceil(durationMs * fps / 1000)` must not exceed 120. There is no output-directory, crop, alignment,
+or arbitrary decoder-option input.
+
+Requests occur at `startMs + i * 1000 / fps` in the half-open window
+`[startMs, startMs + durationMs)`. The first actual decoded presentation frame at or after each
+request is selected, only if it is inside that window. Selection uses integer source PTS, not an
+`fps` filter or frame-index timestamps. Times normalize the first decoded source PTS to zero.
+
+The result contains a fresh `dir`, `manifestPath`, ordered absolute PNG `frames`, and `manifest`.
+Each unique selected source frame is exported once. `manifest.frames` records its `path`, actual
+normalized `actualMs`, and original integer `pts`. `manifest.samples` preserves every requested
+position with one of these shapes:
+
+- `{kind: "selected", requestedMs, frameIndex}` selects a new frame.
+- `{kind: "shared", requestedMs, frameIndex}` points to an already exported source frame.
+- `{kind: "unavailable", requestedMs}` has no frame before the exclusive end.
+
+`manifest.sampling` is `complete`, `sparse` when requests share frames, or `incomplete` when any
+request is unavailable. An empty selection errors. Out-of-range windows error rather than trim.
+Identical pixels at different source PTS remain separate frames. Missing, duplicate, or decreasing
+decoded PTS error. No repeated files or fabricated uniform motion sequence fill missing samples.
+
+The manifest also records the SHA-256 of the exact private source snapshot decoded, source byte
+size/duration/codec, encoded and oriented dimensions, rotation/display matrix, time base, input
+window/cadence, and tool/Node/FFmpeg/ffprobe versions. FFmpeg applies orientation; non-square pixels,
+non-orthogonal rotations, and changing dimensions are unsupported. Audio and source metadata are
+not copied into PNGs. The source snapshot is deleted before success.
+
+Output files and their directory become read-only, are never reused or overwritten, and remain
+until you remove them. This is filesystem read-only protection, not tamper-proof archival storage.
+To delete a retained bundle, restore owner write permission on its directory first. When
+`DESIGN_COMPARE_ALLOWED_ROOTS` is set, the server creates output inside the first writable existing
+allowed root. It never falls back outside the allowlist. Both comparison tools can therefore read
+the returned frames without a Python allowlist exception. No writable allowed root means an error.
+
+Limits per call are 512 MiB source, 16 megapixels and 12000 pixels per frame side, 120 requested
+samples, 480 million exported pixels, 12000 observed decoded frames / 12 billion decoded pixels,
+256 MiB combined subprocess output, 4 MiB decoder diagnostics, and a shared 60-second processing
+deadline. Probe/version output is capped at 1 MiB per process. At most two extractions run at once;
+each decoder uses one thread. A single decoder allocation is capped at 64 MiB. Keyframe preroll is
+also subject to the deadline; the observed-frame budget starts at FFmpeg's accurate-seek output.
+Partial output from failed calls is removed. Limits fail explicitly without resizing or shortening
+the requested evidence.
+
+Cancelling a request stops its decoder and removes its private source copy and partial output
+before releasing the extraction slot. Graceful server shutdown waits for this cleanup too.
+
+The decoder uses argument arrays, forces the MOV/MP4 demuxer, disables external data references and
+absolute aliases, and permits only the `file` input protocol. Playlists, URLs, external-reference-only
+recordings, and unsupported/corrupt media error. It never downloads inputs. FFmpeg is a native local
+decoder, not an OS sandbox; keep it patched and do not treat this as isolation for hostile tenants.
+
+Pass `frames[0]` to `compare_designs` for a reviewed matching state, or `frames` to `compare_motion`
+for independently verified matching interactions. Inspect both manifests for actual cadence and
+sparse/incomplete sampling first. The motion tool consumes paths, not timestamps, so it cannot
+enforce matched timing or semantics. Preserve `static` / `capture_unreliable` with null scores.
+Extraction itself makes no similarity claim and does not change scoring.
 
 ### The motion flow — fully agent-driven
 
@@ -409,6 +488,8 @@ Host agent ──MCP/stdio──► TS server ──spawns once──► Python 
   present, else `python3`.
 - `DESIGN_COMPARE_CHROME` — Chrome/Chromium executable for `capture_frames`. Auto-detected on
   macOS/Linux/Windows if unset.
+- `DESIGN_COMPARE_FFMPEG`, `DESIGN_COMPARE_FFPROBE` — optional executable paths for recorded-video
+  extraction. Default to `ffmpeg` and `ffprobe` on PATH. Missing executables return installation guidance.
 - `DESIGN_COMPARE_ALLOWED_ROOTS` — optional path-separated directories (`:` on macOS/Linux, `;` on Windows). When set, file reads and `capture_frames` `outDir` outside them are refused (after resolving symlinks). Unset = any local path.
 
 ## Benchmark
@@ -440,7 +521,8 @@ See [`docs/bench/results.json`](docs/bench/results.json) for the full structured
 ## Development
 
 ```bash
-npm test             # build + four Python test scripts + smoke + resilience
+npm test             # build + extraction + four Python test scripts + smoke + resilience
+node scripts/extract-video-test.mjs # focused real-video + restricted-root MCP tests, after build
 npm run bench        # latency, RSS, monotonicity, gaming, ignoreRegions, motion → docs/bench/
 npm run build        # tsc -> dist/
 npm run smoke        # end-to-end over the MCP client: all four tools

@@ -17,6 +17,7 @@ function run(cmd, args) {
 }
 
 run("npm", ["run", "build"]);
+run("node", ["scripts/extract-video-test.mjs"]);
 
 for (const test of [
   "worker/tests/test_pipeline.py",
