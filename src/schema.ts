@@ -1,4 +1,43 @@
 import { z } from "zod";
+import path from "node:path";
+
+export const ExtractVideoFramesInput = z.object({
+  videoPath: z.string().min(1).refine(path.isAbsolute, "videoPath must be an absolute local file path"),
+  startMs: z.number().finite().int().min(0).max(Number.MAX_SAFE_INTEGER - 20_000).default(0),
+  durationMs: z.number().finite().int().min(1).max(20_000),
+  fps: z.number().finite().int().min(1).max(30).default(5),
+}).strict().refine(value => Math.ceil(value.durationMs * value.fps / 1000) <= 120, {
+  message: "Requested window exceeds 120 samples",
+});
+export type ExtractVideoFramesInput = z.infer<typeof ExtractVideoFramesInput>;
+
+const VideoSample = z.discriminatedUnion("kind", [
+  z.object({ kind: z.literal("selected"), requestedMs: z.number(), frameIndex: z.number().int().nonnegative() }).strict(),
+  z.object({ kind: z.literal("shared"), requestedMs: z.number(), frameIndex: z.number().int().nonnegative() }).strict(),
+  z.object({ kind: z.literal("unavailable"), requestedMs: z.number() }).strict(),
+]);
+
+export const VideoManifest = z.object({
+  version: z.literal(1),
+  source: z.object({
+    path: z.string(), sha256: z.string(), bytes: z.number(), codec: z.string(),
+    durationMs: z.number(), width: z.number(), height: z.number(),
+    rotationDegrees: z.number(), displayMatrix: z.string().nullable(), displayWidth: z.number(), displayHeight: z.number(),
+    timeBase: z.string(), firstPts: z.number(),
+  }).strict(),
+  versions: z.object({ tool: z.string(), node: z.string(), ffmpeg: z.string(), ffprobe: z.string() }).strict(),
+  window: z.object({ startMs: z.number(), durationMs: z.number(), fps: z.number() }).strict(),
+  policy: z.literal("first decoded PTS at or after request; half-open window; unique source frames; autorotate; square pixels not rescaled"),
+  sampling: z.enum(["complete", "sparse", "incomplete"]),
+  frames: z.array(z.object({ path: z.string(), actualMs: z.number(), pts: z.number() }).strict()),
+  samples: z.array(VideoSample),
+}).strict();
+export type VideoManifest = z.infer<typeof VideoManifest>;
+
+export const ExtractVideoFramesResult = z.object({
+  dir: z.string(), manifestPath: z.string(), frames: z.array(z.string()), manifest: VideoManifest,
+}).strict();
+export type ExtractVideoFramesResult = z.infer<typeof ExtractVideoFramesResult>;
 
 /** Comparison rigor. `widget` = tight crop, assume rough alignment, strict.
  *  `screen` = full UI, robust auto-alignment, tolerant + region-based. */
@@ -33,11 +72,11 @@ const WeightsShape = z
 export const CompareInputShape = {
   reference: z
     .string()
-    .describe("Path to the reference/goal design image (PNG/JPG)."),
+    .describe("Absolute local path to the reference/goal design image (PNG/JPG). Relative paths use the server working directory, not the caller project."),
   candidate: z
     .string()
     .describe(
-      "Path to the candidate image — app screenshot, video frame, or cropped widget.",
+      "Absolute local path to the candidate image — app screenshot, video frame, or cropped widget. Relative paths use the server working directory.",
     ),
   mode: CompareMode.default("screen").describe(
     "'widget' = tight crop, strict scoring; 'screen' = full UI, tolerant, auto-aligned.",
@@ -73,7 +112,7 @@ export type CompareInput = z.infer<typeof CompareInput>;
 /** A frame sequence: a directory of frames (sorted by name) or explicit paths. */
 const FrameSource = z
   .union([z.string(), z.string().array()])
-  .describe("Directory of frames (sorted by filename) or an array of frame image paths.");
+  .describe("Absolute directory of frames (sorted by filename) or an ordered array of absolute frame image paths. Relative paths use the server working directory.");
 
 export const CompareMotionInputShape = {
   reference: FrameSource.describe(

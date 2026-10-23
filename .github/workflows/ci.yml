@@ -25,6 +25,9 @@ jobs:
 
       - run: pip install -e './worker[cv]'
 
+      - run: sudo apt-get update && sudo apt-get install -y ffmpeg
+      - run: node scripts/extract-video-test.mjs
+
       - run: python worker/tests/test_pipeline.py
       - run: python worker/tests/test_calibration.py
       - run: python worker/tests/test_robustness.py
