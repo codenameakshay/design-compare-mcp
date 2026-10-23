@@ -6,14 +6,14 @@
       },
       "errors": [],
       "latency": {
-        "max": 147.020416,
-        "median": 140.242625,
-        "min": 137.221875,
+        "max": 129.846375,
+        "median": 127.140375,
+        "min": 124.208167,
         "n": 3,
         "samples": [
-          140.242625,
-          147.020416,
-          137.221875
+          124.208167,
+          129.846375,
+          127.140375
         ],
         "unit": "ms"
       },
@@ -210,7 +210,7 @@
       "status": "ok",
       "trials": [
         {
-          "elapsed_ms": 140.242625,
+          "elapsed_ms": 124.208167,
           "result": {
             "alignment": {
               "cc": 0.9743,
@@ -403,7 +403,7 @@
           "result_sha256": "4bcb43fc34cb2576c10872d6f730c3e1d9fcfe2a04e783e55819439e5e1dcf25"
         },
         {
-          "elapsed_ms": 147.020416,
+          "elapsed_ms": 129.846375,
           "result": {
             "alignment": {
               "cc": 0.9743,
@@ -596,7 +596,7 @@
           "result_sha256": "4bcb43fc34cb2576c10872d6f730c3e1d9fcfe2a04e783e55819439e5e1dcf25"
         },
         {
-          "elapsed_ms": 137.221875,
+          "elapsed_ms": 127.140375,
           "result": {
             "alignment": {
               "cc": 0.9743,
@@ -792,7 +792,7 @@
       "unsupported_metadata_params": [],
       "warmups": [
         {
-          "elapsed_ms": 150.087166,
+          "elapsed_ms": 125.930917,
           "result": {
             "alignment": {
               "cc": 0.9743,
@@ -992,14 +992,14 @@
       },
       "errors": [],
       "latency": {
-        "max": 161.359458,
-        "median": 155.561333,
-        "min": 151.251875,
+        "max": 122.496917,
+        "median": 122.344375,
+        "min": 120.068459,
         "n": 3,
         "samples": [
-          161.359458,
-          151.251875,
-          155.561333
+          120.068459,
+          122.344375,
+          122.496917
         ],
         "unit": "ms"
       },
@@ -1143,7 +1143,7 @@
       "status": "ok",
       "trials": [
         {
-          "elapsed_ms": 161.359458,
+          "elapsed_ms": 120.068459,
           "result": {
             "alignment": {
               "cc": 0.9999,
@@ -1283,7 +1283,7 @@
           "result_sha256": "cf4b0c2a8647487559efcaf86c748724a178e401ea8cd55b6b26a138352328d2"
         },
         {
-          "elapsed_ms": 151.251875,
+          "elapsed_ms": 122.344375,
           "result": {
             "alignment": {
               "cc": 0.9999,
@@ -1423,7 +1423,7 @@
           "result_sha256": "cf4b0c2a8647487559efcaf86c748724a178e401ea8cd55b6b26a138352328d2"
         },
         {
-          "elapsed_ms": 155.561333,
+          "elapsed_ms": 122.496917,
           "result": {
             "alignment": {
               "cc": 0.9999,
@@ -1566,7 +1566,7 @@
       "unsupported_metadata_params": [],
       "warmups": [
         {
-          "elapsed_ms": 147.53125,
+          "elapsed_ms": 122.510042,
           "result": {
             "alignment": {
               "cc": 0.9999,
@@ -1714,14 +1714,14 @@
       },
       "errors": [],
       "latency": {
-        "max": 18.360709,
-        "median": 18.318125,
-        "min": 18.030458,
+        "max": 17.111667,
+        "median": 16.319791,
+        "min": 16.302166,
         "n": 3,
         "samples": [
-          18.318125,
-          18.360709,
-          18.030458
+          16.319791,
+          16.302166,
+          17.111667
         ],
         "unit": "ms"
       },
@@ -1858,7 +1858,7 @@
       "status": "ok",
       "trials": [
         {
-          "elapsed_ms": 18.318125,
+          "elapsed_ms": 16.319791,
           "result": {
             "alignment": {
               "fallback": true,
@@ -1991,7 +1991,7 @@
           "result_sha256": "9f2f230039d5b5e8e9c5cd317b15ad1031bf287efab8b32aceecda1039b9730d"
         },
         {
-          "elapsed_ms": 18.360709,
+          "elapsed_ms": 16.302166,
           "result": {
             "alignment": {
               "fallback": true,
@@ -2124,7 +2124,7 @@
           "result_sha256": "9f2f230039d5b5e8e9c5cd317b15ad1031bf287efab8b32aceecda1039b9730d"
         },
         {
-          "elapsed_ms": 18.030458,
+          "elapsed_ms": 17.111667,
           "result": {
             "alignment": {
               "fallback": true,
@@ -2260,7 +2260,7 @@
       "unsupported_metadata_params": [],
       "warmups": [
         {
-          "elapsed_ms": 18.969291,
+          "elapsed_ms": 16.666625,
           "result": {
             "alignment": {
               "fallback": true,
@@ -2401,14 +2401,14 @@
       },
       "errors": [],
       "latency": {
-        "max": 18.014375,
-        "median": 17.932625,
-        "min": 17.813,
+        "max": 16.228458,
+        "median": 16.00375,
+        "min": 15.931209,
         "n": 3,
         "samples": [
-          18.014375,
-          17.813,
-          17.932625
+          15.931209,
+          16.00375,
+          16.228458
         ],
         "unit": "ms"
       },
@@ -2579,7 +2579,7 @@
       "status": "ok",
       "trials": [
         {
-          "elapsed_ms": 18.014375,
+          "elapsed_ms": 15.931209,
           "result": {
             "alignment": {
               "fallback": true,
@@ -2746,7 +2746,7 @@
           "result_sha256": "8066e184aee8d91775845c5777111f5a6e5a418ff917637c05880c9ad6e8fa31"
         },
         {
-          "elapsed_ms": 17.813,
+          "elapsed_ms": 16.00375,
           "result": {
             "alignment": {
               "fallback": true,
@@ -2913,7 +2913,7 @@
           "result_sha256": "8066e184aee8d91775845c5777111f5a6e5a418ff917637c05880c9ad6e8fa31"
         },
         {
-          "elapsed_ms": 17.932625,
+          "elapsed_ms": 16.228458,
           "result": {
             "alignment": {
               "fallback": true,
@@ -3083,7 +3083,7 @@
       "unsupported_metadata_params": [],
       "warmups": [
         {
-          "elapsed_ms": 18.738292,
+          "elapsed_ms": 16.586,
           "result": {
             "alignment": {
               "fallback": true,
@@ -3258,14 +3258,14 @@
       },
       "errors": [],
       "latency": {
-        "max": 17.579667,
-        "median": 17.533583,
-        "min": 17.32175,
+        "max": 17.088042,
+        "median": 16.992417,
+        "min": 16.639833,
         "n": 3,
         "samples": [
-          17.533583,
-          17.32175,
-          17.579667
+          16.992417,
+          17.088042,
+          16.639833
         ],
         "unit": "ms"
       },
@@ -3436,7 +3436,7 @@
       "status": "ok",
       "trials": [
         {
-          "elapsed_ms": 17.533583,
+          "elapsed_ms": 16.992417,
           "result": {
             "alignment": {
               "fallback": true,
@@ -3603,7 +3603,7 @@
           "result_sha256": "3bfbade86f46c854da128e10f56e55c394c46c40ad1e3c5c88af154888a5640f"
         },
         {
-          "elapsed_ms": 17.32175,
+          "elapsed_ms": 17.088042,
           "result": {
             "alignment": {
               "fallback": true,
@@ -3770,7 +3770,7 @@
           "result_sha256": "3bfbade86f46c854da128e10f56e55c394c46c40ad1e3c5c88af154888a5640f"
         },
         {
-          "elapsed_ms": 17.579667,
+          "elapsed_ms": 16.639833,
           "result": {
             "alignment": {
               "fallback": true,
@@ -3940,7 +3940,7 @@
       "unsupported_metadata_params": [],
       "warmups": [
         {
-          "elapsed_ms": 17.864708,
+          "elapsed_ms": 16.855583,
           "result": {
             "alignment": {
               "fallback": true,
@@ -4115,14 +4115,14 @@
       },
       "errors": [],
       "latency": {
-        "max": 17.250125,
-        "median": 16.753709,
-        "min": 16.655042,
+        "max": 17.04325,
+        "median": 16.893958,
+        "min": 16.450209,
         "n": 3,
         "samples": [
-          17.250125,
-          16.753709,
-          16.655042
+          16.450209,
+          17.04325,
+          16.893958
         ],
         "unit": "ms"
       },
@@ -4293,7 +4293,7 @@
       "status": "ok",
       "trials": [
         {
-          "elapsed_ms": 17.250125,
+          "elapsed_ms": 16.450209,
           "result": {
             "alignment": {
               "fallback": true,
@@ -4460,7 +4460,7 @@
           "result_sha256": "6f5fdc3af7d10efa92105db077584fd6d067e29548861af0cab28951b5867725"
         },
         {
-          "elapsed_ms": 16.753709,
+          "elapsed_ms": 17.04325,
           "result": {
             "alignment": {
               "fallback": true,
@@ -4627,7 +4627,7 @@
           "result_sha256": "6f5fdc3af7d10efa92105db077584fd6d067e29548861af0cab28951b5867725"
         },
         {
-          "elapsed_ms": 16.655042,
+          "elapsed_ms": 16.893958,
           "result": {
             "alignment": {
               "fallback": true,
@@ -4797,7 +4797,7 @@
       "unsupported_metadata_params": [],
       "warmups": [
         {
-          "elapsed_ms": 17.3095,
+          "elapsed_ms": 16.590041,
           "result": {
             "alignment": {
               "fallback": true,
@@ -4972,14 +4972,14 @@
       },
       "errors": [],
       "latency": {
-        "max": 16.547542,
-        "median": 16.214167,
-        "min": 16.012917,
+        "max": 18.972625,
+        "median": 17.590167,
+        "min": 16.498333,
         "n": 3,
         "samples": [
-          16.012917,
-          16.547542,
-          16.214167
+          18.972625,
+          17.590167,
+          16.498333
         ],
         "unit": "ms"
       },
@@ -5157,7 +5157,7 @@
       "status": "ok",
       "trials": [
         {
-          "elapsed_ms": 16.012917,
+          "elapsed_ms": 18.972625,
           "result": {
             "alignment": {
               "fallback": true,
@@ -5331,7 +5331,7 @@
           "result_sha256": "8ed16297736ff00968e8d3f3693e5cdfa75f2891777098b53074eda993150d77"
         },
         {
-          "elapsed_ms": 16.547542,
+          "elapsed_ms": 17.590167,
           "result": {
             "alignment": {
               "fallback": true,
@@ -5505,7 +5505,7 @@
           "result_sha256": "8ed16297736ff00968e8d3f3693e5cdfa75f2891777098b53074eda993150d77"
         },
         {
-          "elapsed_ms": 16.214167,
+          "elapsed_ms": 16.498333,
           "result": {
             "alignment": {
               "fallback": true,
@@ -5682,7 +5682,7 @@
       "unsupported_metadata_params": [],
       "warmups": [
         {
-          "elapsed_ms": 16.5855,
+          "elapsed_ms": 17.565375,
           "result": {
             "alignment": {
               "fallback": true,
@@ -5864,14 +5864,14 @@
       },
       "errors": [],
       "latency": {
-        "max": 14.29425,
-        "median": 14.104084,
-        "min": 13.580084,
+        "max": 15.099291,
+        "median": 14.97125,
+        "min": 14.887583,
         "n": 3,
         "samples": [
-          14.29425,
-          13.580084,
-          14.104084
+          14.97125,
+          15.099291,
+          14.887583
         ],
         "unit": "ms"
       },
@@ -6143,7 +6143,7 @@
       "status": "ok",
       "trials": [
         {
-          "elapsed_ms": 14.29425,
+          "elapsed_ms": 14.97125,
           "result": {
             "alignment": {
               "fallback": true,
@@ -6411,7 +6411,7 @@
           "result_sha256": "154653a19cd35def3ea08781b0002c403f947a3bf78c5bb4fec925a2f788ece2"
         },
         {
-          "elapsed_ms": 13.580084,
+          "elapsed_ms": 15.099291,
           "result": {
             "alignment": {
               "fallback": true,
@@ -6679,7 +6679,7 @@
           "result_sha256": "154653a19cd35def3ea08781b0002c403f947a3bf78c5bb4fec925a2f788ece2"
         },
         {
-          "elapsed_ms": 14.104084,
+          "elapsed_ms": 14.887583,
           "result": {
             "alignment": {
               "fallback": true,
@@ -6950,7 +6950,7 @@
       "unsupported_metadata_params": [],
       "warmups": [
         {
-          "elapsed_ms": 14.650833,
+          "elapsed_ms": 15.665333,
           "result": {
             "alignment": {
               "fallback": true,
@@ -7226,14 +7226,14 @@
       },
       "errors": [],
       "latency": {
-        "max": 14.781041,
-        "median": 14.4485,
-        "min": 14.261083,
+        "max": 14.836417,
+        "median": 14.722958,
+        "min": 14.512333,
         "n": 3,
         "samples": [
-          14.4485,
-          14.781041,
-          14.261083
+          14.722958,
+          14.836417,
+          14.512333
         ],
         "unit": "ms"
       },
@@ -7505,7 +7505,7 @@
       "status": "ok",
       "trials": [
         {
-          "elapsed_ms": 14.4485,
+          "elapsed_ms": 14.722958,
           "result": {
             "alignment": {
               "fallback": true,
@@ -7773,7 +7773,7 @@
           "result_sha256": "6db0ff3e87beec77db150839a761936c056a40c6b8e99fba4e8e3b684b3b5a13"
         },
         {
-          "elapsed_ms": 14.781041,
+          "elapsed_ms": 14.836417,
           "result": {
             "alignment": {
               "fallback": true,
@@ -8041,7 +8041,7 @@
           "result_sha256": "6db0ff3e87beec77db150839a761936c056a40c6b8e99fba4e8e3b684b3b5a13"
         },
         {
-          "elapsed_ms": 14.261083,
+          "elapsed_ms": 14.512333,
           "result": {
             "alignment": {
               "fallback": true,
@@ -8312,7 +8312,7 @@
       "unsupported_metadata_params": [],
       "warmups": [
         {
-          "elapsed_ms": 14.871958,
+          "elapsed_ms": 15.339666,
           "result": {
             "alignment": {
               "fallback": true,
@@ -8588,14 +8588,14 @@
       },
       "errors": [],
       "latency": {
-        "max": 14.13525,
-        "median": 13.823375,
-        "min": 13.706792,
+        "max": 15.086416,
+        "median": 14.909208,
+        "min": 14.766709,
         "n": 3,
         "samples": [
-          14.13525,
-          13.823375,
-          13.706792
+          14.909208,
+          15.086416,
+          14.766709
         ],
         "unit": "ms"
       },
@@ -8867,7 +8867,7 @@
       "status": "ok",
       "trials": [
         {
-          "elapsed_ms": 14.13525,
+          "elapsed_ms": 14.909208,
           "result": {
             "alignment": {
               "fallback": true,
@@ -9135,7 +9135,7 @@
           "result_sha256": "154653a19cd35def3ea08781b0002c403f947a3bf78c5bb4fec925a2f788ece2"
         },
         {
-          "elapsed_ms": 13.823375,
+          "elapsed_ms": 15.086416,
           "result": {
             "alignment": {
               "fallback": true,
@@ -9403,7 +9403,7 @@
           "result_sha256": "154653a19cd35def3ea08781b0002c403f947a3bf78c5bb4fec925a2f788ece2"
         },
         {
-          "elapsed_ms": 13.706792,
+          "elapsed_ms": 14.766709,
           "result": {
             "alignment": {
               "fallback": true,
@@ -9674,7 +9674,7 @@
       "unsupported_metadata_params": [],
       "warmups": [
         {
-          "elapsed_ms": 14.165167,
+          "elapsed_ms": 15.377792,
           "result": {
             "alignment": {
               "fallback": true,
@@ -9950,14 +9950,14 @@
       },
       "errors": [],
       "latency": {
-        "max": 14.161833,
-        "median": 14.087833,
-        "min": 13.452417,
+        "max": 15.012042,
+        "median": 14.915125,
+        "min": 14.446292,
         "n": 3,
         "samples": [
-          14.161833,
-          14.087833,
-          13.452417
+          14.915125,
+          15.012042,
+          14.446292
         ],
         "unit": "ms"
       },
@@ -10229,7 +10229,7 @@
       "status": "ok",
       "trials": [
         {
-          "elapsed_ms": 14.161833,
+          "elapsed_ms": 14.915125,
           "result": {
             "alignment": {
               "fallback": true,
@@ -10497,7 +10497,7 @@
           "result_sha256": "6db0ff3e87beec77db150839a761936c056a40c6b8e99fba4e8e3b684b3b5a13"
         },
         {
-          "elapsed_ms": 14.087833,
+          "elapsed_ms": 15.012042,
           "result": {
             "alignment": {
               "fallback": true,
@@ -10765,7 +10765,7 @@
           "result_sha256": "6db0ff3e87beec77db150839a761936c056a40c6b8e99fba4e8e3b684b3b5a13"
         },
         {
-          "elapsed_ms": 13.452417,
+          "elapsed_ms": 14.446292,
           "result": {
             "alignment": {
               "fallback": true,
@@ -11036,7 +11036,7 @@
       "unsupported_metadata_params": [],
       "warmups": [
         {
-          "elapsed_ms": 13.92275,
+          "elapsed_ms": 14.734083,
           "result": {
             "alignment": {
               "fallback": true,
@@ -11312,14 +11312,14 @@
       },
       "errors": [],
       "latency": {
-        "max": 95.005542,
-        "median": 93.560541,
-        "min": 93.499209,
+        "max": 99.859458,
+        "median": 94.815125,
+        "min": 94.550541,
         "n": 3,
         "samples": [
-          93.560541,
-          95.005542,
-          93.499209
+          94.550541,
+          94.815125,
+          99.859458
         ],
         "unit": "ms"
       },
@@ -11458,7 +11458,7 @@
       "status": "ok",
       "trials": [
         {
-          "elapsed_ms": 93.560541,
+          "elapsed_ms": 94.550541,
           "result": {
             "alignment": {
               "fallback": true,
@@ -11593,7 +11593,7 @@
           "result_sha256": "7f0cd6764bb62717a89cd66dee89793b97ec1ba0ccc482ce60b3fa4345f27444"
         },
         {
-          "elapsed_ms": 95.005542,
+          "elapsed_ms": 94.815125,
           "result": {
             "alignment": {
               "fallback": true,
@@ -11728,7 +11728,7 @@
           "result_sha256": "7f0cd6764bb62717a89cd66dee89793b97ec1ba0ccc482ce60b3fa4345f27444"
         },
         {
-          "elapsed_ms": 93.499209,
+          "elapsed_ms": 99.859458,
           "result": {
             "alignment": {
               "fallback": true,
@@ -11866,7 +11866,7 @@
       "unsupported_metadata_params": [],
       "warmups": [
         {
-          "elapsed_ms": 102.667541,
+          "elapsed_ms": 101.21675,
           "result": {
             "alignment": {
               "fallback": true,
@@ -12009,14 +12009,14 @@
       },
       "errors": [],
       "latency": {
-        "max": 64.604833,
-        "median": 63.632,
-        "min": 58.423292,
+        "max": 58.904583,
+        "median": 58.698041,
+        "min": 58.595458,
         "n": 3,
         "samples": [
-          64.604833,
-          63.632,
-          58.423292
+          58.698041,
+          58.904583,
+          58.595458
         ],
         "unit": "ms"
       },
@@ -12136,7 +12136,7 @@
       "status": "ok",
       "trials": [
         {
-          "elapsed_ms": 64.604833,
+          "elapsed_ms": 58.698041,
           "result": {
             "alignment": {
               "fallback": true,
@@ -12252,7 +12252,7 @@
           "result_sha256": "0404d3ab0a9cb6ab75cb192f0059e4b6c50ece6033a85a2212a3e495e3154746"
         },
         {
-          "elapsed_ms": 63.632,
+          "elapsed_ms": 58.904583,
           "result": {
             "alignment": {
               "fallback": true,
@@ -12368,7 +12368,7 @@
           "result_sha256": "0404d3ab0a9cb6ab75cb192f0059e4b6c50ece6033a85a2212a3e495e3154746"
         },
         {
-          "elapsed_ms": 58.423292,
+          "elapsed_ms": 58.595458,
           "result": {
             "alignment": {
               "fallback": true,
@@ -12487,7 +12487,7 @@
       "unsupported_metadata_params": [],
       "warmups": [
         {
-          "elapsed_ms": 61.530625,
+          "elapsed_ms": 59.597375,
           "result": {
             "alignment": {
               "fallback": true,
@@ -12611,14 +12611,14 @@
       },
       "errors": [],
       "latency": {
-        "max": 69.245417,
-        "median": 63.739375,
-        "min": 59.629833,
+        "max": 57.949458,
+        "median": 57.74925,
+        "min": 57.101625,
         "n": 3,
         "samples": [
-          59.629833,
-          63.739375,
-          69.245417
+          57.949458,
+          57.101625,
+          57.74925
         ],
         "unit": "ms"
       },
@@ -12738,7 +12738,7 @@
       "status": "ok",
       "trials": [
         {
-          "elapsed_ms": 59.629833,
+          "elapsed_ms": 57.949458,
           "result": {
             "alignment": {
               "fallback": true,
@@ -12854,7 +12854,7 @@
           "result_sha256": "444b1d94f58c9fcc01c8d02a9052facd7eabba308c7b3a8dc4946a64668241e4"
         },
         {
-          "elapsed_ms": 63.739375,
+          "elapsed_ms": 57.101625,
           "result": {
             "alignment": {
               "fallback": true,
@@ -12970,7 +12970,7 @@
           "result_sha256": "444b1d94f58c9fcc01c8d02a9052facd7eabba308c7b3a8dc4946a64668241e4"
         },
         {
-          "elapsed_ms": 69.245417,
+          "elapsed_ms": 57.74925,
           "result": {
             "alignment": {
               "fallback": true,
@@ -13089,7 +13089,7 @@
       "unsupported_metadata_params": [],
       "warmups": [
         {
-          "elapsed_ms": 60.316333,
+          "elapsed_ms": 58.371833,
           "result": {
             "alignment": {
               "fallback": true,
@@ -13213,14 +13213,14 @@
       },
       "errors": [],
       "latency": {
-        "max": 59.52075,
-        "median": 59.429625,
-        "min": 58.782833,
+        "max": 59.934458,
+        "median": 59.166833,
+        "min": 58.5355,
         "n": 3,
         "samples": [
-          59.429625,
-          59.52075,
-          58.782833
+          59.934458,
+          58.5355,
+          59.166833
         ],
         "unit": "ms"
       },
@@ -13340,7 +13340,7 @@
       "status": "ok",
       "trials": [
         {
-          "elapsed_ms": 59.429625,
+          "elapsed_ms": 59.934458,
           "result": {
             "alignment": {
               "fallback": true,
@@ -13456,7 +13456,7 @@
           "result_sha256": "eaff7b8143348242b9c9eedc1fc6ab1bda4328975ae07cc3828af77b19fffb2f"
         },
         {
-          "elapsed_ms": 59.52075,
+          "elapsed_ms": 58.5355,
           "result": {
             "alignment": {
               "fallback": true,
@@ -13572,7 +13572,7 @@
           "result_sha256": "eaff7b8143348242b9c9eedc1fc6ab1bda4328975ae07cc3828af77b19fffb2f"
         },
         {
-          "elapsed_ms": 58.782833,
+          "elapsed_ms": 59.166833,
           "result": {
             "alignment": {
               "fallback": true,
@@ -13691,7 +13691,7 @@
       "unsupported_metadata_params": [],
       "warmups": [
         {
-          "elapsed_ms": 62.359125,
+          "elapsed_ms": 60.284125,
           "result": {
             "alignment": {
               "fallback": true,
@@ -13815,14 +13815,14 @@
       },
       "errors": [],
       "latency": {
-        "max": 63.637666,
-        "median": 58.815083,
-        "min": 58.614458,
+        "max": 61.707125,
+        "median": 57.857792,
+        "min": 57.681417,
         "n": 3,
         "samples": [
-          63.637666,
-          58.815083,
-          58.614458
+          61.707125,
+          57.857792,
+          57.681417
         ],
         "unit": "ms"
       },
@@ -13950,7 +13950,7 @@
       "status": "ok",
       "trials": [
         {
-          "elapsed_ms": 63.637666,
+          "elapsed_ms": 61.707125,
           "result": {
             "alignment": {
               "fallback": true,
@@ -14074,7 +14074,7 @@
           "result_sha256": "8c3e43187d1c78b54a5d5dd4d233cd6017087449b35a83c18ea47bac29a64d5b"
         },
         {
-          "elapsed_ms": 58.815083,
+          "elapsed_ms": 57.857792,
           "result": {
             "alignment": {
               "fallback": true,
@@ -14198,7 +14198,7 @@
           "result_sha256": "8c3e43187d1c78b54a5d5dd4d233cd6017087449b35a83c18ea47bac29a64d5b"
         },
         {
-          "elapsed_ms": 58.614458,
+          "elapsed_ms": 57.681417,
           "result": {
             "alignment": {
               "fallback": true,
@@ -14325,7 +14325,7 @@
       "unsupported_metadata_params": [],
       "warmups": [
         {
-          "elapsed_ms": 57.699917,
+          "elapsed_ms": 59.914666,
           "result": {
             "alignment": {
               "fallback": true,
@@ -14457,14 +14457,14 @@
       },
       "errors": [],
       "latency": {
-        "max": 58.977875,
-        "median": 58.916625,
-        "min": 58.040375,
+        "max": 58.323166,
+        "median": 57.754375,
+        "min": 57.493625,
         "n": 3,
         "samples": [
-          58.916625,
-          58.977875,
-          58.040375
+          57.754375,
+          57.493625,
+          58.323166
         ],
         "unit": "ms"
       },
@@ -14592,7 +14592,7 @@
       "status": "ok",
       "trials": [
         {
-          "elapsed_ms": 58.916625,
+          "elapsed_ms": 57.754375,
           "result": {
             "alignment": {
               "fallback": true,
@@ -14716,7 +14716,7 @@
           "result_sha256": "172ce581092d1ce29250ecfebd63701e44a2987b733a54d1c828aabfcde6967e"
         },
         {
-          "elapsed_ms": 58.977875,
+          "elapsed_ms": 57.493625,
           "result": {
             "alignment": {
               "fallback": true,
@@ -14840,7 +14840,7 @@
           "result_sha256": "172ce581092d1ce29250ecfebd63701e44a2987b733a54d1c828aabfcde6967e"
         },
         {
-          "elapsed_ms": 58.040375,
+          "elapsed_ms": 58.323166,
           "result": {
             "alignment": {
               "fallback": true,
@@ -14967,7 +14967,7 @@
       "unsupported_metadata_params": [],
       "warmups": [
         {
-          "elapsed_ms": 59.263708,
+          "elapsed_ms": 57.9415,
           "result": {
             "alignment": {
               "fallback": true,
@@ -15099,14 +15099,14 @@
       },
       "errors": [],
       "latency": {
-        "max": 17.854458,
-        "median": 12.120584,
-        "min": 11.95325,
+        "max": 13.544167,
+        "median": 12.819,
+        "min": 12.625541,
         "n": 3,
         "samples": [
-          11.95325,
-          12.120584,
-          17.854458
+          13.544167,
+          12.625541,
+          12.819
         ],
         "unit": "ms"
       },
@@ -15240,7 +15240,7 @@
       "status": "ok",
       "trials": [
         {
-          "elapsed_ms": 11.95325,
+          "elapsed_ms": 13.544167,
           "result": {
             "alignment": {
               "fallback": true,
@@ -15370,7 +15370,7 @@
           "result_sha256": "47c753cedda07c33096e33ac6bef6cd9da44865be3b20479d85bbce76da68159"
         },
         {
-          "elapsed_ms": 12.120584,
+          "elapsed_ms": 12.625541,
           "result": {
             "alignment": {
               "fallback": true,
@@ -15500,7 +15500,7 @@
           "result_sha256": "47c753cedda07c33096e33ac6bef6cd9da44865be3b20479d85bbce76da68159"
         },
         {
-          "elapsed_ms": 17.854458,
+          "elapsed_ms": 12.819,
           "result": {
             "alignment": {
               "fallback": true,
@@ -15633,7 +15633,7 @@
       "unsupported_metadata_params": [],
       "warmups": [
         {
-          "elapsed_ms": 12.253084,
+          "elapsed_ms": 14.258916,
           "result": {
             "alignment": {
               "fallback": true,
@@ -15771,14 +15771,14 @@
       },
       "errors": [],
       "latency": {
-        "max": 14.610916,
-        "median": 14.038875,
-        "min": 12.916083,
+        "max": 13.4055,
+        "median": 13.011834,
+        "min": 12.928333,
         "n": 3,
         "samples": [
-          14.610916,
-          12.916083,
-          14.038875
+          13.4055,
+          13.011834,
+          12.928333
         ],
         "unit": "ms"
       },
@@ -15912,7 +15912,7 @@
       "status": "ok",
       "trials": [
         {
-          "elapsed_ms": 14.610916,
+          "elapsed_ms": 13.4055,
           "result": {
             "alignment": {
               "fallback": true,
@@ -16042,7 +16042,7 @@
           "result_sha256": "47c753cedda07c33096e33ac6bef6cd9da44865be3b20479d85bbce76da68159"
         },
         {
-          "elapsed_ms": 12.916083,
+          "elapsed_ms": 13.011834,
           "result": {
             "alignment": {
               "fallback": true,
@@ -16172,7 +16172,7 @@
           "result_sha256": "47c753cedda07c33096e33ac6bef6cd9da44865be3b20479d85bbce76da68159"
         },
         {
-          "elapsed_ms": 14.038875,
+          "elapsed_ms": 12.928333,
           "result": {
             "alignment": {
               "fallback": true,
@@ -16305,7 +16305,7 @@
       "unsupported_metadata_params": [],
       "warmups": [
         {
-          "elapsed_ms": 15.485,
+          "elapsed_ms": 14.363417,
           "result": {
             "alignment": {
               "fallback": true,
@@ -16443,14 +16443,14 @@
       },
       "errors": [],
       "latency": {
-        "max": 71.558708,
-        "median": 70.742833,
-        "min": 70.642834,
+        "max": 73.287333,
+        "median": 70.657417,
+        "min": 69.984958,
         "n": 3,
         "samples": [
-          71.558708,
-          70.642834,
-          70.742833
+          69.984958,
+          70.657417,
+          73.287333
         ],
         "unit": "ms"
       },
@@ -16567,7 +16567,7 @@
       "status": "ok",
       "trials": [
         {
-          "elapsed_ms": 71.558708,
+          "elapsed_ms": 69.984958,
           "result": {
             "alignment": {
               "fallback": true,
@@ -16680,7 +16680,7 @@
           "result_sha256": "a4906a36019f4756b42bada636322d8cd903fc241f30af973b5ff70e915e2afd"
         },
         {
-          "elapsed_ms": 70.642834,
+          "elapsed_ms": 70.657417,
           "result": {
             "alignment": {
               "fallback": true,
@@ -16793,7 +16793,7 @@
           "result_sha256": "a4906a36019f4756b42bada636322d8cd903fc241f30af973b5ff70e915e2afd"
         },
         {
-          "elapsed_ms": 70.742833,
+          "elapsed_ms": 73.287333,
           "result": {
             "alignment": {
               "fallback": true,
@@ -16909,7 +16909,7 @@
       "unsupported_metadata_params": [],
       "warmups": [
         {
-          "elapsed_ms": 71.4975,
+          "elapsed_ms": 73.040042,
           "result": {
             "alignment": {
               "fallback": true,
@@ -17030,14 +17030,14 @@
       },
       "errors": [],
       "latency": {
-        "max": 75.962833,
-        "median": 75.620166,
-        "min": 73.911667,
+        "max": 78.877916,
+        "median": 77.893042,
+        "min": 76.302459,
         "n": 3,
         "samples": [
-          75.620166,
-          75.962833,
-          73.911667
+          77.893042,
+          76.302459,
+          78.877916
         ],
         "unit": "ms"
       },
@@ -17167,7 +17167,7 @@
       "status": "ok",
       "trials": [
         {
-          "elapsed_ms": 75.620166,
+          "elapsed_ms": 77.893042,
           "result": {
             "alignment": {
               "fallback": true,
@@ -17293,7 +17293,7 @@
           "result_sha256": "bf5d7accb20f8d64d6f09989025a93dbc43c1cd0a658752cf9945c464291a8a9"
         },
         {
-          "elapsed_ms": 75.962833,
+          "elapsed_ms": 76.302459,
           "result": {
             "alignment": {
               "fallback": true,
@@ -17419,7 +17419,7 @@
           "result_sha256": "bf5d7accb20f8d64d6f09989025a93dbc43c1cd0a658752cf9945c464291a8a9"
         },
         {
-          "elapsed_ms": 73.911667,
+          "elapsed_ms": 78.877916,
           "result": {
             "alignment": {
               "fallback": true,
@@ -17548,7 +17548,7 @@
       "unsupported_metadata_params": [],
       "warmups": [
         {
-          "elapsed_ms": 77.191042,
+          "elapsed_ms": 77.164541,
           "result": {
             "alignment": {
               "fallback": true,
@@ -17682,14 +17682,14 @@
       },
       "errors": [],
       "latency": {
-        "max": 3.694583,
-        "median": 3.62875,
-        "min": 3.558833,
+        "max": 3.89175,
+        "median": 3.735333,
+        "min": 3.717792,
         "n": 3,
         "samples": [
-          3.558833,
-          3.694583,
-          3.62875
+          3.89175,
+          3.735333,
+          3.717792
         ],
         "unit": "ms"
       },
@@ -17843,7 +17843,7 @@
       "status": "ok",
       "trials": [
         {
-          "elapsed_ms": 3.558833,
+          "elapsed_ms": 3.89175,
           "result": {
             "alignment": {
               "fallback": true,
@@ -17993,7 +17993,7 @@
           "result_sha256": "7f582f9964e79ec48cbf536a766ce27e30d892a2553976d97470601de1f11e18"
         },
         {
-          "elapsed_ms": 3.694583,
+          "elapsed_ms": 3.735333,
           "result": {
             "alignment": {
               "fallback": true,
@@ -18143,7 +18143,7 @@
           "result_sha256": "7f582f9964e79ec48cbf536a766ce27e30d892a2553976d97470601de1f11e18"
         },
         {
-          "elapsed_ms": 3.62875,
+          "elapsed_ms": 3.717792,
           "result": {
             "alignment": {
               "fallback": true,
@@ -18296,7 +18296,7 @@
       "unsupported_metadata_params": [],
       "warmups": [
         {
-          "elapsed_ms": 4.222916,
+          "elapsed_ms": 4.696417,
           "result": {
             "alignment": {
               "fallback": true,
@@ -18454,14 +18454,14 @@
       },
       "errors": [],
       "latency": {
-        "max": 3.671583,
-        "median": 3.481875,
-        "min": 3.330708,
+        "max": 4.087375,
+        "median": 4.067917,
+        "min": 3.998125,
         "n": 3,
         "samples": [
-          3.671583,
-          3.330708,
-          3.481875
+          3.998125,
+          4.087375,
+          4.067917
         ],
         "unit": "ms"
       },
@@ -18615,7 +18615,7 @@
       "status": "ok",
       "trials": [
         {
-          "elapsed_ms": 3.671583,
+          "elapsed_ms": 3.998125,
           "result": {
             "alignment": {
               "fallback": true,
@@ -18765,7 +18765,7 @@
           "result_sha256": "7f582f9964e79ec48cbf536a766ce27e30d892a2553976d97470601de1f11e18"
         },
         {
-          "elapsed_ms": 3.330708,
+          "elapsed_ms": 4.087375,
           "result": {
             "alignment": {
               "fallback": true,
@@ -18915,7 +18915,7 @@
           "result_sha256": "7f582f9964e79ec48cbf536a766ce27e30d892a2553976d97470601de1f11e18"
         },
         {
-          "elapsed_ms": 3.481875,
+          "elapsed_ms": 4.067917,
           "result": {
             "alignment": {
               "fallback": true,
@@ -19068,7 +19068,7 @@
       "unsupported_metadata_params": [],
       "warmups": [
         {
-          "elapsed_ms": 3.629709,
+          "elapsed_ms": 4.013042,
           "result": {
             "alignment": {
               "fallback": true,
@@ -19225,14 +19225,14 @@
       },
       "errors": [],
       "latency": {
-        "max": 138.458167,
-        "median": 134.693458,
-        "min": 133.511625,
+        "max": 137.181167,
+        "median": 133.699417,
+        "min": 131.073208,
         "n": 3,
         "samples": [
-          138.458167,
-          134.693458,
-          133.511625
+          133.699417,
+          131.073208,
+          137.181167
         ],
         "unit": "ms"
       },
@@ -19376,7 +19376,7 @@
       "status": "ok",
       "trials": [
         {
-          "elapsed_ms": 138.458167,
+          "elapsed_ms": 133.699417,
           "result": {
             "alignment": {
               "cc": 0.9957,
@@ -19516,7 +19516,7 @@
           "result_sha256": "193ea68583c15bde2b4584d2f5f37ec0e9b412b1e299416c5ca0a4ea5415301e"
         },
         {
-          "elapsed_ms": 134.693458,
+          "elapsed_ms": 131.073208,
           "result": {
             "alignment": {
               "cc": 0.9957,
@@ -19656,7 +19656,7 @@
           "result_sha256": "193ea68583c15bde2b4584d2f5f37ec0e9b412b1e299416c5ca0a4ea5415301e"
         },
         {
-          "elapsed_ms": 133.511625,
+          "elapsed_ms": 137.181167,
           "result": {
             "alignment": {
               "cc": 0.9957,
@@ -19799,7 +19799,7 @@
       "unsupported_metadata_params": [],
       "warmups": [
         {
-          "elapsed_ms": 141.367375,
+          "elapsed_ms": 129.387416,
           "result": {
             "alignment": {
               "cc": 0.9957,
@@ -19946,14 +19946,14 @@
       },
       "errors": [],
       "latency": {
-        "max": 162.505209,
-        "median": 153.206541,
-        "min": 147.217333,
+        "max": 140.508458,
+        "median": 138.325125,
+        "min": 137.819875,
         "n": 3,
         "samples": [
-          147.217333,
-          162.505209,
-          153.206541
+          137.819875,
+          138.325125,
+          140.508458
         ],
         "unit": "ms"
       },
@@ -20097,7 +20097,7 @@
       "status": "ok",
       "trials": [
         {
-          "elapsed_ms": 147.217333,
+          "elapsed_ms": 137.819875,
           "result": {
             "alignment": {
               "cc": 0.9897,
@@ -20237,7 +20237,7 @@
           "result_sha256": "15bce376dc5bd5cd1744b3cf40311f784780a4640bb5962b4b782c4aaf753861"
         },
         {
-          "elapsed_ms": 162.505209,
+          "elapsed_ms": 138.325125,
           "result": {
             "alignment": {
               "cc": 0.9897,
@@ -20377,7 +20377,7 @@
           "result_sha256": "15bce376dc5bd5cd1744b3cf40311f784780a4640bb5962b4b782c4aaf753861"
         },
         {
-          "elapsed_ms": 153.206541,
+          "elapsed_ms": 140.508458,
           "result": {
             "alignment": {
               "cc": 0.9897,
@@ -20520,7 +20520,7 @@
       "unsupported_metadata_params": [],
       "warmups": [
         {
-          "elapsed_ms": 139.742541,
+          "elapsed_ms": 141.679875,
           "result": {
             "alignment": {
               "cc": 0.9897,
@@ -20667,14 +20667,14 @@
       },
       "errors": [],
       "latency": {
-        "max": 145.129833,
-        "median": 144.98975,
-        "min": 136.04425,
+        "max": 130.785417,
+        "median": 130.224791,
+        "min": 129.123583,
         "n": 3,
         "samples": [
-          145.129833,
-          144.98975,
-          136.04425
+          130.785417,
+          129.123583,
+          130.224791
         ],
         "unit": "ms"
       },
@@ -20818,7 +20818,7 @@
       "status": "ok",
       "trials": [
         {
-          "elapsed_ms": 145.129833,
+          "elapsed_ms": 130.785417,
           "result": {
             "alignment": {
               "cc": 0.996,
@@ -20958,7 +20958,7 @@
           "result_sha256": "431bdb2b7c2547495ead82dd8287b16c6454363ea3a517f543005a5d8aabaf37"
         },
         {
-          "elapsed_ms": 144.98975,
+          "elapsed_ms": 129.123583,
           "result": {
             "alignment": {
               "cc": 0.996,
@@ -21098,7 +21098,7 @@
           "result_sha256": "431bdb2b7c2547495ead82dd8287b16c6454363ea3a517f543005a5d8aabaf37"
         },
         {
-          "elapsed_ms": 136.04425,
+          "elapsed_ms": 130.224791,
           "result": {
             "alignment": {
               "cc": 0.996,
@@ -21241,7 +21241,7 @@
       "unsupported_metadata_params": [],
       "warmups": [
         {
-          "elapsed_ms": 139.355125,
+          "elapsed_ms": 131.478125,
           "result": {
             "alignment": {
               "cc": 0.996,
@@ -21388,14 +21388,14 @@
       },
       "errors": [],
       "latency": {
-        "max": 154.536625,
-        "median": 144.259417,
-        "min": 137.214333,
+        "max": 139.546666,
+        "median": 137.00425,
+        "min": 136.047083,
         "n": 3,
         "samples": [
-          154.536625,
-          144.259417,
-          137.214333
+          136.047083,
+          137.00425,
+          139.546666
         ],
         "unit": "ms"
       },
@@ -21539,7 +21539,7 @@
       "status": "ok",
       "trials": [
         {
-          "elapsed_ms": 154.536625,
+          "elapsed_ms": 136.047083,
           "result": {
             "alignment": {
               "cc": 0.9894,
@@ -21679,7 +21679,7 @@
           "result_sha256": "b747193e638f7ce32d2cc73d364c14fc3296419f419d41818439f6bd6303762a"
         },
         {
-          "elapsed_ms": 144.259417,
+          "elapsed_ms": 137.00425,
           "result": {
             "alignment": {
               "cc": 0.9894,
@@ -21819,7 +21819,7 @@
           "result_sha256": "b747193e638f7ce32d2cc73d364c14fc3296419f419d41818439f6bd6303762a"
         },
         {
-          "elapsed_ms": 137.214333,
+          "elapsed_ms": 139.546666,
           "result": {
             "alignment": {
               "cc": 0.9894,
@@ -21962,7 +21962,7 @@
       "unsupported_metadata_params": [],
       "warmups": [
         {
-          "elapsed_ms": 149.987042,
+          "elapsed_ms": 141.111541,
           "result": {
             "alignment": {
               "cc": 0.9894,
@@ -22109,14 +22109,14 @@
       },
       "errors": [],
       "latency": {
-        "max": 51.234166,
-        "median": 51.093542,
-        "min": 50.067166,
+        "max": 48.705125,
+        "median": 48.49375,
+        "min": 48.027042,
         "n": 3,
         "samples": [
-          51.234166,
-          50.067166,
-          51.093542
+          48.027042,
+          48.705125,
+          48.49375
         ],
         "unit": "ms"
       },
@@ -22248,7 +22248,7 @@
       "status": "ok",
       "trials": [
         {
-          "elapsed_ms": 51.234166,
+          "elapsed_ms": 48.027042,
           "result": {
             "alignment": {
               "fallback": true,
@@ -22376,7 +22376,7 @@
           "result_sha256": "e85beb8bef684ee976b7fa5421a77dc689170a6d36531759f59d4a9d639d7e22"
         },
         {
-          "elapsed_ms": 50.067166,
+          "elapsed_ms": 48.705125,
           "result": {
             "alignment": {
               "fallback": true,
@@ -22504,7 +22504,7 @@
           "result_sha256": "e85beb8bef684ee976b7fa5421a77dc689170a6d36531759f59d4a9d639d7e22"
         },
         {
-          "elapsed_ms": 51.093542,
+          "elapsed_ms": 48.49375,
           "result": {
             "alignment": {
               "fallback": true,
@@ -22635,7 +22635,7 @@
       "unsupported_metadata_params": [],
       "warmups": [
         {
-          "elapsed_ms": 51.767042,
+          "elapsed_ms": 50.713333,
           "result": {
             "alignment": {
               "fallback": true,
@@ -22770,14 +22770,14 @@
       },
       "errors": [],
       "latency": {
-        "max": 50.812375,
-        "median": 50.695041,
-        "min": 49.878,
+        "max": 51.361583,
+        "median": 48.756791,
+        "min": 47.4525,
         "n": 3,
         "samples": [
-          49.878,
-          50.695041,
-          50.812375
+          51.361583,
+          48.756791,
+          47.4525
         ],
         "unit": "ms"
       },
@@ -22894,7 +22894,7 @@
       "status": "ok",
       "trials": [
         {
-          "elapsed_ms": 49.878,
+          "elapsed_ms": 51.361583,
           "result": {
             "alignment": {
               "fallback": true,
@@ -23007,7 +23007,7 @@
           "result_sha256": "a2acf07d8c9fd23565bc02719ac87b16f990c3b9768a867b58a10766dbd593c1"
         },
         {
-          "elapsed_ms": 50.695041,
+          "elapsed_ms": 48.756791,
           "result": {
             "alignment": {
               "fallback": true,
@@ -23120,7 +23120,7 @@
           "result_sha256": "a2acf07d8c9fd23565bc02719ac87b16f990c3b9768a867b58a10766dbd593c1"
         },
         {
-          "elapsed_ms": 50.812375,
+          "elapsed_ms": 47.4525,
           "result": {
             "alignment": {
               "fallback": true,
@@ -23236,7 +23236,7 @@
       "unsupported_metadata_params": [],
       "warmups": [
         {
-          "elapsed_ms": 49.083042,
+          "elapsed_ms": 49.466958,
           "result": {
             "alignment": {
               "fallback": true,
@@ -23357,14 +23357,14 @@
       },
       "errors": [],
       "latency": {
-        "max": 47.570917,
-        "median": 46.717333,
-        "min": 45.878,
+        "max": 44.74325,
+        "median": 44.158667,
+        "min": 44.121208,
         "n": 3,
         "samples": [
-          45.878,
-          46.717333,
-          47.570917
+          44.121208,
+          44.158667,
+          44.74325
         ],
         "unit": "ms"
       },
@@ -23481,7 +23481,7 @@
       "status": "ok",
       "trials": [
         {
-          "elapsed_ms": 45.878,
+          "elapsed_ms": 44.121208,
           "result": {
             "alignment": {
               "fallback": true,
@@ -23594,7 +23594,7 @@
           "result_sha256": "341cfba1565c10e930dc5d6bc1644282f61dd5084d394f0f7b562716ffd7dcaf"
         },
         {
-          "elapsed_ms": 46.717333,
+          "elapsed_ms": 44.158667,
           "result": {
             "alignment": {
               "fallback": true,
@@ -23707,7 +23707,7 @@
           "result_sha256": "341cfba1565c10e930dc5d6bc1644282f61dd5084d394f0f7b562716ffd7dcaf"
         },
         {
-          "elapsed_ms": 47.570917,
+          "elapsed_ms": 44.74325,
           "result": {
             "alignment": {
               "fallback": true,
@@ -23823,7 +23823,7 @@
       "unsupported_metadata_params": [],
       "warmups": [
         {
-          "elapsed_ms": 46.193208,
+          "elapsed_ms": 44.062125,
           "result": {
             "alignment": {
               "fallback": true,
@@ -23943,14 +23943,14 @@
       },
       "errors": [],
       "latency": {
-        "max": 139.656375,
-        "median": 137.032125,
-        "min": 136.043625,
+        "max": 125.483708,
+        "median": 123.248541,
+        "min": 122.603417,
         "n": 3,
         "samples": [
-          136.043625,
-          137.032125,
-          139.656375
+          123.248541,
+          125.483708,
+          122.603417
         ],
         "unit": "ms"
       },
@@ -24174,7 +24174,7 @@
       "status": "ok",
       "trials": [
         {
-          "elapsed_ms": 136.043625,
+          "elapsed_ms": 123.248541,
           "result": {
             "alignment": {
               "cc": 0.3393,
@@ -24394,7 +24394,7 @@
           "result_sha256": "06fb8262914b25681a9db79ebe97d42668f95902db120a600aed6523f8af9ca8"
         },
         {
-          "elapsed_ms": 137.032125,
+          "elapsed_ms": 125.483708,
           "result": {
             "alignment": {
               "cc": 0.3393,
@@ -24614,7 +24614,7 @@
           "result_sha256": "06fb8262914b25681a9db79ebe97d42668f95902db120a600aed6523f8af9ca8"
         },
         {
-          "elapsed_ms": 139.656375,
+          "elapsed_ms": 122.603417,
           "result": {
             "alignment": {
               "cc": 0.3393,
@@ -24837,7 +24837,7 @@
       "unsupported_metadata_params": [],
       "warmups": [
         {
-          "elapsed_ms": 132.290917,
+          "elapsed_ms": 130.123333,
           "result": {
             "alignment": {
               "cc": 0.3393,
@@ -25072,14 +25072,14 @@
       },
       "errors": [],
       "latency": {
-        "max": 144.181625,
-        "median": 137.825125,
-        "min": 125.808042,
+        "max": 127.685959,
+        "median": 124.528791,
+        "min": 123.594833,
         "n": 3,
         "samples": [
-          137.825125,
-          125.808042,
-          144.181625
+          123.594833,
+          127.685959,
+          124.528791
         ],
         "unit": "ms"
       },
@@ -25223,7 +25223,7 @@
       "status": "ok",
       "trials": [
         {
-          "elapsed_ms": 137.825125,
+          "elapsed_ms": 123.594833,
           "result": {
             "alignment": {
               "cc": 1.0,
@@ -25363,7 +25363,7 @@
           "result_sha256": "ac509be34046375409efce7a266159b08d9f79fb5ed5e580f523039ffd707f9f"
         },
         {
-          "elapsed_ms": 125.808042,
+          "elapsed_ms": 127.685959,
           "result": {
             "alignment": {
               "cc": 1.0,
@@ -25503,7 +25503,7 @@
           "result_sha256": "ac509be34046375409efce7a266159b08d9f79fb5ed5e580f523039ffd707f9f"
         },
         {
-          "elapsed_ms": 144.181625,
+          "elapsed_ms": 124.528791,
           "result": {
             "alignment": {
               "cc": 1.0,
@@ -25646,7 +25646,7 @@
       "unsupported_metadata_params": [],
       "warmups": [
         {
-          "elapsed_ms": 138.087041,
+          "elapsed_ms": 125.143791,
           "result": {
             "alignment": {
               "cc": 1.0,
@@ -25794,14 +25794,14 @@
       },
       "errors": [],
       "latency": {
-        "max": 61.051666,
-        "median": 59.10275,
-        "min": 56.980417,
+        "max": 59.661459,
+        "median": 55.20575,
+        "min": 54.215416,
         "n": 3,
         "samples": [
-          61.051666,
-          59.10275,
-          56.980417
+          55.20575,
+          59.661459,
+          54.215416
         ],
         "unit": "ms"
       },
@@ -25941,7 +25941,7 @@
       "status": "ok",
       "trials": [
         {
-          "elapsed_ms": 61.051666,
+          "elapsed_ms": 55.20575,
           "result": {
             "alignment": {
               "fallback": true,
@@ -26077,7 +26077,7 @@
           "result_sha256": "17f16b200cd2c0f0c569e844429f2b8aed8e9a2cbba5a844acb0393f7c3f66ff"
         },
         {
-          "elapsed_ms": 59.10275,
+          "elapsed_ms": 59.661459,
           "result": {
             "alignment": {
               "fallback": true,
@@ -26213,7 +26213,7 @@
           "result_sha256": "17f16b200cd2c0f0c569e844429f2b8aed8e9a2cbba5a844acb0393f7c3f66ff"
         },
         {
-          "elapsed_ms": 56.980417,
+          "elapsed_ms": 54.215416,
           "result": {
             "alignment": {
               "fallback": true,
@@ -26352,7 +26352,7 @@
       "unsupported_metadata_params": [],
       "warmups": [
         {
-          "elapsed_ms": 64.12225,
+          "elapsed_ms": 57.332125,
           "result": {
             "alignment": {
               "fallback": true,
@@ -26495,14 +26495,14 @@
       },
       "errors": [],
       "latency": {
-        "max": 140.996625,
-        "median": 138.326958,
-        "min": 137.977333,
+        "max": 139.274625,
+        "median": 137.055583,
+        "min": 136.248875,
         "n": 3,
         "samples": [
-          138.326958,
-          137.977333,
-          140.996625
+          137.055583,
+          136.248875,
+          139.274625
         ],
         "unit": "ms"
       },
@@ -26671,7 +26671,7 @@
       "status": "ok",
       "trials": [
         {
-          "elapsed_ms": 138.326958,
+          "elapsed_ms": 137.055583,
           "result": {
             "alignment": {
               "cc": 1.0,
@@ -26836,7 +26836,7 @@
           "result_sha256": "b4cc4a622902e897423819a1b9904705cfeea14c0626c87446896b93c8da4fb2"
         },
         {
-          "elapsed_ms": 137.977333,
+          "elapsed_ms": 136.248875,
           "result": {
             "alignment": {
               "cc": 1.0,
@@ -27001,7 +27001,7 @@
           "result_sha256": "b4cc4a622902e897423819a1b9904705cfeea14c0626c87446896b93c8da4fb2"
         },
         {
-          "elapsed_ms": 140.996625,
+          "elapsed_ms": 139.274625,
           "result": {
             "alignment": {
               "cc": 1.0,
@@ -27169,7 +27169,7 @@
       "unsupported_metadata_params": [],
       "warmups": [
         {
-          "elapsed_ms": 144.217042,
+          "elapsed_ms": 140.8,
           "result": {
             "alignment": {
               "cc": 1.0,
@@ -27341,14 +27341,14 @@
       },
       "errors": [],
       "latency": {
-        "max": 3.018417,
-        "median": 2.826667,
-        "min": 2.619709,
+        "max": 2.812625,
+        "median": 2.45,
+        "min": 2.43675,
         "n": 3,
         "samples": [
-          2.826667,
-          3.018417,
-          2.619709
+          2.45,
+          2.43675,
+          2.812625
         ],
         "unit": "ms"
       },
@@ -27392,7 +27392,7 @@
       "status": "ok",
       "trials": [
         {
-          "elapsed_ms": 2.826667,
+          "elapsed_ms": 2.45,
           "result": {
             "cand_energy": 0.0,
             "cand_moving": false,
@@ -27432,7 +27432,7 @@
           "result_sha256": "d84861ef02e3dbbb9462e0bc0151670039a184b771db2ab764d41cdf3ce1c3cd"
         },
         {
-          "elapsed_ms": 3.018417,
+          "elapsed_ms": 2.43675,
           "result": {
             "cand_energy": 0.0,
             "cand_moving": false,
@@ -27472,7 +27472,7 @@
           "result_sha256": "d84861ef02e3dbbb9462e0bc0151670039a184b771db2ab764d41cdf3ce1c3cd"
         },
         {
-          "elapsed_ms": 2.619709,
+          "elapsed_ms": 2.812625,
           "result": {
             "cand_energy": 0.0,
             "cand_moving": false,
@@ -27515,7 +27515,7 @@
       "unsupported_metadata_params": [],
       "warmups": [
         {
-          "elapsed_ms": 2.935625,
+          "elapsed_ms": 2.831083,
           "result": {
             "cand_energy": 0.0,
             "cand_moving": false,
@@ -27562,14 +27562,14 @@
       },
       "errors": [],
       "latency": {
-        "max": 3.256459,
-        "median": 2.962125,
-        "min": 2.627834,
+        "max": 3.218958,
+        "median": 2.99475,
+        "min": 2.727458,
         "n": 3,
         "samples": [
-          2.962125,
-          3.256459,
-          2.627834
+          2.727458,
+          2.99475,
+          3.218958
         ],
         "unit": "ms"
       },
@@ -27613,7 +27613,7 @@
       "status": "ok",
       "trials": [
         {
-          "elapsed_ms": 2.962125,
+          "elapsed_ms": 2.727458,
           "result": {
             "cand_energy": 0.00685,
             "cand_moving": true,
@@ -27653,7 +27653,7 @@
           "result_sha256": "a56f2cf741fdf50ac8a6d9767ab064f68e2e0ae88d5b36e792e498b7e60a15cd"
         },
         {
-          "elapsed_ms": 3.256459,
+          "elapsed_ms": 2.99475,
           "result": {
             "cand_energy": 0.00685,
             "cand_moving": true,
@@ -27693,7 +27693,7 @@
           "result_sha256": "a56f2cf741fdf50ac8a6d9767ab064f68e2e0ae88d5b36e792e498b7e60a15cd"
         },
         {
-          "elapsed_ms": 2.627834,
+          "elapsed_ms": 3.218958,
           "result": {
             "cand_energy": 0.00685,
             "cand_moving": true,
@@ -27736,7 +27736,7 @@
       "unsupported_metadata_params": [],
       "warmups": [
         {
-          "elapsed_ms": 4.233208,
+          "elapsed_ms": 6.04975,
           "result": {
             "cand_energy": 0.00685,
             "cand_moving": true,
@@ -27783,14 +27783,14 @@
       },
       "errors": [],
       "latency": {
-        "max": 3.307417,
-        "median": 3.144875,
-        "min": 2.672,
+        "max": 3.026208,
+        "median": 2.937583,
+        "min": 2.693959,
         "n": 3,
         "samples": [
-          2.672,
-          3.144875,
-          3.307417
+          2.693959,
+          3.026208,
+          2.937583
         ],
         "unit": "ms"
       },
@@ -27834,7 +27834,7 @@
       "status": "ok",
       "trials": [
         {
-          "elapsed_ms": 2.672,
+          "elapsed_ms": 2.693959,
           "result": {
             "cand_energy": 0.00685,
             "cand_moving": true,
@@ -27874,7 +27874,7 @@
           "result_sha256": "e3ad10fe09b1d490face9623d7a2c8f106bbaf35d5d7be66429d0849ec5840c1"
         },
         {
-          "elapsed_ms": 3.144875,
+          "elapsed_ms": 3.026208,
           "result": {
             "cand_energy": 0.00685,
             "cand_moving": true,
@@ -27914,7 +27914,7 @@
           "result_sha256": "e3ad10fe09b1d490face9623d7a2c8f106bbaf35d5d7be66429d0849ec5840c1"
         },
         {
-          "elapsed_ms": 3.307417,
+          "elapsed_ms": 2.937583,
           "result": {
             "cand_energy": 0.00685,
             "cand_moving": true,
@@ -27957,7 +27957,7 @@
       "unsupported_metadata_params": [],
       "warmups": [
         {
-          "elapsed_ms": 3.666833,
+          "elapsed_ms": 3.478167,
           "result": {
             "cand_energy": 0.00685,
             "cand_moving": true,
@@ -28004,14 +28004,14 @@
       },
       "errors": [],
       "latency": {
-        "max": 3.138834,
-        "median": 3.039083,
-        "min": 2.586166,
+        "max": 3.144333,
+        "median": 2.781542,
+        "min": 2.506584,
         "n": 3,
         "samples": [
-          3.138834,
-          3.039083,
-          2.586166
+          2.781542,
+          3.144333,
+          2.506584
         ],
         "unit": "ms"
       },
@@ -28055,7 +28055,7 @@
       "status": "ok",
       "trials": [
         {
-          "elapsed_ms": 3.138834,
+          "elapsed_ms": 2.781542,
           "result": {
             "cand_energy": 0.00685,
             "cand_moving": true,
@@ -28095,7 +28095,7 @@
           "result_sha256": "62a80bb596368280a770a424bb5562fd6dd3b578c29366703e52c1971b9e1494"
         },
         {
-          "elapsed_ms": 3.039083,
+          "elapsed_ms": 3.144333,
           "result": {
             "cand_energy": 0.00685,
             "cand_moving": true,
@@ -28135,7 +28135,7 @@
           "result_sha256": "62a80bb596368280a770a424bb5562fd6dd3b578c29366703e52c1971b9e1494"
         },
         {
-          "elapsed_ms": 2.586166,
+          "elapsed_ms": 2.506584,
           "result": {
             "cand_energy": 0.00685,
             "cand_moving": true,
@@ -28178,7 +28178,7 @@
       "unsupported_metadata_params": [],
       "warmups": [
         {
-          "elapsed_ms": 4.6465,
+          "elapsed_ms": 3.551667,
           "result": {
             "cand_energy": 0.00685,
             "cand_moving": true,
@@ -28225,14 +28225,14 @@
       },
       "errors": [],
       "latency": {
-        "max": 2.9765,
-        "median": 2.969333,
-        "min": 2.662667,
+        "max": 2.839625,
+        "median": 2.628958,
+        "min": 2.573458,
         "n": 3,
         "samples": [
-          2.969333,
-          2.9765,
-          2.662667
+          2.573458,
+          2.628958,
+          2.839625
         ],
         "unit": "ms"
       },
@@ -28276,7 +28276,7 @@
       "status": "ok",
       "trials": [
         {
-          "elapsed_ms": 2.969333,
+          "elapsed_ms": 2.573458,
           "result": {
             "cand_energy": 0.0,
             "cand_moving": false,
@@ -28316,7 +28316,7 @@
           "result_sha256": "66a0e8f94f88900bc2a58168b80af49abe8310b73a45bf5b1d592cc4849646b5"
         },
         {
-          "elapsed_ms": 2.9765,
+          "elapsed_ms": 2.628958,
           "result": {
             "cand_energy": 0.0,
             "cand_moving": false,
@@ -28356,7 +28356,7 @@
           "result_sha256": "66a0e8f94f88900bc2a58168b80af49abe8310b73a45bf5b1d592cc4849646b5"
         },
         {
-          "elapsed_ms": 2.662667,
+          "elapsed_ms": 2.839625,
           "result": {
             "cand_energy": 0.0,
             "cand_moving": false,
@@ -28399,7 +28399,7 @@
       "unsupported_metadata_params": [],
       "warmups": [
         {
-          "elapsed_ms": 3.8465,
+          "elapsed_ms": 4.008292,
           "result": {
             "cand_energy": 0.0,
             "cand_moving": false,
@@ -28446,14 +28446,14 @@
       },
       "errors": [],
       "latency": {
-        "max": 4.278667,
-        "median": 3.521333,
-        "min": 3.425917,
+        "max": 3.574917,
+        "median": 3.24225,
+        "min": 2.9855,
         "n": 3,
         "samples": [
-          3.425917,
-          4.278667,
-          3.521333
+          3.574917,
+          2.9855,
+          3.24225
         ],
         "unit": "ms"
       },
@@ -28501,7 +28501,7 @@
       "status": "ok",
       "trials": [
         {
-          "elapsed_ms": 3.425917,
+          "elapsed_ms": 3.574917,
           "result": {
             "cand_energy": 0.00612,
             "cand_moving": true,
@@ -28545,7 +28545,7 @@
           "result_sha256": "00dee422a878ebf0b1cbb9daf75b028f2d39b3560e037181d780072d7413b80e"
         },
         {
-          "elapsed_ms": 4.278667,
+          "elapsed_ms": 2.9855,
           "result": {
             "cand_energy": 0.00612,
             "cand_moving": true,
@@ -28589,7 +28589,7 @@
           "result_sha256": "00dee422a878ebf0b1cbb9daf75b028f2d39b3560e037181d780072d7413b80e"
         },
         {
-          "elapsed_ms": 3.521333,
+          "elapsed_ms": 3.24225,
           "result": {
             "cand_energy": 0.00612,
             "cand_moving": true,
@@ -28636,7 +28636,7 @@
       "unsupported_metadata_params": [],
       "warmups": [
         {
-          "elapsed_ms": 4.523792,
+          "elapsed_ms": 6.440666,
           "result": {
             "cand_energy": 0.00612,
             "cand_moving": true,
@@ -28696,14 +28696,14 @@
       },
       "errors": [],
       "latency": {
-        "max": 79.466583,
-        "median": 77.804875,
-        "min": 76.258583,
+        "max": 72.851667,
+        "median": 70.089459,
+        "min": 69.82525,
         "n": 3,
         "samples": [
-          76.258583,
-          77.804875,
-          79.466583
+          72.851667,
+          69.82525,
+          70.089459
         ],
         "unit": "ms"
       },
@@ -28820,7 +28820,7 @@
       "status": "ok",
       "trials": [
         {
-          "elapsed_ms": 76.258583,
+          "elapsed_ms": 72.851667,
           "result": {
             "alignment": {
               "fallback": true,
@@ -28933,7 +28933,7 @@
           "result_sha256": "eac2bae924207278c4a4187c3282d9b348318bf7dd279840210bd394466df659"
         },
         {
-          "elapsed_ms": 77.804875,
+          "elapsed_ms": 69.82525,
           "result": {
             "alignment": {
               "fallback": true,
@@ -29046,7 +29046,7 @@
           "result_sha256": "eac2bae924207278c4a4187c3282d9b348318bf7dd279840210bd394466df659"
         },
         {
-          "elapsed_ms": 79.466583,
+          "elapsed_ms": 70.089459,
           "result": {
             "alignment": {
               "fallback": true,
@@ -29162,7 +29162,7 @@
       "unsupported_metadata_params": [],
       "warmups": [
         {
-          "elapsed_ms": 80.919375,
+          "elapsed_ms": 69.82175,
           "result": {
             "alignment": {
               "fallback": true,
@@ -29291,14 +29291,14 @@
       },
       "errors": [],
       "latency": {
-        "max": 58.578416,
-        "median": 56.441083,
-        "min": 55.544417,
+        "max": 57.074292,
+        "median": 53.470458,
+        "min": 53.379959,
         "n": 3,
         "samples": [
-          56.441083,
-          58.578416,
-          55.544417
+          53.379959,
+          53.470458,
+          57.074292
         ],
         "unit": "ms"
       },
@@ -29430,7 +29430,7 @@
       "status": "ok",
       "trials": [
         {
-          "elapsed_ms": 56.441083,
+          "elapsed_ms": 53.379959,
           "result": {
             "alignment": {
               "fallback": true,
@@ -29558,7 +29558,7 @@
           "result_sha256": "8544930a75cf3b06cb029d20ae2f6eac292e29577478310a7dfcb4415917b8a4"
         },
         {
-          "elapsed_ms": 58.578416,
+          "elapsed_ms": 53.470458,
           "result": {
             "alignment": {
               "fallback": true,
@@ -29686,7 +29686,7 @@
           "result_sha256": "8544930a75cf3b06cb029d20ae2f6eac292e29577478310a7dfcb4415917b8a4"
         },
         {
-          "elapsed_ms": 55.544417,
+          "elapsed_ms": 57.074292,
           "result": {
             "alignment": {
               "fallback": true,
@@ -29817,7 +29817,7 @@
       "unsupported_metadata_params": [],
       "warmups": [
         {
-          "elapsed_ms": 58.4425,
+          "elapsed_ms": 55.822167,
           "result": {
             "alignment": {
               "fallback": true,
@@ -29952,14 +29952,14 @@
       },
       "errors": [],
       "latency": {
-        "max": 126.682667,
-        "median": 124.0055,
-        "min": 123.282042,
+        "max": 146.0865,
+        "median": 143.36075,
+        "min": 137.885834,
         "n": 3,
         "samples": [
-          123.282042,
-          124.0055,
-          126.682667
+          143.36075,
+          137.885834,
+          146.0865
         ],
         "unit": "ms"
       },
@@ -30103,7 +30103,7 @@
       "status": "ok",
       "trials": [
         {
-          "elapsed_ms": 123.282042,
+          "elapsed_ms": 143.36075,
           "result": {
             "alignment": {
               "cc": 1.0,
@@ -30243,7 +30243,7 @@
           "result_sha256": "076f7464dae6ecdf53a2b40c6ce95b5b60912c8c6b01e50b886a82ac581cd5c5"
         },
         {
-          "elapsed_ms": 124.0055,
+          "elapsed_ms": 137.885834,
           "result": {
             "alignment": {
               "cc": 1.0,
@@ -30383,7 +30383,7 @@
           "result_sha256": "076f7464dae6ecdf53a2b40c6ce95b5b60912c8c6b01e50b886a82ac581cd5c5"
         },
         {
-          "elapsed_ms": 126.682667,
+          "elapsed_ms": 146.0865,
           "result": {
             "alignment": {
               "cc": 1.0,
@@ -30526,7 +30526,7 @@
       "unsupported_metadata_params": [],
       "warmups": [
         {
-          "elapsed_ms": 203.241959,
+          "elapsed_ms": 241.994458,
           "result": {
             "alignment": {
               "cc": 1.0,
@@ -30673,14 +30673,14 @@
       },
       "errors": [],
       "latency": {
-        "max": 132.914916,
-        "median": 125.561042,
-        "min": 125.318041,
+        "max": 130.533666,
+        "median": 123.201125,
+        "min": 120.162833,
         "n": 3,
         "samples": [
-          132.914916,
-          125.318041,
-          125.561042
+          120.162833,
+          123.201125,
+          130.533666
         ],
         "unit": "ms"
       },
@@ -30904,7 +30904,7 @@
       "status": "ok",
       "trials": [
         {
-          "elapsed_ms": 132.914916,
+          "elapsed_ms": 120.162833,
           "result": {
             "alignment": {
               "cc": 0.3393,
@@ -31124,7 +31124,7 @@
           "result_sha256": "06fb8262914b25681a9db79ebe97d42668f95902db120a600aed6523f8af9ca8"
         },
         {
-          "elapsed_ms": 125.318041,
+          "elapsed_ms": 123.201125,
           "result": {
             "alignment": {
               "cc": 0.3393,
@@ -31344,7 +31344,7 @@
           "result_sha256": "06fb8262914b25681a9db79ebe97d42668f95902db120a600aed6523f8af9ca8"
         },
         {
-          "elapsed_ms": 125.561042,
+          "elapsed_ms": 130.533666,
           "result": {
             "alignment": {
               "cc": 0.3393,
@@ -31569,7 +31569,7 @@
       ],
       "warmups": [
         {
-          "elapsed_ms": 130.723583,
+          "elapsed_ms": 122.211,
           "result": {
             "alignment": {
               "cc": 0.3393,
@@ -31796,14 +31796,14 @@
       },
       "errors": [],
       "latency": {
-        "max": 125.861125,
-        "median": 124.263583,
-        "min": 123.310084,
+        "max": 123.944458,
+        "median": 122.412375,
+        "min": 121.117916,
         "n": 3,
         "samples": [
-          123.310084,
-          124.263583,
-          125.861125
+          122.412375,
+          123.944458,
+          121.117916
         ],
         "unit": "ms"
       },
@@ -32027,7 +32027,7 @@
       "status": "ok",
       "trials": [
         {
-          "elapsed_ms": 123.310084,
+          "elapsed_ms": 122.412375,
           "result": {
             "alignment": {
               "cc": 0.3393,
@@ -32247,7 +32247,7 @@
           "result_sha256": "06fb8262914b25681a9db79ebe97d42668f95902db120a600aed6523f8af9ca8"
         },
         {
-          "elapsed_ms": 124.263583,
+          "elapsed_ms": 123.944458,
           "result": {
             "alignment": {
               "cc": 0.3393,
@@ -32467,7 +32467,7 @@
           "result_sha256": "06fb8262914b25681a9db79ebe97d42668f95902db120a600aed6523f8af9ca8"
         },
         {
-          "elapsed_ms": 125.861125,
+          "elapsed_ms": 121.117916,
           "result": {
             "alignment": {
               "cc": 0.3393,
@@ -32692,7 +32692,7 @@
       ],
       "warmups": [
         {
-          "elapsed_ms": 125.020291,
+          "elapsed_ms": 121.633917,
           "result": {
             "alignment": {
               "cc": 0.3393,
@@ -32923,14 +32923,14 @@
       },
       "errors": [],
       "latency": {
-        "max": 129.540375,
-        "median": 127.758458,
-        "min": 127.022292,
+        "max": 124.080167,
+        "median": 120.669125,
+        "min": 120.032375,
         "n": 3,
         "samples": [
-          127.758458,
-          129.540375,
-          127.022292
+          124.080167,
+          120.669125,
+          120.032375
         ],
         "unit": "ms"
       },
@@ -33154,7 +33154,7 @@
       "status": "ok",
       "trials": [
         {
-          "elapsed_ms": 127.758458,
+          "elapsed_ms": 124.080167,
           "result": {
             "alignment": {
               "cc": 0.3393,
@@ -33374,7 +33374,7 @@
           "result_sha256": "74e457743dd4e95851cb9733b9ebf640eaefdcf5eef01707cd942b11b175a678"
         },
         {
-          "elapsed_ms": 129.540375,
+          "elapsed_ms": 120.669125,
           "result": {
             "alignment": {
               "cc": 0.3393,
@@ -33594,7 +33594,7 @@
           "result_sha256": "74e457743dd4e95851cb9733b9ebf640eaefdcf5eef01707cd942b11b175a678"
         },
         {
-          "elapsed_ms": 127.022292,
+          "elapsed_ms": 120.032375,
           "result": {
             "alignment": {
               "cc": 0.3393,
@@ -33817,7 +33817,7 @@
       "unsupported_metadata_params": [],
       "warmups": [
         {
-          "elapsed_ms": 124.809375,
+          "elapsed_ms": 119.961333,
           "result": {
             "alignment": {
               "cc": 0.3393,
@@ -34045,14 +34045,14 @@
       },
       "errors": [],
       "latency": {
-        "max": 129.193334,
-        "median": 126.969334,
-        "min": 125.99575,
+        "max": 125.356667,
+        "median": 123.448375,
+        "min": 121.142917,
         "n": 3,
         "samples": [
-          126.969334,
-          125.99575,
-          129.193334
+          125.356667,
+          123.448375,
+          121.142917
         ],
         "unit": "ms"
       },
@@ -34276,7 +34276,7 @@
       "status": "ok",
       "trials": [
         {
-          "elapsed_ms": 126.969334,
+          "elapsed_ms": 125.356667,
           "result": {
             "alignment": {
               "cc": 0.3393,
@@ -34496,7 +34496,7 @@
           "result_sha256": "66b611bb9dea04e1cd664a0d715a150e4877e2490923e845f55b196000c038d6"
         },
         {
-          "elapsed_ms": 125.99575,
+          "elapsed_ms": 123.448375,
           "result": {
             "alignment": {
               "cc": 0.3393,
@@ -34716,7 +34716,7 @@
           "result_sha256": "66b611bb9dea04e1cd664a0d715a150e4877e2490923e845f55b196000c038d6"
         },
         {
-          "elapsed_ms": 129.193334,
+          "elapsed_ms": 121.142917,
           "result": {
             "alignment": {
               "cc": 0.3393,
@@ -34939,7 +34939,7 @@
       "unsupported_metadata_params": [],
       "warmups": [
         {
-          "elapsed_ms": 131.106958,
+          "elapsed_ms": 121.207292,
           "result": {
             "alignment": {
               "cc": 0.3393,
@@ -35167,14 +35167,14 @@
       },
       "errors": [],
       "latency": {
-        "max": 83.672334,
-        "median": 83.642417,
-        "min": 81.362042,
+        "max": 76.373166,
+        "median": 76.17925,
+        "min": 75.775916,
         "n": 3,
         "samples": [
-          83.672334,
-          83.642417,
-          81.362042
+          75.775916,
+          76.373166,
+          76.17925
         ],
         "unit": "ms"
       },
@@ -35394,7 +35394,7 @@
       "status": "ok",
       "trials": [
         {
-          "elapsed_ms": 83.672334,
+          "elapsed_ms": 75.775916,
           "result": {
             "alignment": {
               "fallback": true,
@@ -35610,7 +35610,7 @@
           "result_sha256": "48badd024cd4a43b248cc91226b400b700872f1f8241224eddade68b32c91caf"
         },
         {
-          "elapsed_ms": 83.642417,
+          "elapsed_ms": 76.373166,
           "result": {
             "alignment": {
               "fallback": true,
@@ -35826,7 +35826,7 @@
           "result_sha256": "48badd024cd4a43b248cc91226b400b700872f1f8241224eddade68b32c91caf"
         },
         {
-          "elapsed_ms": 81.362042,
+          "elapsed_ms": 76.17925,
           "result": {
             "alignment": {
               "fallback": true,
@@ -36045,7 +36045,7 @@
       "unsupported_metadata_params": [],
       "warmups": [
         {
-          "elapsed_ms": 79.976,
+          "elapsed_ms": 76.1255,
           "result": {
             "alignment": {
               "fallback": true,
@@ -36268,14 +36268,14 @@
       },
       "errors": [],
       "latency": {
-        "max": 141.941834,
-        "median": 136.39425,
-        "min": 134.852666,
+        "max": 131.742666,
+        "median": 129.081041,
+        "min": 128.001375,
         "n": 3,
         "samples": [
-          141.941834,
-          134.852666,
-          136.39425
+          128.001375,
+          131.742666,
+          129.081041
         ],
         "unit": "ms"
       },
@@ -36419,7 +36419,7 @@
       "status": "ok",
       "trials": [
         {
-          "elapsed_ms": 141.941834,
+          "elapsed_ms": 128.001375,
           "result": {
             "alignment": {
               "cc": 1.0,
@@ -36559,7 +36559,7 @@
           "result_sha256": "f6e48742562e2160de8946ffba20adc38c5dbcefa3b74176f268ef55adc83232"
         },
         {
-          "elapsed_ms": 134.852666,
+          "elapsed_ms": 131.742666,
           "result": {
             "alignment": {
               "cc": 1.0,
@@ -36699,7 +36699,7 @@
           "result_sha256": "f6e48742562e2160de8946ffba20adc38c5dbcefa3b74176f268ef55adc83232"
         },
         {
-          "elapsed_ms": 136.39425,
+          "elapsed_ms": 129.081041,
           "result": {
             "alignment": {
               "cc": 1.0,
@@ -36842,7 +36842,7 @@
       "unsupported_metadata_params": [],
       "warmups": [
         {
-          "elapsed_ms": 136.702875,
+          "elapsed_ms": 137.299541,
           "result": {
             "alignment": {
               "cc": 1.0,
@@ -36989,14 +36989,14 @@
       },
       "errors": [],
       "latency": {
-        "max": 143.810375,
-        "median": 134.14775,
-        "min": 132.405416,
+        "max": 142.542,
+        "median": 139.124125,
+        "min": 135.834542,
         "n": 3,
         "samples": [
-          143.810375,
-          134.14775,
-          132.405416
+          135.834542,
+          139.124125,
+          142.542
         ],
         "unit": "ms"
       },
@@ -37140,7 +37140,7 @@
       "status": "ok",
       "trials": [
         {
-          "elapsed_ms": 143.810375,
+          "elapsed_ms": 135.834542,
           "result": {
             "alignment": {
               "cc": 1.0,
@@ -37280,7 +37280,7 @@
           "result_sha256": "e62c54bad56cca6a19998023aec57f06c5dc75643ef677735616c32d66a90e8a"
         },
         {
-          "elapsed_ms": 134.14775,
+          "elapsed_ms": 139.124125,
           "result": {
             "alignment": {
               "cc": 1.0,
@@ -37420,7 +37420,7 @@
           "result_sha256": "e62c54bad56cca6a19998023aec57f06c5dc75643ef677735616c32d66a90e8a"
         },
         {
-          "elapsed_ms": 132.405416,
+          "elapsed_ms": 142.542,
           "result": {
             "alignment": {
               "cc": 1.0,
@@ -37563,7 +37563,7 @@
       "unsupported_metadata_params": [],
       "warmups": [
         {
-          "elapsed_ms": 136.774,
+          "elapsed_ms": 133.902417,
           "result": {
             "alignment": {
               "cc": 1.0,
@@ -37710,14 +37710,14 @@
       },
       "errors": [],
       "latency": {
-        "max": 148.764208,
-        "median": 145.456458,
-        "min": 133.15925,
+        "max": 134.435208,
+        "median": 133.795875,
+        "min": 133.201458,
         "n": 3,
         "samples": [
-          133.15925,
-          145.456458,
-          148.764208
+          133.201458,
+          133.795875,
+          134.435208
         ],
         "unit": "ms"
       },
@@ -37861,7 +37861,7 @@
       "status": "ok",
       "trials": [
         {
-          "elapsed_ms": 133.15925,
+          "elapsed_ms": 133.201458,
           "result": {
             "alignment": {
               "cc": 1.0,
@@ -38001,7 +38001,7 @@
           "result_sha256": "db5d28df584b93cf5d0ae06b0f9043ceca724e5330c3351b9022a393317ca92d"
         },
         {
-          "elapsed_ms": 145.456458,
+          "elapsed_ms": 133.795875,
           "result": {
             "alignment": {
               "cc": 1.0,
@@ -38141,7 +38141,7 @@
           "result_sha256": "db5d28df584b93cf5d0ae06b0f9043ceca724e5330c3351b9022a393317ca92d"
         },
         {
-          "elapsed_ms": 148.764208,
+          "elapsed_ms": 134.435208,
           "result": {
             "alignment": {
               "cc": 1.0,
@@ -38284,7 +38284,7 @@
       "unsupported_metadata_params": [],
       "warmups": [
         {
-          "elapsed_ms": 142.342875,
+          "elapsed_ms": 142.946583,
           "result": {
             "alignment": {
               "cc": 1.0,
@@ -38431,14 +38431,14 @@
       },
       "errors": [],
       "latency": {
-        "max": 149.860125,
-        "median": 132.808959,
-        "min": 132.526583,
+        "max": 140.360167,
+        "median": 140.324916,
+        "min": 132.437042,
         "n": 3,
         "samples": [
-          132.526583,
-          132.808959,
-          149.860125
+          140.324916,
+          140.360167,
+          132.437042
         ],
         "unit": "ms"
       },
@@ -38582,7 +38582,7 @@
       "status": "ok",
       "trials": [
         {
-          "elapsed_ms": 132.526583,
+          "elapsed_ms": 140.324916,
           "result": {
             "alignment": {
               "cc": 1.0,
@@ -38722,7 +38722,7 @@
           "result_sha256": "33b88067c4d957406fc94ea8dbed0b4a9d99d68d9684cf943b0994543b3e38a4"
         },
         {
-          "elapsed_ms": 132.808959,
+          "elapsed_ms": 140.360167,
           "result": {
             "alignment": {
               "cc": 1.0,
@@ -38862,7 +38862,7 @@
           "result_sha256": "33b88067c4d957406fc94ea8dbed0b4a9d99d68d9684cf943b0994543b3e38a4"
         },
         {
-          "elapsed_ms": 149.860125,
+          "elapsed_ms": 132.437042,
           "result": {
             "alignment": {
               "cc": 1.0,
@@ -39005,7 +39005,7 @@
       "unsupported_metadata_params": [],
       "warmups": [
         {
-          "elapsed_ms": 131.780375,
+          "elapsed_ms": 150.569042,
           "result": {
             "alignment": {
               "cc": 1.0,
@@ -39151,7 +39151,7 @@
     "cpu_count": 18,
     "dependencies": {
       "ImageIO": "2.37.4",
-      "design-compare-vision-worker": "0.11.0",
+      "design-compare-vision-worker": "0.12.0",
       "joblib": "1.5.3",
       "lazy-loader": "0.5",
       "narwhals": "2.24.0",

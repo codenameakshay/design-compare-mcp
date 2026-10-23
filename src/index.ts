@@ -20,7 +20,7 @@ const activeExtractions = new Set<ReturnType<typeof extractVideoFrames>>();
 
 const server = new McpServer({
   name: "design-compare-mcp",
-  version: "0.11.0",
+  version: "0.12.0",
 });
 
 interface Visual {
