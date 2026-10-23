@@ -24,9 +24,14 @@ for (const test of [
   "worker/tests/test_calibration.py",
   "worker/tests/test_robustness.py",
   "worker/tests/test_motion.py",
+  "worker/tests/test_color_stability.py",
+  "worker/tests/test_reliability.py",
 ]) {
   run(PYTHON, [test]);
 }
 
 run("npm", ["run", "smoke"]);
+run("node", ["scripts/reliability-smoke.mjs"]);
+run(PYTHON, ["scripts/reliability-benchmark.py", "--self-test-runner"]);
+run("node", ["scripts/render-reliability-test.mjs", "docs/reliability/runs/final"]);
 run("npm", ["run", "resilience"]);

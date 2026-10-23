@@ -1,20 +1,18 @@
 # design-compare-mcp
 
-An MCP server that measures **how faithfully one UI reproduces another** — a reference design vs. an
-implementation — and returns a score plus a concrete, actionable punch-list of what's off. It exists
-to drive an iterative *"hill-climb the clone"* loop: an agent renders its implementation, compares it
-to the goal, fixes the biggest discrepancies, and repeats.
+An MCP server for comparing UI screenshots and sampled motion. It returns heuristic scores,
+diagnostic images and suggested fixes to support visual review.
 
-**Website:** [codenameakshay.github.io/design-compare-mcp](https://codenameakshay.github.io/design-compare-mcp/) — overview, the five dimensions, install steps, and live interactive demos ([source in `site/`](site/)).
+**Website:** [codenameakshay.github.io/design-compare-mcp](https://codenameakshay.github.io/design-compare-mcp/) — overview, the five dimensions, install steps, and browser-only formula illustrations, not full worker comparisons ([source in `site/`](site/)).
 
 It compares along two axes most tools ignore in combination:
 
-- **Static fidelity** (`compare_designs`) — layout, color, content, typography, spacing of a still frame.
-- **Motion fidelity** (`compare_motion` + `capture_frames`) — whether animations move with similar
-  energy and rhythm over time. A screenshot can't see motion; a component library often lives or dies by it.
+- **Static comparison** (`compare_designs`) — layout, color, content, typography, spacing of a still frame.
+- **Motion diagnostics** (`compare_motion` + `capture_frames`) summarize frame-to-frame change.
+  Similar energy or correlation alone does not establish matching animation.
 
-This document is a deep dive: what each score means, exactly how it's computed, how it was calibrated
-against human judgment, and — importantly — **where it is weak and can mislead you**. If a number
+This document explains what each score means, how it is computed, the historical human-label
+calibration, and **where it is weak and can mislead you**. If a number
 looks wrong, the [Calibration](#calibration-is-it-any-good) and [Known limitations](#known-limitations--how-it-can-be-wrong)
 sections are written so you can tell whether it's the UI or the tool.
 
@@ -43,16 +41,15 @@ for the calibration workflow.
 
 ## The idea
 
-You have a **reference** (a design, a website, a component library) and a **candidate** (your
-implementation — an app screenshot, a Flutter/React render, a cropped widget). You want a number that
-goes **up as the candidate gets closer**, and a list of **what to change** to raise it.
-
-The core design principle: **the score's job is to be actionable and monotonic, not to be a single
-"accurate" truth.** A comparison returns:
+You have a **reference** and a **candidate** screenshot or cropped widget. Use scores to locate
+differences, not as a guarantee of perceptual progress. Keep inputs and settings comparable, inspect
+dimensions and diagnostics, and verify behavior separately. A static comparison returns:
 
 - an **`overall`** 0–100,
-- five **sub-scores** (each 0–100, or `null` when a dimension doesn't apply to the pair),
-- **`cv_findings`** — the punch-list (specific colors, missing/extra elements, spacing/text mismatches),
+- five **sub-scores** with `scored`, `not_applicable` or `failed` status,
+- **`diagnostics`** with review/inconclusive status, capture observations, scope and alignment evidence,
+- **`provenance`** with decoded-input identities, resolved settings and comparison/run keys,
+- **`cv_findings`** with suggested color, region, spacing and text corrections to confirm visually,
 - **diagnostic images** the calling model can look at,
 - a **`critique_rubric`** telling the host how to turn all of that into a prioritized fix list.
 
@@ -103,13 +100,17 @@ paths ready to pass through without reconstructing filenames.
 ### `compare_designs` — static comparison
 
 Inputs: `reference` (path), `candidate` (path), `mode` (`"widget"` | `"screen"`), optional
-`preset` (`"default"` | `"dark-ui"`), `weights`, `ignoreRegions`, `returnVisuals`.
+`preset` (`"default"` | `"dark-ui"`), `weights`, `ignoreRegions`, `comparisonContext`, `returnVisuals`.
 
 `ignoreRegions` are `[x, y, w, h]` boxes in **original reference image pixels** (before the
 768 px normalization). Finding boxes in `cv_findings` are reported in the **canonical 768-wide**
-canvas space — use the returned `canvas` mapping to translate between the two.
+canvas space — use the returned `canvas` mapping to translate between the two. Masks fill pixels
+with each image's own modal edge color before metrics; they are **not true exclusion**. Different
+fills can still affect scores. Fully masked results are `inconclusive` even if `overall` is high.
 
-Example — comparing a reference card screen against a version with recolored accents:
+Historical example from the earlier pipeline, **not current output**. The old palette measurements,
+findings and numbers below have not been regenerated; current results also include statuses,
+diagnostics and provenance:
 
 ```jsonc
 // compare_designs(reference="reference.png", candidate="recolored.png", mode="screen")
@@ -139,11 +140,14 @@ Example — comparing a reference card screen against a version with recolored a
 }
 ```
 
-Read it as: **layout and content are perfect (same shapes, all elements present), but color is badly
-off (mean ΔE 15.6, worst pairs ΔE 45/29)** — and the findings say exactly which hex to change to which.
-`typography` is `null` because this screen has no text; that dimension is simply excluded from `overall`.
+In that historical result, layout and content heuristics scored highly while color scored lower.
+The findings suggested palette changes, not verified semantic fixes. `typography` was `null` because
+the detector found no text in either image; that dimension was excluded from `overall`.
+The old color measurement fields in this example are removed, with no compatibility aliases.
+See the [current color measurement API](calibration/README.md#color-measurement-api) for their replacement.
+The historical `color_shift` entries do not use the current two-certificate finding contract.
 
-Findings locate structural problems too. Removing the CTA button from the candidate yields:
+Historical finding from removing the CTA button:
 
 ```jsonc
 { "area": "content", "type": "missing_region", "severity": "high", "box": [229, 1150, 312, 92],
@@ -151,10 +155,36 @@ Findings locate structural problems too. Removing the CTA button from the candid
   "suggested_fix": "add the missing element at this position" }
 ```
 
+### Comparing revisions without changing the question
+
+1. Retain the reference and baseline candidate. Fix the intended state, viewport, crop origins and
+   sizes, masks, mode, preset and weights. Record these in an immutable external protocol manifest.
+   Hash its exact bytes with `shasum -a 256 /absolute/path/to/protocol.json`.
+2. Pass `comparisonContext: {scopeId, protocolKey}` to `compare_designs`, using a 1–128 UTF-16-unit scope ID
+   and that lowercase SHA-256 digest. This is caller-declared metadata, not capture verification.
+   When omitted, the worker cannot know external state or crop origins.
+3. Compare both the saved baseline and revised candidate against the same reference and setup.
+   Require matching `provenance.comparison_key` values before reporting a score delta.
+   `run_key` additionally identifies candidate pixels, so candidate-only changes keep the comparison
+   key but change the run key when decoded pixels change. Paths and `returnVisuals` do not split keys.
+4. If a key is missing or differs, re-score the saved baseline under the new setup first. A worker
+   source/runtime, reference, settings or declared context change starts a new comparison series.
+   Rebuild/restart after implementation changes. Keys do not establish visual progress or validate
+   the external manifest. Review diagnostics, screenshots and behavior before accepting a change.
+
+If an intentional omission, such as a header or avatar, changes the flow below it, a mask does not
+restore correspondence. Crop both inputs to the same retained widget, declare the crop origins and
+scope in a new protocol, and use `mode: "widget"`. Re-score the baseline using that same scope.
+Report this as a scoped widget comparison, not a whole-screen improvement or proof that omitted
+content matches.
+
 ### `compare_motion` — temporal comparison
 
 Inputs: `reference`, `candidate` (each a **directory of frames** or an **array of frame paths**
 captured over time), optional `maxFrames`, `returnVisuals`.
+
+Historical energy-only output, **not current output**. It predates `motion_status`, the
+`motion_energy_score` alias and `timing_diagnostics`:
 
 ```jsonc
 // compare_motion(reference="loader/ref_frames", candidate="loader/cand_frames")
@@ -162,14 +192,15 @@ captured over time), optional `maxFrames`, `returnVisuals`.
   "ref_energy": 0.00474,     // motion in the reference (mean per-frame change)
   "cand_energy": 0.00288,    // motion in the candidate
   "energy_ratio": 0.607,     // min/max — do they animate a similar amount?
-  "temporal_corr": 0.639,    // do they move at the same times/rhythm? (null for steady motion)
+  "temporal_corr": 0.639,    // frame-index profile correlation, not verified timing
   "ref_moving": true, "cand_moving": true,
   "motion_score": 60.7       // 0 if one animates and the other is static
 }
 ```
 
-Read it as: **both animate, at a correlated rhythm, but the candidate's loader moves ~40% less** than
-the reference's.
+That result showed lower mean frame-to-frame grayscale change in the candidate under that sampling
+setup. It did not measure distance traveled or verify rhythm. Current output reports energy-only
+score semantics and inconclusive timing; see [Motion comparison](#motion-comparison).
 
 ### `capture_frames` — get frames for `compare_motion`
 
@@ -280,13 +311,18 @@ distrusting) a score.
    that dimension **`failed`** with score floored at **1.0** and still contributes to `overall`; a
    dimension that doesn't apply returns `null` and is excluded.
 5. **Aggregate** — weighted geometric mean over the scored dimensions.
-6. **Visuals** — render diagnostic images (unless `returnVisuals:false`).
+6. **Diagnostics and provenance** — report caveats and decoded-input/settings identities, then render
+   diagnostic images unless `returnVisuals:false`. `diagnostics.status` is `ok`, `review` or
+   `inconclusive`. `ok` is not capture verification or a design pass. Near-uniform input is an
+   observation, not proof of capture failure. Failed metrics remain measurement failures, not defects.
 
 **Only `layout` uses the aligned candidate.** SSIM is hypersensitive to a 1-px offset, so the global
 shift is registered away and layout measures *shape*. The other four run on the **unwarped** candidate
-on purpose: color/typography are alignment-invariant, and content/spacing must stay position-sensitive
-so a genuine misplacement surfaces as a *spacing/placement* finding instead of being silently
-corrected. This also avoids warp-interpolation artifacts contaminating those dimensions.
+on purpose. Color compares distributions, typography compares amount/scale, and content/spacing remain
+position-sensitive. This avoids warp-interpolation artifacts in those dimensions. Inspect alignment
+`outcome`/`reason` and `diagnostics.layout_identity_score` alongside aligned layout. Rejected `dx`/`dy`
+describe attempted, not applied, translation; offsets are in canonical pixels. Alignment does not
+verify matching state, and no metric guarantees that a real misplacement becomes a finding.
 
 **Modes.** `widget` = a tight crop of one component, strict, no alignment. `screen` = a full view,
 tolerant, auto-aligned. Choose `widget` when you can crop to the exact component (best signal); `screen`
@@ -294,10 +330,10 @@ for whole pages.
 
 ## The five dimensions
 
-| Dimension | Default weight | Measures | Goes down when… | Known weakness |
+| Dimension | Default weight | Measures | Differences it targets | Known weakness |
 |---|---|---|---|---|
 | **layout** | 0.35 | structural similarity | shapes/structure differ, blur, alignment fails | grayscale (blind to color); plateaus under heavy blur |
-| **color** | 0.20 | dominant-palette match | palette/hue/brightness differ | near-useless in a single-theme UI (no palette variance); ignores position |
+| **color** | 0.20 | global projected color mass and soft rare-color coverage | color proportions or coverage differ | no region correspondence; fixed-grid proxy, not CIEDE2000 or 3D optimal transport |
 | **content** | 0.15 | are the reference's blocks present & placed | elements missing/extra/moved | coarse segmentation; region boxes wobble |
 | **typography** | 0.15 | amount + scale of text | more/less text, larger/smaller type | **not** font identity; `null` when no text |
 | **spacing** | 0.15 | margins + vertical rhythm | margins/gaps differ | coarsest; `null` on sparse views; full-width blocks zero the L/R margins |
@@ -307,11 +343,34 @@ Details of each:
 - **layout (structure).** SSIM (`skimage.metrics.structural_similarity`) on the aligned grayscale
   images; window clamped to `min(7, h, w)` so thin/tiny canvases don't error. Score = `clamp(SSIM,0,1)×100`.
   The SSIM difference map also drives the diff-heatmap visual.
-- **color.** Deterministic k-means (k=6, fixed seed) extracts a dominant palette in **CIELAB** from
-  each image (downsampled to 160 px wide). Reference and candidate palettes are matched one-to-one by
-  minimum **ΔE2000** (Hungarian assignment). `mean_delta_e` is the mean matched ΔE; score =
-  `100 × exp(−mean_ΔE / 19)` (ΔE 0→100, ≈13→51, ≈25→27). Findings name each shifted pair as hex.
-  Alignment-invariant by design (global palette), so it says nothing about *where* colors are.
+- **color.** The worker uses one fixed soft lattice for every image, without
+  unique-color cutoffs, clustering, shortlists, or an exact-small fallback. Every normalized pixel
+  contributes mass to a step-4 lattice in chroma-compressed D65 Lab coordinates. Mass distance `M`
+  is the maximum exact 1D Wasserstein distance over 64 fixed projections of that lattice.
+  A separate soft rare-color coverage distance `S` uses density-capped weights and multiradius
+  clearance. Source-query `alpha = 0.05 / max(local_density, 0.05)` scales both own and target
+  occupancy in each direction. Effective query mass resolution is `0.001 / alpha`.
+  Score is `100 × exp(−max(M, 0.9 × S) / 19)`. These are heuristic proxy units,
+  not CIEDE2000, exact color matching, or 3D optimal transport.
+  Measurements identify `metric: "soft_grid_source_density_scaled_clearance_v2"` and
+  `units: "chroma_compressed_lab_proxy"`. `mass_distance` is `M`, `coverage_distance` is raw `S`,
+  and `weighted_coverage_distance` is `0.9 × S`. `distance` is the maximum of the mass and weighted
+  coverage distances, with `decay: 19`. The [color measurement API](calibration/README.md#color-measurement-api)
+  describes the nested method metadata and removed legacy fields.
+  `color_distribution` reports projected-mass distance when `M ≥ 5`, even when coverage is larger.
+  Missing or added findings require conservative absence certificates with a lattice uncertainty
+  guard and at least 0.1% certified image mass. `color_shift` summarizes two certified unmatched
+  masses, one on each side. It does not mean any recoloring. A missing absence certificate is not
+  proof of presence or of a nearby counterpart.
+  If no other color finding exists, `color_coverage_deficit` reports `0.9 × S ≥ 1` without claiming
+  exact absence. Findings do not establish spatial correspondence, transport edges, or a percentage
+  of pixels moved beyond a color-distance threshold. Equal-histogram spatial swaps remain invisible.
+  Normalization, padding, and mask fills affect distributions. The frozen v2 contract has passed
+  [local color qualification and independent review](docs/reliability/limitations/README.md).
+  Full-project checks (`npm test` and `npm run lifecycle`) passed locally.
+  Hosted CI, merge, and deployment remain unverified.
+  See the [color policy and regression checks](calibration/README.md#color-policy-and-regression-checks)
+  for frozen constants, score recalibration, and remaining gates, and the [worker source](worker/vision_worker/metrics/color.py).
 - **content-presence.** A **contrast-adaptive** detector (Otsu-thresholded brightness delta from the
   modal background, **unioned** with a gradient/edge mask) segments major blocks, morphologically
   closed and connected-component-labeled. Reference regions are matched to candidate regions by IoU ≥ 0.3;
@@ -336,11 +395,11 @@ renormalized across that subset and each score floored at 1.0:
 overall = exp( Σ (wᵢ / Σw) · ln(clamp(scoreᵢ, 1, 100)) )
 ```
 
-Why geometric, not arithmetic: a **weak dimension drags the whole score down** far more than an average
-would, so you **can't farm one dimension to mask a broken one** (a color-perfect but structurally-wrong
-clone still scores low). This is verified by a gaming test in the suite (a `{layout:12, color:100, …}`
-input scores ~35 geometric vs ~56 arithmetic). Dimensions that are `null` are simply excluded, so
-identical inputs score ~100 whether or not every dimension applies.
+A weighted geometric mean penalizes low numeric dimensions more than the arithmetic mean for the
+same clamped scores and weights. It does not prevent gaming, detect unmeasured errors or establish
+perceptual validity. `failed` dimensions retain their numeric floor; `null` dimensions are excluded.
+No numeric dimensions returns 0. If all remaining numeric dimensions have zero weight, the current
+implementation returns 1. Inspect statuses and effective weights before interpreting `overall`.
 
 ## Presets & weights
 
@@ -348,9 +407,9 @@ The default weights are a balanced starting point, **not** a universal truth —
 depends on the domain (see [Calibration](#calibration-is-it-any-good)).
 
 - **`default`** — `layout 0.35, color 0.20, content 0.15, typography 0.15, spacing 0.15`.
-- **`dark-ui`** — `layout 0.60, typography 0.30, color 0.10, content 0, spacing 0`. Calibrated on a
-  dark, single-theme component-library port: layout-dominant, color down-weighted (no palette
-  variance), content/spacing off. Raised correlation with human labels from ~0 to ~0.44 on that dataset.
+- **`dark-ui`** — `layout 0.60, typography 0.30, color 0.10, content 0, spacing 0`. Historical tuning
+  on a dark component-library port down-weighted color and disabled content/spacing. Its earlier
+  human-label correlation is not validation of the current pipeline.
 
 Pass `preset: "dark-ui"`, or override any dimension with explicit `weights` (which take precedence over
 the preset). The resolved preset + weights are echoed back in every result for transparency.
@@ -359,38 +418,51 @@ the preset). The resolved preset + weights are echoed back in every result for t
 
 `compare_designs` returns up to four images (as MCP image blocks); `compare_motion` returns one:
 
-- **overlay** — reference and aligned candidate blended 50/50; ghosting shows where they diverge.
-- **diff_heatmap** — the SSIM difference map; **hot = larger structural divergence**. (Omitted if the
-  layout metric couldn't run.)
-- **content_regions** — two panes when extras exist: matched/missing on the reference, extras on the candidate. Green = matched, red = missing, orange = extra.
-- **side_by_side** — reference and candidate at matched size, for a direct human look.
-- **motion_signature** — line chart of per-frame motion over time: **green = reference, blue =
-  candidate**. Compare curve height (intensity) and shape (timing).
+- **overlay** — filled reference and aligned, filled candidate blended 50/50. Alignment and mask
+  fills can hide differences; this is not the original unwarped pair.
+- **diff_heatmap** — aligned grayscale SSIM divergence, not a color-error map. Inferno maps
+  `clip(1 − SSIM, 0, 2) / 2` to intensity on a fixed scale. Omitted if layout fails.
+- **content_regions** — unaligned previews with red ignore hatching. Green boxes mark matched
+  regions and red boxes missing regions on the reference; orange extras appear on a second candidate
+  pane when needed. Boxes describe filled-canvas detections, not semantic elements.
+- **side_by_side** — unaligned normalized/padded previews with ignore hatching, not the metric fills.
+- **motion_signature** — green reference and blue candidate share a peak-normalized intensity scale.
+  Each sequence spans the chart width independently. The horizontal axis is relative frame index,
+  not verified time; unequal-length curves must not be read as time-aligned.
+
+Unaligned static panes use the returned canonical `canvas` mapping. Divide coordinates by the
+corresponding input's `scale` to recover original pixels. Overlay and heatmap use registered
+reference-canvas positions; account for the accepted warp before mapping back to the original
+candidate. These views do not all share alignment or mask rendering.
 
 ## Motion comparison
 
-A single frame can't measure animation, so `compare_motion` compares two **frame sequences**:
+A single frame can't measure animation, so `compare_motion` compares two **frame sequences**.
+The loader converts each frame to grayscale at a fixed working size before these calculations:
 
-- **Signature** — for each consecutive frame pair, the mean absolute grayscale change (0–1). The series
-  over time is the component's *motion signature*.
-- **Motion energy** — mean of the signature: how much it animates. Below ~0.0008 a side is "static."
-- **`motion_status`** — `compared` (a numeric `motion_score` is meaningful), `static` (both sides
-  below the motion threshold), or `capture_unreliable` (blank/near-uniform frames). Read this before
-  trusting `motion_score`.
-- **`motion_score`** — when `motion_status` is `compared`, the energy ratio `min/max × 100` (similar
-  animation amount), **0 if one animates and the other is static**. When status is `static` or
-  `capture_unreliable`, the score is **`null`** — never a fake 100.
-- **`temporal_corr`** — Pearson correlation of the two signatures (do they move at the same *times*);
-  `null` for steady motion that has no temporal profile to correlate.
+- **Signature** — mean absolute grayscale change divided by 255 for each consecutive frame pair.
+- **Motion energy** — mean of the signature. A side moves when energy is greater than 0.0008.
+- **`motion_status`** — `compared`, `static` when neither side moves, or `capture_unreliable` when
+  either sequence consists entirely of near-uniform frames, each with grayscale standard deviation
+  below 2. This observation does not establish why the capture is uniform.
+- **`motion_score` / `motion_energy_score`** — identical energy-only values: `min/max × 100` when
+  both move, 0 when only one moves, and `null` for `static` or `capture_unreliable`.
+  `motion_score_meaning` is `motion_energy_similarity_only`.
+- **`timing_diagnostics`** — always `inconclusive`, with `score: null` and `cadence_verified: false`.
+  Inputs contain no timestamps. Its reason and recommendation explain what to recapture or inspect.
+  `sampled_profile.correlation`, also returned as `temporal_corr`, is Pearson correlation of equal-length
+  frame-index signatures only. It is `null` for unequal lengths, insufficient/constant profiles,
+  unreliable/static captures or a motion-presence mismatch. Signatures are not stretched or truncated.
 
-It is **content-agnostic** — it measures change over time, not appearance — so it works even when the
-two sources render different example content, which is exactly what blocks frame-by-frame appearance
-comparison.
+Energy does not measure direction, path, easing or interaction correctness. Different content,
+contrast, moving pixel area, duration and sampling cadence can change it. Even matching energy and
+profile correlation do not establish animation fidelity. Review timestamped captures independently.
 
 ## Calibration: is it any good?
 
-This is the part to read critically. The tool was calibrated against **human labels** on a real dataset:
-26 components of a dark motion-component library (beUI) vs. its Flutter port, each scored 0–100 by eye
+The following tables describe an **earlier scoring pipeline**, not current reliability changes.
+They have not been revalidated. The original labeled run has no retained exact version provenance.
+It used 26 components of a dark motion-component library (beUI) vs. its Flutter port, each scored 0–100 by eye
 (blind to the tool's output). Correlation is **Spearman** (does the tool *rank* ports the way a human
 does?).
 
@@ -399,7 +471,7 @@ does?).
 | `default` preset, out of the box | **−0.03** — essentially no correlation |
 | `default` preset, after fixing dark-UI segmentation | **+0.14** |
 | **`dark-ui` preset** | **+0.44** |
-| best possible weighting (search over 3 dims) | +0.54 *(overfit to 26 points — treat as a ceiling, not a setting)* |
+| best weighting found in a search over 3 dims | +0.54, fitted to the same 26 pairs, not held-out validation |
 
 Per-dimension correlation with human judgment **on that dataset**:
 
@@ -408,47 +480,53 @@ Per-dimension correlation with human judgment **on that dataset**:
 | layout | **+0.33** | the strongest single predictor |
 | typography | **+0.31** | comparably useful |
 | content | +0.23 | useful after the dark-UI fix (was −0.02 noise before) |
-| color | +0.03 | **useless here** — single dark theme, no palette variance to read |
+| color | +0.03 | little ranking signal on this dataset with the old color metric |
 | spacing | −0.13 | weak/noisy on sparse dark previews |
 
-**What this tells you honestly:** on a dark, single-theme, motion-heavy library, the tool is a *decent
-layout+typography checker* (≈+0.44 tuned) and **not** a full fidelity oracle. On a light, multi-theme,
-static UI, color and content would carry much more signal — which is the whole point of per-domain
-calibration.
+These historical correlations describe that dataset only. A finite weight search is not a universal
+ceiling, and fitting and evaluating on the same labels can overstate generalization. Synthetic
+regression checks do not replace fresh human-label calibration of the changed pipeline.
+The current color metric changes the distance definition and score scale. Historical color
+scores and exact-CIEDE2000 numeric anchors are not current targets. Re-score saved baselines under
+the new metric version before comparing revisions. Available labeled evidence remains weak;
+prototype checks do not qualify the production implementation or establish universal accuracy.
 
 **Re-calibrate for your own UI:** drop `(reference, candidate, your 0–100 label)` pairs into
-`calibration/` and run `worker/.venv/bin/python scripts/calibrate.py`. It reports per-dimension
-Spearman, the baseline, and a weight search. 15–30 pairs spanning the quality range gives a meaningful
-number; fewer is directional only.
+`calibration/` and follow [the manifest-based workflow](calibration/README.md). Report dataset scope,
+sample count and tool/runtime versions. Use held-out pairs to evaluate tuned weights; no fixed pair
+count guarantees a reliable accuracy estimate. `scripts/calibrate.py` is the historical beUI-specific
+helper with embedded labels and crop paths, not a general manifest runner.
 
 ## Known limitations & how it can be wrong
 
 Read this before trusting any single number.
 
-- **The motion ceiling (biggest one).** A static screenshot cannot see animation. On the calibration
+- **Static comparisons miss motion.** On the historical calibration
   set, *every one of the 8 largest tool-vs-human disagreements was a motion/interaction component* the
   static tool **over-scored** (e.g. animated-toast-stack: human 25, tool 80; tooltip: 50 vs 87). If a
-  component's fidelity is mostly about motion, `compare_designs` will look too kind — use
-  `compare_motion`.
-- **Color is near-useless in a single theme.** With everything on one dark palette there's no variance
-  for ΔE to read (rho +0.03). Don't weight color on such UIs (the `dark-ui` preset zeroes it low).
-- **content & spacing are coarse.** They rely on pixel segmentation with no DOM. They were *completely
-  broken* on low-contrast dark UIs until the adaptive detector (they returned 0/`null` for everything);
-  they now work but region boxes still wobble, and spacing goes `null` on sparse previews.
+  component's fidelity is mostly about motion, inspect sequences too. `compare_motion` diagnostics
+  do not by themselves establish animation fidelity.
+- **Historical color calibration is dataset-specific.** The old color metric had rho +0.03 on that
+  dark-library dataset. This does not make palette errors irrelevant in every single-theme UI.
+  `dark-ui` sets color weight to 0.10, not zero; validate weights for your own task.
+- **Color-mass ordering is not universally monotonic.** The [independent close-hue review](docs/reliability/limitations/independent-review.md#non-blocking-limitation-close-hue-mass-ordering)
+  records a score increase from 98.13474 to 98.60238 when recolored mass grows from 2.5% to 5%,
+  with no findings. Retained finite sweeps do not establish general monotonicity or perceptual accuracy.
+- **content & spacing are coarse.** They rely on pixel segmentation with no DOM. The adaptive detector
+  repaired historical low-contrast cases, but region boxes still wobble and spacing goes `null` on
+  sparse previews. A detected region does not establish semantic correspondence.
 - **typography is amount + scale, not font.** It will not notice a wrong font family or weight — that's
   deliberately left to a vision model. Two very different fonts at the same size and density score high.
-- **One-shot animations under `capture_frames`.** Frames are sampled at a fixed cadence after load, so a
-  count-up or text-reveal that finishes before sampling reads as *static* — a low `motion_score` can
-  mean "not captured," not "not faithful." Continuous animations (spinners, marquees, shaders) are fine.
-- **Flutter/CanvasKit in headless capture.** A CanvasKit render can screenshot black or fail to boot in
-  an offscreen browser; the DOM/HTML renderer captures reliably. If frames are blank, that's a capture
-  issue, not zero motion.
-- **The correlation number itself.** +0.44 is *moderate* and measured on n=26 — meaningful but not
-  authoritative. The tool is a fast, reproducible **first-pass gate and punch-list generator**, not a
-  substitute for a human's final judgment.
+- **One-shot animations under `capture_frames`.** An animation that ends before sampling can be missed.
+  Both-static and unreliable captures return null scores, not proof of matching animation. Inspect
+  the frames, status and actual timing even for continuous animations.
+- **Headless rendering can fail.** Inspect Flutter and other captures for blank frames, startup
+  failures and wrong state. No renderer choice guarantees a reliable capture.
+- **Correlation is not acceptance.** The historical +0.44 on n=26 is not a current accuracy estimate
+  or an acceptance threshold. Review images and behavior separately.
 - **Different example content.** If the two sources show different sample data (a `select` showing
-  "Next.js" vs "Pick a fruit"), the static comparison is partly apples-to-oranges. `compare_motion` is
-  content-agnostic and unaffected.
+  "Next.js" vs "Pick a fruit"), static and motion measurements can both change. Match sample content
+  or declare a narrower comparison scope rather than attributing every difference to the product.
 
 ## Architecture
 
@@ -466,14 +544,16 @@ Host agent ──MCP/stdio──► TS server ──spawns once──► Python 
 
 ## Hardening, determinism & trust model
 
-- **Deterministic scores.** Same inputs → identical output (k-means is seeded; no randomness in the
-  metrics). This is what makes the score safe to hill-climb against.
+- **Repeatability.** Repeated inputs and settings are expected to reproduce scores under the same
+  tool version and environment. This is not proof of perceptual accuracy or safety as an optimization
+  target. Provenance identifies decoded pixels and resolved settings, not verified capture state.
 - **Supervised worker.** If the Python worker dies (OOM, native crash), the next request lazily
   respawns it with backoff; a previously-healthy crash triggers one idempotent retry. One crash costs a
   single failed call, never the session.
 - **Per-metric isolation.** A dimension that throws on a degenerate input is marked `failed` with score
   floored at 1.0 (error in `measurements`); the others and `overall` still compute. Not-applicable
-  dimensions return `null` and are excluded from the geo-mean.
+  dimensions return `null` and are excluded from the geo-mean. Inspect `diagnostics` before ranking;
+  numeric scores are preserved even when the comparison scope is inconclusive.
 - **Input caps.** Images larger than ~40 MP / 12000 px per side are rejected *before* decode (bounding
   memory); PIL's decompression-bomb guard is a backstop; non-images and bad paths return typed errors.
 - **Protocol isolation.** The worker reserves the real stdout fd for framed JSON and repoints
@@ -494,16 +574,22 @@ Host agent ──MCP/stdio──► TS server ──spawns once──► Python 
 
 ## Benchmark
 
-Rerunnable on this machine via `npm run bench` (writes `docs/bench/results.json` and SVG charts).
-Numbers below are from the last local run; re-run to refresh after code changes.
+The table, four charts and linked JSON below are a **historical local benchmark snapshot of the old
+pipeline**, not current measurements. The JSON lacks commit, timestamp, hardware and dependency
+provenance. `npm run bench` regenerates `docs/bench/results.json` and all four SVGs; refresh them
+together before publishing new numbers.
+
+Ordering checks cover finite synthetic perturbations. The geometric/arithmetic example checks
+aggregation, not resistance to all metric gaming. Latency is separate evidence. The old motion
+controls do not test wrong direction, path or timing with similar energy.
 
 | Metric | Result |
 |---|---|
 | Latency (`visuals=false`, p50 / p95) | **252 / 264 ms/call** |
 | Latency (`visuals=true`, p50 / p95) | 267 / 289 ms/call |
 | RSS growth (80 in-process calls, visuals=true) | +1.1 MB |
-| Monotonicity Spearman (color / layout / spacing) | −1.00 / −1.00 / −0.83 |
-| Gaming (geo vs arith on `{layout:12, color:100, …}`) | **34.6 vs 56.0** |
+| Synthetic ordering Spearman (color / layout / spacing) | −1.00 / −1.00 / −0.83 |
+| Aggregation (geo vs arith on `{layout:12, color:100, …}`) | **34.6 vs 56.0** |
 | ignoreRegions (without → with ignore) | 51.1 → 80.2 (+29.1) |
 | Motion: both-moving / one-sided / static / unreliable | 100 / 0 / null / null |
 | Fixture overall: identical / recolored / shifted / different | 100 / 82.4 / 91.4 / 24.2 |
@@ -518,21 +604,28 @@ Numbers below are from the last local run; re-run to refresh after code changes.
 
 See [`docs/bench/results.json`](docs/bench/results.json) for the full structured output.
 
+For reproducible baseline/current synthetic evidence, use [`scripts/reliability-benchmark.py`](scripts/reliability-benchmark.py)
+and the commands, generator version, and case counts in [`docs/reliability/`](docs/reliability/).
+The final run targets `docs/reliability/runs/final`. Publish
+current measurements only after a complete integrated run against the exact source snapshot and
+retained-evidence verification. Preliminary runs and
+historical results do not validate the current implementation or establish perceptual accuracy.
+
 ## Development
 
 ```bash
-npm test             # build + extraction + four Python test scripts + smoke + resilience
+npm test             # build + extraction + Python regression scripts + smoke + resilience
 node scripts/extract-video-test.mjs # focused real-video + restricted-root MCP tests, after build
-npm run bench        # latency, RSS, monotonicity, gaming, ignoreRegions, motion → docs/bench/
+npm run bench        # latency, RSS, synthetic ordering, aggregation, masks, motion → docs/bench/
 npm run build        # tsc -> dist/
-npm run smoke        # end-to-end over the MCP client: all four tools
+npm run smoke        # MCP smoke checks; see script for coverage and skips
 npm run resilience   # worker crash/restart + concurrency
 npm run lifecycle    # server + worker exit when the host goes away (no orphans)
 ```
 
-CI (`.github/workflows/ci.yml`) runs `npm run build`, the four Python test scripts, and `npm run smoke`
-on every PR and push to `main`. Chrome is not required in CI — `capture_frames` smoke checks skip when
-Chrome is absent.
+CI (`.github/workflows/ci.yml`) builds TypeScript, installs FFmpeg, runs real-video extraction tests,
+Python regression scripts and MCP smoke checks on every PR and push to `main`. Chrome is not required;
+`capture_frames` smoke checks skip when Chrome is absent.
 
 Individual Python tests (also run by `npm test`):
 
@@ -541,6 +634,8 @@ worker/.venv/bin/python worker/tests/test_pipeline.py
 worker/.venv/bin/python worker/tests/test_calibration.py
 worker/.venv/bin/python worker/tests/test_robustness.py
 worker/.venv/bin/python worker/tests/test_motion.py
+worker/.venv/bin/python worker/tests/test_color_stability.py
+worker/.venv/bin/python worker/tests/test_reliability.py
 ```
 
 Calibration helpers: `scripts/capture_pairs.mjs` (capture reference/candidate pairs),
@@ -551,13 +646,15 @@ weights), `scripts/capture_frames.mjs` + `scripts/motion_score.py` (motion).
 
 ```
 src/                       # TypeScript MCP server
-  index.ts                 #   tool registration (ping, compare_designs, compare_motion, capture_frames)
+  index.ts                 #   five tools, including extract_video_frames
   worker-client.ts         #   supervises + multiplexes the Python worker
   capture.ts               #   headless-Chrome frame capture (capture_frames)
+  extract-video.ts         #   bounded FFmpeg/ffprobe extraction (extract_video_frames)
   schema.ts                #   zod input schemas
   path-and-url-guard.ts    #   http(s) URLs + DESIGN_COMPARE_ALLOWED_ROOTS
 worker/vision_worker/      # Python vision worker
   pipeline.py              #   compare / compare_arrays / compare_motion orchestration
+  reliability.py           #   diagnostics + decoded-input/settings provenance
   normalize.py align.py    #   canonical-size + registration
   metrics/                 #   structure, color, content, typography, spacing
   aggregate.py             #   weighted geometric mean + presets

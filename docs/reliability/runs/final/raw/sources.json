@@ -1,0 +1,46 @@
+{
+  "baseline": {
+    "files": {
+      "worker/pyproject.toml": "bca746f25d7459ac486d53e86f7f6ad5634bbfdcc54db2e642c936130caf7d41",
+      "worker/vision_worker/__init__.py": "a9df0cd401acf7ac777a36433291c98e5276347aa2a3ba85d5e6444409028686",
+      "worker/vision_worker/__main__.py": "862f6feb3a897b1add4014d524b782be86c092eb27acd165aa3d2c2a4545305b",
+      "worker/vision_worker/aggregate.py": "4f694075facbe4a4db024bdd743a78e886ccc7758144f637249bd10e1d68870d",
+      "worker/vision_worker/align.py": "10d081789aabaa8fdc026d37593a876693fe129903c64984241770dac2e1436a",
+      "worker/vision_worker/io_utils.py": "80ba55b5038cd347bd25c3ca79f649dbc092e0c5517059a89e4a5a484b5af5e9",
+      "worker/vision_worker/metrics/__init__.py": "4cd624363c9e2d61624a35eef96bf591e8532521e479fdea93dbb1b62c67fcba",
+      "worker/vision_worker/metrics/color.py": "7dc7fa90d348000a633ce885d1d2bac45e2cdf20556a2572ff2fc80d04f319ae",
+      "worker/vision_worker/metrics/content.py": "16c93f0e05d08909cfb2c5fceb8855301eae7f92c938ed46fcdd05addf50aea5",
+      "worker/vision_worker/metrics/spacing.py": "a63833e3166c3877ba3e5a381b2249f2dda34af83f072c1a9412f827bcdd8fe0",
+      "worker/vision_worker/metrics/structure.py": "e9747971a1d717c59de4d74e4e92c2082524a3fa2d4fa4a51d171f0654c78ce3",
+      "worker/vision_worker/metrics/typography.py": "ec79568f13e90725ac0dae79d8fb42da2db7210014fe4f8a2722f966882dc0d7",
+      "worker/vision_worker/motion.py": "919c94c738821e403a35f18e30ff3b91ac575d5f61b820aee85ec540b5964cb9",
+      "worker/vision_worker/normalize.py": "ffb6edc6a18564717e38847f8eb5cf81bef26ad6ed8415d6ef6ff8934c1042fd",
+      "worker/vision_worker/pipeline.py": "5e4a01baa04990553d1d2005f3dbfd6a88b6157e7620836e61d067f28a4ed780",
+      "worker/vision_worker/visuals.py": "c7b38a035832d91b0bfb5947e5740b4c9aacba15232968a9bcdd8ad6bd3f27d9"
+    },
+    "sha256": "c6a3181a64d5a832c25a5ac914b7d132166fabb9723eabfa0b349afe94179d7f"
+  },
+  "baseline_archive_sha256": "69ae3f9b85c3704157290a2ebc1e6385a128e701992f3677a19cddf51fc919a3",
+  "current": {
+    "files": {
+      "worker/pyproject.toml": "bca746f25d7459ac486d53e86f7f6ad5634bbfdcc54db2e642c936130caf7d41",
+      "worker/vision_worker/__init__.py": "a9df0cd401acf7ac777a36433291c98e5276347aa2a3ba85d5e6444409028686",
+      "worker/vision_worker/__main__.py": "a0c16f1f2fa961fc816fa65ae2f451c4e0ba2da31d73e82a79586e66cefff7c9",
+      "worker/vision_worker/aggregate.py": "4f694075facbe4a4db024bdd743a78e886ccc7758144f637249bd10e1d68870d",
+      "worker/vision_worker/align.py": "9be365675ec078b83f00fae86223b019268c4cd414432c2028b88bae70a5998b",
+      "worker/vision_worker/io_utils.py": "80ba55b5038cd347bd25c3ca79f649dbc092e0c5517059a89e4a5a484b5af5e9",
+      "worker/vision_worker/metrics/__init__.py": "4cd624363c9e2d61624a35eef96bf591e8532521e479fdea93dbb1b62c67fcba",
+      "worker/vision_worker/metrics/color.py": "296712351518bf2a88b46dcfa9f0811dc8ce68f8c1989d09d624e87d62724e46",
+      "worker/vision_worker/metrics/content.py": "16c93f0e05d08909cfb2c5fceb8855301eae7f92c938ed46fcdd05addf50aea5",
+      "worker/vision_worker/metrics/spacing.py": "a63833e3166c3877ba3e5a381b2249f2dda34af83f072c1a9412f827bcdd8fe0",
+      "worker/vision_worker/metrics/structure.py": "e9747971a1d717c59de4d74e4e92c2082524a3fa2d4fa4a51d171f0654c78ce3",
+      "worker/vision_worker/metrics/typography.py": "ec79568f13e90725ac0dae79d8fb42da2db7210014fe4f8a2722f966882dc0d7",
+      "worker/vision_worker/motion.py": "aeb2cf71efb93f6f1b08db23bb272f57b3b7affd864e9ff8f4df657fc4a12042",
+      "worker/vision_worker/normalize.py": "ffb6edc6a18564717e38847f8eb5cf81bef26ad6ed8415d6ef6ff8934c1042fd",
+      "worker/vision_worker/pipeline.py": "e121550fb92801346b0aca9c99e615c503eb59b0eebff27a26a6cd502faed76e",
+      "worker/vision_worker/reliability.py": "5a7567cd1104f206aec1d0f8a42f6aa91086064f701820e51e66cd3969eb68c8",
+      "worker/vision_worker/visuals.py": "c7b38a035832d91b0bfb5947e5740b4c9aacba15232968a9bcdd8ad6bd3f27d9"
+    },
+    "sha256": "0a5ca0c9c0a3f38ee0f48590f0ad20ce0e6269f1a5b5b112c616b2007702a144"
+  }
+}

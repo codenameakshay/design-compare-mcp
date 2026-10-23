@@ -47,6 +47,15 @@ export type CompareMode = z.infer<typeof CompareMode>;
 /** Box as [x, y, w, h] in original reference image pixels (before 768 normalization). */
 export const Box = z.tuple([z.number(), z.number(), z.number(), z.number()]);
 
+export const ComparisonContext = z.object({
+  scopeId: z.string().min(1).max(128).refine(
+    value => !/[\uD800-\uDFFF]/u.test(value),
+    "scopeId must contain valid Unicode without lone surrogates",
+  ),
+  protocolKey: z.string().regex(/^[0-9a-f]{64}$/),
+}).strict();
+export type ComparisonContext = z.infer<typeof ComparisonContext>;
+
 const WEIGHT_KEYS = [
   "layout",
   "color",
@@ -84,10 +93,16 @@ export const CompareInputShape = {
   ignoreRegions: Box.array()
     .optional()
     .describe(
-      "Regions to exclude from scoring, as [x,y,w,h] in original reference image pixels. " +
-        "The worker scales these to its 768px normalized canvas. Finding boxes in the result are " +
+      "Regions suppressed by per-image modal-color fill, not true pixel exclusion, as [x,y,w,h] " +
+        "in original reference image pixels. The worker scales and clips their union to its " +
+        "768px padded canvas; zero/negative-size boxes cover no pixels. Finding boxes are " +
         "always in that canonical 768 canvas space.",
     ),
+  comparisonContext: ComparisonContext.optional().describe(
+    "Caller-declared scopeId (1-128 UTF-16 code units) and lowercase SHA256 protocolKey for " +
+      "an immutable external protocol manifest. Metadata only; does not alter scoring or verify " +
+      "capture state, crop origin, or the manifest. When omitted, only supplied pixels/settings are known.",
+  ),
   preset: z
     .enum(["default", "dark-ui"])
     .optional()

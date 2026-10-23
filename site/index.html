@@ -3,10 +3,10 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>design-compare-mcp — score how faithfully your UI clones the design</title>
-  <meta name="description" content="An MCP server that scores how faithfully one UI reproduces another and returns an actionable punch-list. Built for the hill-climb-the-clone loop." />
+  <title>Compare UI screenshots and sampled motion | design-compare-mcp</title>
+  <meta name="description" content="Compare a reference and candidate with visual scores, diagnostic images and suggested fixes. Inspect the evidence before accepting a change." />
   <meta property="og:title" content="design-compare-mcp" />
-  <meta property="og:description" content="A reference goes in, your build goes in. Out comes a score that rises as you get closer — and a punch-list of what to fix." />
+  <meta property="og:description" content="Compare a reference and candidate with visual scores, diagnostic images and suggested fixes. Inspect the evidence before accepting a change." />
   <meta property="og:type" content="website" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -48,21 +48,21 @@
         <p class="eyebrow reveal">MCP server · computer vision</p>
         <h1 id="hero-title" class="hero-title reveal">
           <span class="lens-line">
-            <span class="lens-base">Score how</span>
-            <span class="lens-fill" aria-hidden="true">Score how</span>
+            <span class="lens-base">Compare your UI.</span>
+            <span class="lens-fill" aria-hidden="true">Compare your UI.</span>
           </span>
           <span class="lens-line">
-            <span class="lens-base">faithfully your UI</span>
-            <span class="lens-fill" aria-hidden="true">faithfully your UI</span>
+            <span class="lens-base">Inspect the differences.</span>
+            <span class="lens-fill" aria-hidden="true">Inspect the differences.</span>
           </span>
           <span class="lens-line">
-            <span class="lens-base">clones the design.</span>
-            <span class="lens-fill" aria-hidden="true">clones the design.</span>
+            <span class="lens-base">Refine the details.</span>
+            <span class="lens-fill" aria-hidden="true">Refine the details.</span>
           </span>
         </h1>
         <p class="hero-sub reveal">
-          A reference goes in, your build goes in. Out comes a score that
-          <em>rises as you get closer</em> — and a punch-list of what to fix.
+          A reference goes in, your build goes in. Get visual scores and a suggested fix list.
+          Check the diagnostics to decide what to change.
         </p>
         <div class="hero-actions">
           <a class="btn btn-dark btn-lg" href="#install">Install it</a>
@@ -99,13 +99,14 @@
             <li><span>spacing</span><b>100</b></li>
           </ul>
         </div>
+        <p class="hv-caption">Illustrative scorecard. These values were not measured from the images shown.</p>
       </div>
     </section>
 
     <section class="section case-study" id="drylender-case-study" aria-labelledby="case-study-title" tabindex="-1">
       <p class="eyebrow">In practice · iOS recreation</p>
       <h2 class="statement" id="case-study-title">Drylendar, rebuilt as DryLender.</h2>
-      <p class="idea-note">See how regional image diagnostics and sampled transitions helped guide an independent iOS recreation. Play and scrub the reference and clone separately.</p>
+      <p class="idea-note">See how regional image diagnostics and sampled transitions helped guide an independent iOS recreation. These edited walkthroughs provide visual context, not a synchronized benchmark. Play and scrub the reference and clone separately.</p>
 
       <div class="case-study-pair">
         <figure class="case-study-film">
@@ -155,13 +156,13 @@
         <div>
           <h3>Compare a region. Refine the detail.</h3>
           <p>We extracted reference frames and paired them with clone screenshots. Regional <code>compare_designs</code> diagnostics guided calendar geometry and log-card styling, separating local differences from changes in scroll position.</p>
-          <p>For the log-card opening and a number change, we used <code>compare_motion</code> on selected frame sequences to inspect motion energy and timing.</p>
+          <p>For the log-card opening and a number change, selected frame sequences helped us inspect changes in motion energy and timing with <code>compare_motion</code>. Similar energy does not establish matching animation.</p>
         </div>
         <div>
           <h3>The useful lesson</h3>
           <p>Select the same state first, then compare it. Extracting matching frames was a manual step here; keeping frame selection separate from scoring made the diagnostics easier to interpret.</p>
           <p>Visual scores do not establish gesture correctness. Taps, swipes and navigation need separate behavioral checks.</p>
-          <p>That preparation step now has a tool. <code>extract_video_frames</code> takes a short window from a local recording and returns absolute frame paths, source timestamps and a saved manifest for repeatable comparisons.</p>
+          <p>That preparation step now has a tool. <code>extract_video_frames</code> takes a short window from a local recording and returns absolute frame paths, source timestamps and a saved manifest. Extraction timestamps support manual preparation; comparison does not itself establish matched actions or cadence.</p>
         </div>
       </div>
 
@@ -175,11 +176,3210 @@
       <a class="case-study-install" href="#install">Use Design Compare MCP in your workflow <span aria-hidden="true">↓</span></a>
     </section>
 
+    <!-- reliability-examples:start -->
+<section class="section reliability" id="reliability-examples" aria-labelledby="reliability-title" tabindex="-1">
+<p class="eyebrow">Measured synthetic examples</p>
+<h2 class="statement" id="reliability-title">See what changed in the comparison.</h2>
+<p class="idea-note">The same generated inputs, run with the previous and updated pipelines. Before and after refer to pipeline versions, not a better-looking candidate. These cases test specific failure modes, not human ratings or whole-app fidelity.</p>
+
+<p class="rel-source">Baseline <code>b7139a2d29bc5fd2cae567688e5660b501f509ec</code><br />Updated dirty working-tree snapshot <code>0a5ca0c9c0a3f38ee0f48590f0ad20ce0e6269f1a5b5b112c616b2007702a144</code>. Base commit <code>b7139a2d29bc5fd2cae567688e5660b501f509ec</code> is not a claim that the measured code equals HEAD.</p>
+<p class="rel-links"><a href="assets/reliability/6b09f1b6e6ce606c/results.json">All results JSON</a> · <a href="assets/reliability/6b09f1b6e6ce606c/report.md">Report and checks</a> · <a href="assets/reliability/6b09f1b6e6ce606c/raw/current-source.zip">Exact updated source snapshot</a></p>
+<div class="rel-cases">
+<article class="rel-card rel-card-1" aria-labelledby="rel-title-1"><p class="rel-number">Example 1 / 5</p><h3 id="rel-title-1">A tiny crop should not invent new colors.</h3><p>Each 768 × 480 crop contains ten complete 48px periods and the same exact RGB histogram. Width normalization does not resample these inputs. This tests color stability only.</p><div class="rel-inputs"><figure><figcaption>Reference</figcaption><a href="assets/reliability/6b09f1b6e6ce606c/fixtures/color-periodic-crop-0px.png"><img src="assets/reliability/6b09f1b6e6ce606c/fixtures/color-periodic-crop-0px.png" alt="Reference fixture color-periodic-crop-0px.png, crop origin y=0" width="768" height="480" loading="lazy" /></a></figure><figure><figcaption>Candidate · unchanged between pipelines</figcaption><a href="assets/reliability/6b09f1b6e6ce606c/fixtures/color-periodic-crop-1px.png"><img src="assets/reliability/6b09f1b6e6ce606c/fixtures/color-periodic-crop-1px.png" alt="Candidate fixture color-periodic-crop-1px.png, crop origin y=1" width="768" height="480" loading="lazy" /></a></figure></div><table class="rel-table"><caption>Actual color scores by crop origin</caption><thead><tr><th scope="col">Case</th><th scope="col">Before</th><th scope="col">After</th></tr></thead><tbody><tr><th scope="row">Origin +0px</th><td><code>100</code></td><td><code>100</code></td></tr><tr><th scope="row">Origin +1px</th><td><code>91.4</code></td><td><code>100</code></td></tr><tr><th scope="row">Origin +2px</th><td><code>92.2</code></td><td><code>100</code></td></tr><tr><th scope="row">Origin +3px</th><td><code>98.04</code></td><td><code>100</code></td></tr><tr><th scope="row">Origin +4px</th><td><code>94.12</code></td><td><code>100</code></td></tr></tbody></table><div class="rel-results"><section aria-label="Previous pipeline"><h4>Before · b7139a2</h4><dl class="rel-fields"><div><dt>Layout score, +1px</dt><dd><code>85.59</code></dd></div><div><dt>Mode</dt><dd><code>widget</code></dd></div></dl></section><section aria-label="Updated pipeline"><h4>After · dirty snapshot 0a5ca0c9c0a3</h4><dl class="rel-fields"><div><dt>Layout score, +1px</dt><dd><code>85.59</code></dd></div><div><dt>Mode</dt><dd><code>widget</code></dd></div></dl></section></div><p class="rel-reading">Read the color row separately from layout. Shifting the crop can change structure even when its color proportions stay the same. Widget mode intentionally skips registration.</p><details class="rel-details"><summary>Inputs, settings and raw evidence</summary><h4>color_periodic_crop_0px</h4><p>Crop ten complete 48px periods from origin y=0. Exact RGB histogram is unchanged; canonical width avoids normalization interpolation. Only color invariance is expected, not identical layout/overall.</p><pre>{
+  &quot;reference&quot;: &quot;fixtures/color-periodic-crop-0px.png&quot;,
+  &quot;candidate&quot;: &quot;fixtures/color-periodic-crop-0px.png&quot;,
+  &quot;params&quot;: {
+    &quot;mode&quot;: &quot;widget&quot;,
+    &quot;return_visuals&quot;: false
+  },
+  &quot;fixtures&quot;: {
+    &quot;fixtures/color-periodic-crop-0px.png&quot;: {
+      &quot;mode&quot;: &quot;RGB&quot;,
+      &quot;pixels_sha256&quot;: &quot;3ebc0f90308e6cb579bce2ffc1dfa66e7e327e8a88c064ba439bcfa0cebdf3b5&quot;,
+      &quot;rgb_histogram_sha256&quot;: &quot;3197a16134e9b764faae450c5803381b6773a184f1f519a89860d0f71a84c461&quot;,
+      &quot;sha256&quot;: &quot;d728f90dbc867b1a04559685a854f5ace1d8679b8fe6a19405fd43127b8ae6d9&quot;,
+      &quot;shape&quot;: [
+        480,
+        768,
+        3
+      ]
+    }
+  },
+  &quot;baseline&quot;: {
+    &quot;effective_params&quot;: {
+      &quot;mode&quot;: &quot;widget&quot;,
+      &quot;return_visuals&quot;: false
+    },
+    &quot;unsupported_metadata_params&quot;: [],
+    &quot;alignment&quot;: {
+      &quot;fallback&quot;: true,
+      &quot;method&quot;: &quot;identity&quot;,
+      &quot;mode&quot;: &quot;widget&quot;,
+      &quot;note&quot;: &quot;widget mode assumes a pre-aligned crop&quot;
+    },
+    &quot;canvas&quot;: {
+      &quot;candidate&quot;: {
+        &quot;orig_h&quot;: 480,
+        &quot;orig_w&quot;: 768,
+        &quot;scale&quot;: 1
+      },
+      &quot;height&quot;: 480,
+      &quot;ignore_input_space&quot;: &quot;reference_original_pixels&quot;,
+      &quot;ignore_space&quot;: &quot;canonical_768&quot;,
+      &quot;reference&quot;: {
+        &quot;orig_h&quot;: 480,
+        &quot;orig_w&quot;: 768,
+        &quot;scale&quot;: 1
+      },
+      &quot;width&quot;: 768
+    }
+  },
+  &quot;current&quot;: {
+    &quot;effective_params&quot;: {
+      &quot;mode&quot;: &quot;widget&quot;,
+      &quot;return_visuals&quot;: false
+    },
+    &quot;alignment&quot;: {
+      &quot;fallback&quot;: true,
+      &quot;method&quot;: &quot;identity&quot;,
+      &quot;mode&quot;: &quot;widget&quot;,
+      &quot;note&quot;: &quot;widget mode assumes a pre-aligned crop&quot;,
+      &quot;outcome&quot;: &quot;not_requested&quot;,
+      &quot;reason&quot;: &quot;widget_identity&quot;
+    },
+    &quot;canvas&quot;: {
+      &quot;candidate&quot;: {
+        &quot;orig_h&quot;: 480,
+        &quot;orig_w&quot;: 768,
+        &quot;scale&quot;: 1
+      },
+      &quot;height&quot;: 480,
+      &quot;ignore_input_space&quot;: &quot;reference_original_pixels&quot;,
+      &quot;ignore_space&quot;: &quot;canonical_768&quot;,
+      &quot;reference&quot;: {
+        &quot;orig_h&quot;: 480,
+        &quot;orig_w&quot;: 768,
+        &quot;scale&quot;: 1
+      },
+      &quot;width&quot;: 768
+    },
+    &quot;diagnostics&quot;: {
+      &quot;capture&quot;: {
+        &quot;candidate&quot;: {
+          &quot;gray_stddev&quot;: 70.47827178790368,
+          &quot;near_uniform&quot;: false,
+          &quot;rgb_stddev_max&quot;: 104.36968347637487
+        },
+        &quot;reference&quot;: {
+          &quot;gray_stddev&quot;: 70.47827178790368,
+          &quot;near_uniform&quot;: false,
+          &quot;rgb_stddev_max&quot;: 104.36968347637487
+        }
+      },
+      &quot;issues&quot;: [],
+      &quot;layout_identity_score&quot;: 100,
+      &quot;scope&quot;: {
+        &quot;compared_fraction&quot;: 1,
+        &quot;ignored_fraction&quot;: 0
+      },
+      &quot;status&quot;: &quot;ok&quot;,
+      &quot;version&quot;: 1
+    },
+    &quot;provenance&quot;: {
+      &quot;comparison_key&quot;: &quot;0ef332b97ef9806c255ac210e78e8e0d7276597025bc08dae3d09c91e80c47cb&quot;,
+      &quot;inputs&quot;: {
+        &quot;candidate&quot;: {
+          &quot;height&quot;: 480,
+          &quot;rgb_sha256&quot;: &quot;7e135dc2abc50deb2055fd01e19bd1d39667fa608128b265017e733aff8c681f&quot;,
+          &quot;width&quot;: 768
+        },
+        &quot;reference&quot;: {
+          &quot;height&quot;: 480,
+          &quot;rgb_sha256&quot;: &quot;7e135dc2abc50deb2055fd01e19bd1d39667fa608128b265017e733aff8c681f&quot;,
+          &quot;width&quot;: 768
+        }
+      },
+      &quot;run_key&quot;: &quot;441a075922bcb3c2bc60cf6c4888dd5ba5964e0d22ba3880ece34de40cf8b1a7&quot;,
+      &quot;settings&quot;: {
+        &quot;alignment_policy&quot;: &quot;ecc-translation-guards-v1&quot;,
+        &quot;canonical_width&quot;: 768,
+        &quot;comparison_context&quot;: null,
+        &quot;engine_revision&quot;: &quot;sha256:8ed84986061066a98aae998020cb64c80e326c7feab6d5bd28493f2eac705bed&quot;,
+        &quot;ignore_policy&quot;: &quot;reference-boxes-per-image-modal-fill-v1&quot;,
+        &quot;ignore_regions&quot;: [],
+        &quot;mode&quot;: &quot;widget&quot;,
+        &quot;normalization_policy&quot;: &quot;independent-width-modal-bottom-pad-v1&quot;,
+        &quot;preset&quot;: &quot;default&quot;,
+        &quot;runtime_versions&quot;: {
+          &quot;Pillow&quot;: &quot;12.3.0&quot;,
+          &quot;numpy&quot;: &quot;2.5.1&quot;,
+          &quot;opencv&quot;: &quot;5.0.0&quot;,
+          &quot;python&quot;: &quot;3.13.7&quot;,
+          &quot;scikit-image&quot;: &quot;0.26.0&quot;,
+          &quot;scikit-learn&quot;: &quot;1.9.0&quot;,
+          &quot;scipy&quot;: &quot;1.18.0&quot;
+        },
+        &quot;weights&quot;: {
+          &quot;color&quot;: 0.2,
+          &quot;content&quot;: 0.15,
+          &quot;layout&quot;: 0.35,
+          &quot;spacing&quot;: 0.15,
+          &quot;typography&quot;: 0.15
+        }
+      },
+      &quot;version&quot;: 1
+    }
+  }
+}</pre><h4>color_periodic_crop_1px</h4><p>Crop ten complete 48px periods from origin y=1. Exact RGB histogram is unchanged; canonical width avoids normalization interpolation. Only color invariance is expected, not identical layout/overall.</p><pre>{
+  &quot;reference&quot;: &quot;fixtures/color-periodic-crop-0px.png&quot;,
+  &quot;candidate&quot;: &quot;fixtures/color-periodic-crop-1px.png&quot;,
+  &quot;params&quot;: {
+    &quot;mode&quot;: &quot;widget&quot;,
+    &quot;return_visuals&quot;: false
+  },
+  &quot;fixtures&quot;: {
+    &quot;fixtures/color-periodic-crop-0px.png&quot;: {
+      &quot;mode&quot;: &quot;RGB&quot;,
+      &quot;pixels_sha256&quot;: &quot;3ebc0f90308e6cb579bce2ffc1dfa66e7e327e8a88c064ba439bcfa0cebdf3b5&quot;,
+      &quot;rgb_histogram_sha256&quot;: &quot;3197a16134e9b764faae450c5803381b6773a184f1f519a89860d0f71a84c461&quot;,
+      &quot;sha256&quot;: &quot;d728f90dbc867b1a04559685a854f5ace1d8679b8fe6a19405fd43127b8ae6d9&quot;,
+      &quot;shape&quot;: [
+        480,
+        768,
+        3
+      ]
+    },
+    &quot;fixtures/color-periodic-crop-1px.png&quot;: {
+      &quot;mode&quot;: &quot;RGB&quot;,
+      &quot;pixels_sha256&quot;: &quot;015ac45c9cfb2a78b1a210eb0b9dc0f3b000aa4872db688150c302f6f2a967e5&quot;,
+      &quot;rgb_histogram_sha256&quot;: &quot;3197a16134e9b764faae450c5803381b6773a184f1f519a89860d0f71a84c461&quot;,
+      &quot;sha256&quot;: &quot;8ec8a1b13d5235c5be9ea788527199fb1568e09c3aebd1d5ce99cb8cf804c4f1&quot;,
+      &quot;shape&quot;: [
+        480,
+        768,
+        3
+      ]
+    }
+  },
+  &quot;baseline&quot;: {
+    &quot;effective_params&quot;: {
+      &quot;mode&quot;: &quot;widget&quot;,
+      &quot;return_visuals&quot;: false
+    },
+    &quot;unsupported_metadata_params&quot;: [],
+    &quot;alignment&quot;: {
+      &quot;fallback&quot;: true,
+      &quot;method&quot;: &quot;identity&quot;,
+      &quot;mode&quot;: &quot;widget&quot;,
+      &quot;note&quot;: &quot;widget mode assumes a pre-aligned crop&quot;
+    },
+    &quot;canvas&quot;: {
+      &quot;candidate&quot;: {
+        &quot;orig_h&quot;: 480,
+        &quot;orig_w&quot;: 768,
+        &quot;scale&quot;: 1
+      },
+      &quot;height&quot;: 480,
+      &quot;ignore_input_space&quot;: &quot;reference_original_pixels&quot;,
+      &quot;ignore_space&quot;: &quot;canonical_768&quot;,
+      &quot;reference&quot;: {
+        &quot;orig_h&quot;: 480,
+        &quot;orig_w&quot;: 768,
+        &quot;scale&quot;: 1
+      },
+      &quot;width&quot;: 768
+    }
+  },
+  &quot;current&quot;: {
+    &quot;effective_params&quot;: {
+      &quot;mode&quot;: &quot;widget&quot;,
+      &quot;return_visuals&quot;: false
+    },
+    &quot;alignment&quot;: {
+      &quot;fallback&quot;: true,
+      &quot;method&quot;: &quot;identity&quot;,
+      &quot;mode&quot;: &quot;widget&quot;,
+      &quot;note&quot;: &quot;widget mode assumes a pre-aligned crop&quot;,
+      &quot;outcome&quot;: &quot;not_requested&quot;,
+      &quot;reason&quot;: &quot;widget_identity&quot;
+    },
+    &quot;canvas&quot;: {
+      &quot;candidate&quot;: {
+        &quot;orig_h&quot;: 480,
+        &quot;orig_w&quot;: 768,
+        &quot;scale&quot;: 1
+      },
+      &quot;height&quot;: 480,
+      &quot;ignore_input_space&quot;: &quot;reference_original_pixels&quot;,
+      &quot;ignore_space&quot;: &quot;canonical_768&quot;,
+      &quot;reference&quot;: {
+        &quot;orig_h&quot;: 480,
+        &quot;orig_w&quot;: 768,
+        &quot;scale&quot;: 1
+      },
+      &quot;width&quot;: 768
+    },
+    &quot;diagnostics&quot;: {
+      &quot;capture&quot;: {
+        &quot;candidate&quot;: {
+          &quot;gray_stddev&quot;: 70.47827178790368,
+          &quot;near_uniform&quot;: false,
+          &quot;rgb_stddev_max&quot;: 104.36968347637487
+        },
+        &quot;reference&quot;: {
+          &quot;gray_stddev&quot;: 70.47827178790368,
+          &quot;near_uniform&quot;: false,
+          &quot;rgb_stddev_max&quot;: 104.36968347637487
+        }
+      },
+      &quot;issues&quot;: [],
+      &quot;layout_identity_score&quot;: 85.58682074911846,
+      &quot;scope&quot;: {
+        &quot;compared_fraction&quot;: 1,
+        &quot;ignored_fraction&quot;: 0
+      },
+      &quot;status&quot;: &quot;ok&quot;,
+      &quot;version&quot;: 1
+    },
+    &quot;provenance&quot;: {
+      &quot;comparison_key&quot;: &quot;0ef332b97ef9806c255ac210e78e8e0d7276597025bc08dae3d09c91e80c47cb&quot;,
+      &quot;inputs&quot;: {
+        &quot;candidate&quot;: {
+          &quot;height&quot;: 480,
+          &quot;rgb_sha256&quot;: &quot;33ca9437e3afe01f25df2a5f0d4cbc33aab8e13d60af151f6ae822c3fb1c0116&quot;,
+          &quot;width&quot;: 768
+        },
+        &quot;reference&quot;: {
+          &quot;height&quot;: 480,
+          &quot;rgb_sha256&quot;: &quot;7e135dc2abc50deb2055fd01e19bd1d39667fa608128b265017e733aff8c681f&quot;,
+          &quot;width&quot;: 768
+        }
+      },
+      &quot;run_key&quot;: &quot;880748532d4b294d207f8c32fa5722724316a76b17c161d2bf4a17cb4ca325f5&quot;,
+      &quot;settings&quot;: {
+        &quot;alignment_policy&quot;: &quot;ecc-translation-guards-v1&quot;,
+        &quot;canonical_width&quot;: 768,
+        &quot;comparison_context&quot;: null,
+        &quot;engine_revision&quot;: &quot;sha256:8ed84986061066a98aae998020cb64c80e326c7feab6d5bd28493f2eac705bed&quot;,
+        &quot;ignore_policy&quot;: &quot;reference-boxes-per-image-modal-fill-v1&quot;,
+        &quot;ignore_regions&quot;: [],
+        &quot;mode&quot;: &quot;widget&quot;,
+        &quot;normalization_policy&quot;: &quot;independent-width-modal-bottom-pad-v1&quot;,
+        &quot;preset&quot;: &quot;default&quot;,
+        &quot;runtime_versions&quot;: {
+          &quot;Pillow&quot;: &quot;12.3.0&quot;,
+          &quot;numpy&quot;: &quot;2.5.1&quot;,
+          &quot;opencv&quot;: &quot;5.0.0&quot;,
+          &quot;python&quot;: &quot;3.13.7&quot;,
+          &quot;scikit-image&quot;: &quot;0.26.0&quot;,
+          &quot;scikit-learn&quot;: &quot;1.9.0&quot;,
+          &quot;scipy&quot;: &quot;1.18.0&quot;
+        },
+        &quot;weights&quot;: {
+          &quot;color&quot;: 0.2,
+          &quot;content&quot;: 0.15,
+          &quot;layout&quot;: 0.35,
+          &quot;spacing&quot;: 0.15,
+          &quot;typography&quot;: 0.15
+        }
+      },
+      &quot;version&quot;: 1
+    }
+  }
+}</pre><h4>color_periodic_crop_2px</h4><p>Crop ten complete 48px periods from origin y=2. Exact RGB histogram is unchanged; canonical width avoids normalization interpolation. Only color invariance is expected, not identical layout/overall.</p><pre>{
+  &quot;reference&quot;: &quot;fixtures/color-periodic-crop-0px.png&quot;,
+  &quot;candidate&quot;: &quot;fixtures/color-periodic-crop-2px.png&quot;,
+  &quot;params&quot;: {
+    &quot;mode&quot;: &quot;widget&quot;,
+    &quot;return_visuals&quot;: false
+  },
+  &quot;fixtures&quot;: {
+    &quot;fixtures/color-periodic-crop-0px.png&quot;: {
+      &quot;mode&quot;: &quot;RGB&quot;,
+      &quot;pixels_sha256&quot;: &quot;3ebc0f90308e6cb579bce2ffc1dfa66e7e327e8a88c064ba439bcfa0cebdf3b5&quot;,
+      &quot;rgb_histogram_sha256&quot;: &quot;3197a16134e9b764faae450c5803381b6773a184f1f519a89860d0f71a84c461&quot;,
+      &quot;sha256&quot;: &quot;d728f90dbc867b1a04559685a854f5ace1d8679b8fe6a19405fd43127b8ae6d9&quot;,
+      &quot;shape&quot;: [
+        480,
+        768,
+        3
+      ]
+    },
+    &quot;fixtures/color-periodic-crop-2px.png&quot;: {
+      &quot;mode&quot;: &quot;RGB&quot;,
+      &quot;pixels_sha256&quot;: &quot;439de9b2896c8e0a188cd56d67abb772dd35c6ac1fef56ecb291af923d176f6d&quot;,
+      &quot;rgb_histogram_sha256&quot;: &quot;3197a16134e9b764faae450c5803381b6773a184f1f519a89860d0f71a84c461&quot;,
+      &quot;sha256&quot;: &quot;508f3683361a547a090eecef4376e8410ca0b847546ad53470c39c6e64ba27ff&quot;,
+      &quot;shape&quot;: [
+        480,
+        768,
+        3
+      ]
+    }
+  },
+  &quot;baseline&quot;: {
+    &quot;effective_params&quot;: {
+      &quot;mode&quot;: &quot;widget&quot;,
+      &quot;return_visuals&quot;: false
+    },
+    &quot;unsupported_metadata_params&quot;: [],
+    &quot;alignment&quot;: {
+      &quot;fallback&quot;: true,
+      &quot;method&quot;: &quot;identity&quot;,
+      &quot;mode&quot;: &quot;widget&quot;,
+      &quot;note&quot;: &quot;widget mode assumes a pre-aligned crop&quot;
+    },
+    &quot;canvas&quot;: {
+      &quot;candidate&quot;: {
+        &quot;orig_h&quot;: 480,
+        &quot;orig_w&quot;: 768,
+        &quot;scale&quot;: 1
+      },
+      &quot;height&quot;: 480,
+      &quot;ignore_input_space&quot;: &quot;reference_original_pixels&quot;,
+      &quot;ignore_space&quot;: &quot;canonical_768&quot;,
+      &quot;reference&quot;: {
+        &quot;orig_h&quot;: 480,
+        &quot;orig_w&quot;: 768,
+        &quot;scale&quot;: 1
+      },
+      &quot;width&quot;: 768
+    }
+  },
+  &quot;current&quot;: {
+    &quot;effective_params&quot;: {
+      &quot;mode&quot;: &quot;widget&quot;,
+      &quot;return_visuals&quot;: false
+    },
+    &quot;alignment&quot;: {
+      &quot;fallback&quot;: true,
+      &quot;method&quot;: &quot;identity&quot;,
+      &quot;mode&quot;: &quot;widget&quot;,
+      &quot;note&quot;: &quot;widget mode assumes a pre-aligned crop&quot;,
+      &quot;outcome&quot;: &quot;not_requested&quot;,
+      &quot;reason&quot;: &quot;widget_identity&quot;
+    },
+    &quot;canvas&quot;: {
+      &quot;candidate&quot;: {
+        &quot;orig_h&quot;: 480,
+        &quot;orig_w&quot;: 768,
+        &quot;scale&quot;: 1
+      },
+      &quot;height&quot;: 480,
+      &quot;ignore_input_space&quot;: &quot;reference_original_pixels&quot;,
+      &quot;ignore_space&quot;: &quot;canonical_768&quot;,
+      &quot;reference&quot;: {
+        &quot;orig_h&quot;: 480,
+        &quot;orig_w&quot;: 768,
+        &quot;scale&quot;: 1
+      },
+      &quot;width&quot;: 768
+    },
+    &quot;diagnostics&quot;: {
+      &quot;capture&quot;: {
+        &quot;candidate&quot;: {
+          &quot;gray_stddev&quot;: 70.47827178790368,
+          &quot;near_uniform&quot;: false,
+          &quot;rgb_stddev_max&quot;: 104.36968347637487
+        },
+        &quot;reference&quot;: {
+          &quot;gray_stddev&quot;: 70.47827178790368,
+          &quot;near_uniform&quot;: false,
+          &quot;rgb_stddev_max&quot;: 104.36968347637487
+        }
+      },
+      &quot;issues&quot;: [],
+      &quot;layout_identity_score&quot;: 76.07982467965742,
+      &quot;scope&quot;: {
+        &quot;compared_fraction&quot;: 1,
+        &quot;ignored_fraction&quot;: 0
+      },
+      &quot;status&quot;: &quot;ok&quot;,
+      &quot;version&quot;: 1
+    },
+    &quot;provenance&quot;: {
+      &quot;comparison_key&quot;: &quot;0ef332b97ef9806c255ac210e78e8e0d7276597025bc08dae3d09c91e80c47cb&quot;,
+      &quot;inputs&quot;: {
+        &quot;candidate&quot;: {
+          &quot;height&quot;: 480,
+          &quot;rgb_sha256&quot;: &quot;f2c0c21003dd1461f641e582264a434131364e52339e592285f2ed68f0598be9&quot;,
+          &quot;width&quot;: 768
+        },
+        &quot;reference&quot;: {
+          &quot;height&quot;: 480,
+          &quot;rgb_sha256&quot;: &quot;7e135dc2abc50deb2055fd01e19bd1d39667fa608128b265017e733aff8c681f&quot;,
+          &quot;width&quot;: 768
+        }
+      },
+      &quot;run_key&quot;: &quot;e1b63355d6bc8881bab548d80b3c404458677e9cba9a8ca658c85350fdcf3429&quot;,
+      &quot;settings&quot;: {
+        &quot;alignment_policy&quot;: &quot;ecc-translation-guards-v1&quot;,
+        &quot;canonical_width&quot;: 768,
+        &quot;comparison_context&quot;: null,
+        &quot;engine_revision&quot;: &quot;sha256:8ed84986061066a98aae998020cb64c80e326c7feab6d5bd28493f2eac705bed&quot;,
+        &quot;ignore_policy&quot;: &quot;reference-boxes-per-image-modal-fill-v1&quot;,
+        &quot;ignore_regions&quot;: [],
+        &quot;mode&quot;: &quot;widget&quot;,
+        &quot;normalization_policy&quot;: &quot;independent-width-modal-bottom-pad-v1&quot;,
+        &quot;preset&quot;: &quot;default&quot;,
+        &quot;runtime_versions&quot;: {
+          &quot;Pillow&quot;: &quot;12.3.0&quot;,
+          &quot;numpy&quot;: &quot;2.5.1&quot;,
+          &quot;opencv&quot;: &quot;5.0.0&quot;,
+          &quot;python&quot;: &quot;3.13.7&quot;,
+          &quot;scikit-image&quot;: &quot;0.26.0&quot;,
+          &quot;scikit-learn&quot;: &quot;1.9.0&quot;,
+          &quot;scipy&quot;: &quot;1.18.0&quot;
+        },
+        &quot;weights&quot;: {
+          &quot;color&quot;: 0.2,
+          &quot;content&quot;: 0.15,
+          &quot;layout&quot;: 0.35,
+          &quot;spacing&quot;: 0.15,
+          &quot;typography&quot;: 0.15
+        }
+      },
+      &quot;version&quot;: 1
+    }
+  }
+}</pre><h4>color_periodic_crop_3px</h4><p>Crop ten complete 48px periods from origin y=3. Exact RGB histogram is unchanged; canonical width avoids normalization interpolation. Only color invariance is expected, not identical layout/overall.</p><pre>{
+  &quot;reference&quot;: &quot;fixtures/color-periodic-crop-0px.png&quot;,
+  &quot;candidate&quot;: &quot;fixtures/color-periodic-crop-3px.png&quot;,
+  &quot;params&quot;: {
+    &quot;mode&quot;: &quot;widget&quot;,
+    &quot;return_visuals&quot;: false
+  },
+  &quot;fixtures&quot;: {
+    &quot;fixtures/color-periodic-crop-0px.png&quot;: {
+      &quot;mode&quot;: &quot;RGB&quot;,
+      &quot;pixels_sha256&quot;: &quot;3ebc0f90308e6cb579bce2ffc1dfa66e7e327e8a88c064ba439bcfa0cebdf3b5&quot;,
+      &quot;rgb_histogram_sha256&quot;: &quot;3197a16134e9b764faae450c5803381b6773a184f1f519a89860d0f71a84c461&quot;,
+      &quot;sha256&quot;: &quot;d728f90dbc867b1a04559685a854f5ace1d8679b8fe6a19405fd43127b8ae6d9&quot;,
+      &quot;shape&quot;: [
+        480,
+        768,
+        3
+      ]
+    },
+    &quot;fixtures/color-periodic-crop-3px.png&quot;: {
+      &quot;mode&quot;: &quot;RGB&quot;,
+      &quot;pixels_sha256&quot;: &quot;731b65b8d18f5bfe43eb2d2ae55bba46900adf4abd6ec77a7f17fc5685227e49&quot;,
+      &quot;rgb_histogram_sha256&quot;: &quot;3197a16134e9b764faae450c5803381b6773a184f1f519a89860d0f71a84c461&quot;,
+      &quot;sha256&quot;: &quot;f1b58c02c72ff0b018937efde803c9a154f99a04c12e006e284e7d9401a9b957&quot;,
+      &quot;shape&quot;: [
+        480,
+        768,
+        3
+      ]
+    }
+  },
+  &quot;baseline&quot;: {
+    &quot;effective_params&quot;: {
+      &quot;mode&quot;: &quot;widget&quot;,
+      &quot;return_visuals&quot;: false
+    },
+    &quot;unsupported_metadata_params&quot;: [],
+    &quot;alignment&quot;: {
+      &quot;fallback&quot;: true,
+      &quot;method&quot;: &quot;identity&quot;,
+      &quot;mode&quot;: &quot;widget&quot;,
+      &quot;note&quot;: &quot;widget mode assumes a pre-aligned crop&quot;
+    },
+    &quot;canvas&quot;: {
+      &quot;candidate&quot;: {
+        &quot;orig_h&quot;: 480,
+        &quot;orig_w&quot;: 768,
+        &quot;scale&quot;: 1
+      },
+      &quot;height&quot;: 480,
+      &quot;ignore_input_space&quot;: &quot;reference_original_pixels&quot;,
+      &quot;ignore_space&quot;: &quot;canonical_768&quot;,
+      &quot;reference&quot;: {
+        &quot;orig_h&quot;: 480,
+        &quot;orig_w&quot;: 768,
+        &quot;scale&quot;: 1
+      },
+      &quot;width&quot;: 768
+    }
+  },
+  &quot;current&quot;: {
+    &quot;effective_params&quot;: {
+      &quot;mode&quot;: &quot;widget&quot;,
+      &quot;return_visuals&quot;: false
+    },
+    &quot;alignment&quot;: {
+      &quot;fallback&quot;: true,
+      &quot;method&quot;: &quot;identity&quot;,
+      &quot;mode&quot;: &quot;widget&quot;,
+      &quot;note&quot;: &quot;widget mode assumes a pre-aligned crop&quot;,
+      &quot;outcome&quot;: &quot;not_requested&quot;,
+      &quot;reason&quot;: &quot;widget_identity&quot;
+    },
+    &quot;canvas&quot;: {
+      &quot;candidate&quot;: {
+        &quot;orig_h&quot;: 480,
+        &quot;orig_w&quot;: 768,
+        &quot;scale&quot;: 1
+      },
+      &quot;height&quot;: 480,
+      &quot;ignore_input_space&quot;: &quot;reference_original_pixels&quot;,
+      &quot;ignore_space&quot;: &quot;canonical_768&quot;,
+      &quot;reference&quot;: {
+        &quot;orig_h&quot;: 480,
+        &quot;orig_w&quot;: 768,
+        &quot;scale&quot;: 1
+      },
+      &quot;width&quot;: 768
+    },
+    &quot;diagnostics&quot;: {
+      &quot;capture&quot;: {
+        &quot;candidate&quot;: {
+          &quot;gray_stddev&quot;: 70.47827178790368,
+          &quot;near_uniform&quot;: false,
+          &quot;rgb_stddev_max&quot;: 104.36968347637487
+        },
+        &quot;reference&quot;: {
+          &quot;gray_stddev&quot;: 70.47827178790368,
+          &quot;near_uniform&quot;: false,
+          &quot;rgb_stddev_max&quot;: 104.36968347637487
+        }
+      },
+      &quot;issues&quot;: [],
+      &quot;layout_identity_score&quot;: 69.74407627838826,
+      &quot;scope&quot;: {
+        &quot;compared_fraction&quot;: 1,
+        &quot;ignored_fraction&quot;: 0
+      },
+      &quot;status&quot;: &quot;ok&quot;,
+      &quot;version&quot;: 1
+    },
+    &quot;provenance&quot;: {
+      &quot;comparison_key&quot;: &quot;0ef332b97ef9806c255ac210e78e8e0d7276597025bc08dae3d09c91e80c47cb&quot;,
+      &quot;inputs&quot;: {
+        &quot;candidate&quot;: {
+          &quot;height&quot;: 480,
+          &quot;rgb_sha256&quot;: &quot;2d4d034d2586619f5961aaedd3545948317d53a4bd2ddafb7a2a2f963ac811cd&quot;,
+          &quot;width&quot;: 768
+        },
+        &quot;reference&quot;: {
+          &quot;height&quot;: 480,
+          &quot;rgb_sha256&quot;: &quot;7e135dc2abc50deb2055fd01e19bd1d39667fa608128b265017e733aff8c681f&quot;,
+          &quot;width&quot;: 768
+        }
+      },
+      &quot;run_key&quot;: &quot;c3fcb93d47c4fc17002c994af113f42e0013597203c6843ee3ee113d1e3cc2f9&quot;,
+      &quot;settings&quot;: {
+        &quot;alignment_policy&quot;: &quot;ecc-translation-guards-v1&quot;,
+        &quot;canonical_width&quot;: 768,
+        &quot;comparison_context&quot;: null,
+        &quot;engine_revision&quot;: &quot;sha256:8ed84986061066a98aae998020cb64c80e326c7feab6d5bd28493f2eac705bed&quot;,
+        &quot;ignore_policy&quot;: &quot;reference-boxes-per-image-modal-fill-v1&quot;,
+        &quot;ignore_regions&quot;: [],
+        &quot;mode&quot;: &quot;widget&quot;,
+        &quot;normalization_policy&quot;: &quot;independent-width-modal-bottom-pad-v1&quot;,
+        &quot;preset&quot;: &quot;default&quot;,
+        &quot;runtime_versions&quot;: {
+          &quot;Pillow&quot;: &quot;12.3.0&quot;,
+          &quot;numpy&quot;: &quot;2.5.1&quot;,
+          &quot;opencv&quot;: &quot;5.0.0&quot;,
+          &quot;python&quot;: &quot;3.13.7&quot;,
+          &quot;scikit-image&quot;: &quot;0.26.0&quot;,
+          &quot;scikit-learn&quot;: &quot;1.9.0&quot;,
+          &quot;scipy&quot;: &quot;1.18.0&quot;
+        },
+        &quot;weights&quot;: {
+          &quot;color&quot;: 0.2,
+          &quot;content&quot;: 0.15,
+          &quot;layout&quot;: 0.35,
+          &quot;spacing&quot;: 0.15,
+          &quot;typography&quot;: 0.15
+        }
+      },
+      &quot;version&quot;: 1
+    }
+  }
+}</pre><h4>color_periodic_crop_4px</h4><p>Crop ten complete 48px periods from origin y=4. Exact RGB histogram is unchanged; canonical width avoids normalization interpolation. Only color invariance is expected, not identical layout/overall.</p><pre>{
+  &quot;reference&quot;: &quot;fixtures/color-periodic-crop-0px.png&quot;,
+  &quot;candidate&quot;: &quot;fixtures/color-periodic-crop-4px.png&quot;,
+  &quot;params&quot;: {
+    &quot;mode&quot;: &quot;widget&quot;,
+    &quot;return_visuals&quot;: false
+  },
+  &quot;fixtures&quot;: {
+    &quot;fixtures/color-periodic-crop-0px.png&quot;: {
+      &quot;mode&quot;: &quot;RGB&quot;,
+      &quot;pixels_sha256&quot;: &quot;3ebc0f90308e6cb579bce2ffc1dfa66e7e327e8a88c064ba439bcfa0cebdf3b5&quot;,
+      &quot;rgb_histogram_sha256&quot;: &quot;3197a16134e9b764faae450c5803381b6773a184f1f519a89860d0f71a84c461&quot;,
+      &quot;sha256&quot;: &quot;d728f90dbc867b1a04559685a854f5ace1d8679b8fe6a19405fd43127b8ae6d9&quot;,
+      &quot;shape&quot;: [
+        480,
+        768,
+        3
+      ]
+    },
+    &quot;fixtures/color-periodic-crop-4px.png&quot;: {
+      &quot;mode&quot;: &quot;RGB&quot;,
+      &quot;pixels_sha256&quot;: &quot;c825ea1b85cc672b30754042455171b7e6fcbe19ba45d8efbc5ee81b4027a01e&quot;,
+      &quot;rgb_histogram_sha256&quot;: &quot;3197a16134e9b764faae450c5803381b6773a184f1f519a89860d0f71a84c461&quot;,
+      &quot;sha256&quot;: &quot;ed42e41c59f499b944c623050ca00793ec0b524d0931d3145df5adaeb858e9c3&quot;,
+      &quot;shape&quot;: [
+        480,
+        768,
+        3
+      ]
+    }
+  },
+  &quot;baseline&quot;: {
+    &quot;effective_params&quot;: {
+      &quot;mode&quot;: &quot;widget&quot;,
+      &quot;return_visuals&quot;: false
+    },
+    &quot;unsupported_metadata_params&quot;: [],
+    &quot;alignment&quot;: {
+      &quot;fallback&quot;: true,
+      &quot;method&quot;: &quot;identity&quot;,
+      &quot;mode&quot;: &quot;widget&quot;,
+      &quot;note&quot;: &quot;widget mode assumes a pre-aligned crop&quot;
+    },
+    &quot;canvas&quot;: {
+      &quot;candidate&quot;: {
+        &quot;orig_h&quot;: 480,
+        &quot;orig_w&quot;: 768,
+        &quot;scale&quot;: 1
+      },
+      &quot;height&quot;: 480,
+      &quot;ignore_input_space&quot;: &quot;reference_original_pixels&quot;,
+      &quot;ignore_space&quot;: &quot;canonical_768&quot;,
+      &quot;reference&quot;: {
+        &quot;orig_h&quot;: 480,
+        &quot;orig_w&quot;: 768,
+        &quot;scale&quot;: 1
+      },
+      &quot;width&quot;: 768
+    }
+  },
+  &quot;current&quot;: {
+    &quot;effective_params&quot;: {
+      &quot;mode&quot;: &quot;widget&quot;,
+      &quot;return_visuals&quot;: false
+    },
+    &quot;alignment&quot;: {
+      &quot;fallback&quot;: true,
+      &quot;method&quot;: &quot;identity&quot;,
+      &quot;mode&quot;: &quot;widget&quot;,
+      &quot;note&quot;: &quot;widget mode assumes a pre-aligned crop&quot;,
+      &quot;outcome&quot;: &quot;not_requested&quot;,
+      &quot;reason&quot;: &quot;widget_identity&quot;
+    },
+    &quot;canvas&quot;: {
+      &quot;candidate&quot;: {
+        &quot;orig_h&quot;: 480,
+        &quot;orig_w&quot;: 768,
+        &quot;scale&quot;: 1
+      },
+      &quot;height&quot;: 480,
+      &quot;ignore_input_space&quot;: &quot;reference_original_pixels&quot;,
+      &quot;ignore_space&quot;: &quot;canonical_768&quot;,
+      &quot;reference&quot;: {
+        &quot;orig_h&quot;: 480,
+        &quot;orig_w&quot;: 768,
+        &quot;scale&quot;: 1
+      },
+      &quot;width&quot;: 768
+    },
+    &quot;diagnostics&quot;: {
+      &quot;capture&quot;: {
+        &quot;candidate&quot;: {
+          &quot;gray_stddev&quot;: 70.47827178790368,
+          &quot;near_uniform&quot;: false,
+          &quot;rgb_stddev_max&quot;: 104.36968347637487
+        },
+        &quot;reference&quot;: {
+          &quot;gray_stddev&quot;: 70.47827178790368,
+          &quot;near_uniform&quot;: false,
+          &quot;rgb_stddev_max&quot;: 104.36968347637487
+        }
+      },
+      &quot;issues&quot;: [],
+      &quot;layout_identity_score&quot;: 64.30254643036633,
+      &quot;scope&quot;: {
+        &quot;compared_fraction&quot;: 1,
+        &quot;ignored_fraction&quot;: 0
+      },
+      &quot;status&quot;: &quot;ok&quot;,
+      &quot;version&quot;: 1
+    },
+    &quot;provenance&quot;: {
+      &quot;comparison_key&quot;: &quot;0ef332b97ef9806c255ac210e78e8e0d7276597025bc08dae3d09c91e80c47cb&quot;,
+      &quot;inputs&quot;: {
+        &quot;candidate&quot;: {
+          &quot;height&quot;: 480,
+          &quot;rgb_sha256&quot;: &quot;e1a1416dc8a814abb08833c5dc0639dfb29ed78ba1d2216f3720eea7e0360e2e&quot;,
+          &quot;width&quot;: 768
+        },
+        &quot;reference&quot;: {
+          &quot;height&quot;: 480,
+          &quot;rgb_sha256&quot;: &quot;7e135dc2abc50deb2055fd01e19bd1d39667fa608128b265017e733aff8c681f&quot;,
+          &quot;width&quot;: 768
+        }
+      },
+      &quot;run_key&quot;: &quot;99cd123e03a190f665249a267eb7f6856f0be9b8049820e0fc312c107d33731a&quot;,
+      &quot;settings&quot;: {
+        &quot;alignment_policy&quot;: &quot;ecc-translation-guards-v1&quot;,
+        &quot;canonical_width&quot;: 768,
+        &quot;comparison_context&quot;: null,
+        &quot;engine_revision&quot;: &quot;sha256:8ed84986061066a98aae998020cb64c80e326c7feab6d5bd28493f2eac705bed&quot;,
+        &quot;ignore_policy&quot;: &quot;reference-boxes-per-image-modal-fill-v1&quot;,
+        &quot;ignore_regions&quot;: [],
+        &quot;mode&quot;: &quot;widget&quot;,
+        &quot;normalization_policy&quot;: &quot;independent-width-modal-bottom-pad-v1&quot;,
+        &quot;preset&quot;: &quot;default&quot;,
+        &quot;runtime_versions&quot;: {
+          &quot;Pillow&quot;: &quot;12.3.0&quot;,
+          &quot;numpy&quot;: &quot;2.5.1&quot;,
+          &quot;opencv&quot;: &quot;5.0.0&quot;,
+          &quot;python&quot;: &quot;3.13.7&quot;,
+          &quot;scikit-image&quot;: &quot;0.26.0&quot;,
+          &quot;scikit-learn&quot;: &quot;1.9.0&quot;,
+          &quot;scipy&quot;: &quot;1.18.0&quot;
+        },
+        &quot;weights&quot;: {
+          &quot;color&quot;: 0.2,
+          &quot;content&quot;: 0.15,
+          &quot;layout&quot;: 0.35,
+          &quot;spacing&quot;: 0.15,
+          &quot;typography&quot;: 0.15
+        }
+      },
+      &quot;version&quot;: 1
+    }
+  }
+}</pre><p><a href="assets/reliability/6b09f1b6e6ce606c/raw/baseline.json">Baseline raw JSON</a> · <a href="assets/reliability/6b09f1b6e6ce606c/raw/current.json">Current raw JSON</a> · <a href="assets/reliability/6b09f1b6e6ce606c/report.md">Run report</a></p></details></article>
+<article class="rel-card rel-card-2" aria-labelledby="rel-title-2"><p class="rel-number">Example 2 / 5</p><h3 id="rel-title-2">A real color-mass swap must still register.</h3><p>The colors stay the same. Light coverage changes from 81.25% to 18.75%. Candidate bytes are identical in both pipeline runs.</p><div class="rel-inputs"><figure><figcaption>Reference</figcaption><a href="assets/reliability/6b09f1b6e6ce606c/fixtures/color-mass-light-width-624.png"><img src="assets/reliability/6b09f1b6e6ce606c/fixtures/color-mass-light-width-624.png" alt="Reference fixture color-mass-light-width-624.png" width="768" height="160" loading="lazy" /></a></figure><figure><figcaption>Candidate · unchanged between pipelines</figcaption><a href="assets/reliability/6b09f1b6e6ce606c/fixtures/color-mass-light-width-144.png"><img src="assets/reliability/6b09f1b6e6ce606c/fixtures/color-mass-light-width-144.png" alt="Candidate fixture color-mass-light-width-144.png" width="768" height="160" loading="lazy" /></a></figure></div><div class="rel-results"><section aria-label="Previous pipeline"><h4>Before · b7139a2</h4><dl class="rel-fields"><div><dt>Color score</dt><dd><code>100</code></dd></div><div><dt>Color status</dt><dd><code>scored</code></dd></div><div><dt>Finding types</dt><dd><code>[&quot;missing_region&quot;,&quot;layout_mismatch&quot;,&quot;spacing_mismatch&quot;,&quot;extra_region&quot;]</code></dd></div></dl></section><section aria-label="Updated pipeline"><h4>After · dirty snapshot 0a5ca0c9c0a3</h4><dl class="rel-fields"><div><dt>Color score</dt><dd><code>5.81</code></dd></div><div><dt>Color status</dt><dd><code>scored</code></dd></div><div><dt>Finding types</dt><dd><code>[&quot;missing_region&quot;,&quot;layout_mismatch&quot;,&quot;color_distribution&quot;,&quot;spacing_mismatch&quot;,&quot;extra_region&quot;]</code></dd></div></dl></section></div><p class="rel-reading">A lower color score on this changed input can be a useful correction. It does not establish semantic correctness or general perceptual accuracy.</p><details class="rel-details"><summary>True-change and identical-input controls</summary><table class="rel-table"><caption>Controls use the same before/after pipelines</caption><thead><tr><th scope="col">Case</th><th scope="col">Before</th><th scope="col">After</th></tr></thead><tbody><tr><th scope="row">Identical 50% coverage</th><td><code>100</code></td><td><code>100</code></td></tr><tr><th scope="row">Accent recolored</th><td><code>87.2</code></td><td><code>95.79</code></td></tr><tr><th scope="row">Accent removed</th><td><code>92.61</code></td><td><code>94.87</code></td></tr></tbody></table><div class="rel-inputs"><figure><figcaption>Reference</figcaption><a href="assets/reliability/6b09f1b6e6ce606c/fixtures/calendar-reference.png"><img src="assets/reliability/6b09f1b6e6ce606c/fixtures/calendar-reference.png" alt="Reference fixture calendar-reference.png" width="384" height="320" loading="lazy" /></a></figure><figure><figcaption>Candidate · unchanged between pipelines</figcaption><a href="assets/reliability/6b09f1b6e6ce606c/fixtures/calendar-recolored.png"><img src="assets/reliability/6b09f1b6e6ce606c/fixtures/calendar-recolored.png" alt="Candidate fixture calendar-recolored.png" width="384" height="320" loading="lazy" /></a></figure></div><p>Robustness to tiny crops must not erase visible changes. These are separate generated control inputs, not improvements to the mass-swap candidate.</p></details><details class="rel-details"><summary>Inputs, settings and raw evidence</summary><h4>color_mass_81_25_to_18_75</h4><p>Same two RGB colors, light coverage 81.25% to 18.75%. A major visible mass swap, not recoloring.</p><pre>{
+  &quot;reference&quot;: &quot;fixtures/color-mass-light-width-624.png&quot;,
+  &quot;candidate&quot;: &quot;fixtures/color-mass-light-width-144.png&quot;,
+  &quot;params&quot;: {
+    &quot;mode&quot;: &quot;widget&quot;,
+    &quot;return_visuals&quot;: false
+  },
+  &quot;fixtures&quot;: {
+    &quot;fixtures/color-mass-light-width-624.png&quot;: {
+      &quot;mode&quot;: &quot;RGB&quot;,
+      &quot;pixels_sha256&quot;: &quot;524b444f9c833013d9c549d7627ed7c0945efe1038619e0544a6fba24b577398&quot;,
+      &quot;rgb_histogram_sha256&quot;: &quot;dcf80ec50663a6324309e3e96945e794081ee930e201b277d3af2078f9795ded&quot;,
+      &quot;sha256&quot;: &quot;389c774c9b3a4003723c47a1cfe319e740a06db546db1c8785beb1f143723ffc&quot;,
+      &quot;shape&quot;: [
+        160,
+        768,
+        3
+      ]
+    },
+    &quot;fixtures/color-mass-light-width-144.png&quot;: {
+      &quot;mode&quot;: &quot;RGB&quot;,
+      &quot;pixels_sha256&quot;: &quot;43603e9f422c2a7a2ebed5ed345bfd473e078a031dec2d01a1b5cbad24297aaa&quot;,
+      &quot;rgb_histogram_sha256&quot;: &quot;514cb2f566f0a3e017341a230420c0046689ac513b1a5c4438208a1f6e0bbd32&quot;,
+      &quot;sha256&quot;: &quot;973b1dc6ecd8cbf4ae0505e954ed54676c67d88679d56a43463bd8cca505202e&quot;,
+      &quot;shape&quot;: [
+        160,
+        768,
+        3
+      ]
+    }
+  },
+  &quot;baseline&quot;: {
+    &quot;effective_params&quot;: {
+      &quot;mode&quot;: &quot;widget&quot;,
+      &quot;return_visuals&quot;: false
+    },
+    &quot;unsupported_metadata_params&quot;: [],
+    &quot;alignment&quot;: {
+      &quot;fallback&quot;: true,
+      &quot;method&quot;: &quot;identity&quot;,
+      &quot;mode&quot;: &quot;widget&quot;,
+      &quot;note&quot;: &quot;widget mode assumes a pre-aligned crop&quot;
+    },
+    &quot;canvas&quot;: {
+      &quot;candidate&quot;: {
+        &quot;orig_h&quot;: 160,
+        &quot;orig_w&quot;: 768,
+        &quot;scale&quot;: 1
+      },
+      &quot;height&quot;: 160,
+      &quot;ignore_input_space&quot;: &quot;reference_original_pixels&quot;,
+      &quot;ignore_space&quot;: &quot;canonical_768&quot;,
+      &quot;reference&quot;: {
+        &quot;orig_h&quot;: 160,
+        &quot;orig_w&quot;: 768,
+        &quot;scale&quot;: 1
+      },
+      &quot;width&quot;: 768
+    }
+  },
+  &quot;current&quot;: {
+    &quot;effective_params&quot;: {
+      &quot;mode&quot;: &quot;widget&quot;,
+      &quot;return_visuals&quot;: false
+    },
+    &quot;alignment&quot;: {
+      &quot;fallback&quot;: true,
+      &quot;method&quot;: &quot;identity&quot;,
+      &quot;mode&quot;: &quot;widget&quot;,
+      &quot;note&quot;: &quot;widget mode assumes a pre-aligned crop&quot;,
+      &quot;outcome&quot;: &quot;not_requested&quot;,
+      &quot;reason&quot;: &quot;widget_identity&quot;
+    },
+    &quot;canvas&quot;: {
+      &quot;candidate&quot;: {
+        &quot;orig_h&quot;: 160,
+        &quot;orig_w&quot;: 768,
+        &quot;scale&quot;: 1
+      },
+      &quot;height&quot;: 160,
+      &quot;ignore_input_space&quot;: &quot;reference_original_pixels&quot;,
+      &quot;ignore_space&quot;: &quot;canonical_768&quot;,
+      &quot;reference&quot;: {
+        &quot;orig_h&quot;: 160,
+        &quot;orig_w&quot;: 768,
+        &quot;scale&quot;: 1
+      },
+      &quot;width&quot;: 768
+    },
+    &quot;diagnostics&quot;: {
+      &quot;capture&quot;: {
+        &quot;candidate&quot;: {
+          &quot;gray_stddev&quot;: 85.08809772817817,
+          &quot;near_uniform&quot;: false,
+          &quot;rgb_stddev_max&quot;: 85.08809772817817
+        },
+        &quot;reference&quot;: {
+          &quot;gray_stddev&quot;: 85.08809772817817,
+          &quot;near_uniform&quot;: false,
+          &quot;rgb_stddev_max&quot;: 85.08809772817817
+        }
+      },
+      &quot;issues&quot;: [],
+      &quot;layout_identity_score&quot;: 50.211578408327796,
+      &quot;scope&quot;: {
+        &quot;compared_fraction&quot;: 1,
+        &quot;ignored_fraction&quot;: 0
+      },
+      &quot;status&quot;: &quot;ok&quot;,
+      &quot;version&quot;: 1
+    },
+    &quot;provenance&quot;: {
+      &quot;comparison_key&quot;: &quot;14da0b19fa1c129f1694a15eee6ddb7ad3e20c0f79acb55ec5166a394184923a&quot;,
+      &quot;inputs&quot;: {
+        &quot;candidate&quot;: {
+          &quot;height&quot;: 160,
+          &quot;rgb_sha256&quot;: &quot;c8049cd1a5f9c09b9c989f7d5297afaed4932654b9e7f839e1abffd14c782a38&quot;,
+          &quot;width&quot;: 768
+        },
+        &quot;reference&quot;: {
+          &quot;height&quot;: 160,
+          &quot;rgb_sha256&quot;: &quot;90a26fb763d6cf0adb0dad8d8c058c8af248931fe8c0a118c026c870bd731ef2&quot;,
+          &quot;width&quot;: 768
+        }
+      },
+      &quot;run_key&quot;: &quot;b2a134dc3bb7c02e494ffe779924757e5de0e70b9e400a45a7758f756c54db79&quot;,
+      &quot;settings&quot;: {
+        &quot;alignment_policy&quot;: &quot;ecc-translation-guards-v1&quot;,
+        &quot;canonical_width&quot;: 768,
+        &quot;comparison_context&quot;: null,
+        &quot;engine_revision&quot;: &quot;sha256:8ed84986061066a98aae998020cb64c80e326c7feab6d5bd28493f2eac705bed&quot;,
+        &quot;ignore_policy&quot;: &quot;reference-boxes-per-image-modal-fill-v1&quot;,
+        &quot;ignore_regions&quot;: [],
+        &quot;mode&quot;: &quot;widget&quot;,
+        &quot;normalization_policy&quot;: &quot;independent-width-modal-bottom-pad-v1&quot;,
+        &quot;preset&quot;: &quot;default&quot;,
+        &quot;runtime_versions&quot;: {
+          &quot;Pillow&quot;: &quot;12.3.0&quot;,
+          &quot;numpy&quot;: &quot;2.5.1&quot;,
+          &quot;opencv&quot;: &quot;5.0.0&quot;,
+          &quot;python&quot;: &quot;3.13.7&quot;,
+          &quot;scikit-image&quot;: &quot;0.26.0&quot;,
+          &quot;scikit-learn&quot;: &quot;1.9.0&quot;,
+          &quot;scipy&quot;: &quot;1.18.0&quot;
+        },
+        &quot;weights&quot;: {
+          &quot;color&quot;: 0.2,
+          &quot;content&quot;: 0.15,
+          &quot;layout&quot;: 0.35,
+          &quot;spacing&quot;: 0.15,
+          &quot;typography&quot;: 0.15
+        }
+      },
+      &quot;version&quot;: 1
+    }
+  }
+}</pre><h4>color_mass_50_to_50</h4><p>Same two RGB colors, light coverage 50% to 50%. Canonical-width input and exact old sampling boundaries isolate mass changes; widget mode skips registration.</p><pre>{
+  &quot;reference&quot;: &quot;fixtures/color-mass-light-width-384.png&quot;,
+  &quot;candidate&quot;: &quot;fixtures/color-mass-light-width-384.png&quot;,
+  &quot;params&quot;: {
+    &quot;mode&quot;: &quot;widget&quot;,
+    &quot;return_visuals&quot;: false
+  },
+  &quot;fixtures&quot;: {
+    &quot;fixtures/color-mass-light-width-384.png&quot;: {
+      &quot;mode&quot;: &quot;RGB&quot;,
+      &quot;pixels_sha256&quot;: &quot;cbe6f088ed13544a02c80e9436344bb2fe9ed67df65fec68f830f4655a40d22f&quot;,
+      &quot;rgb_histogram_sha256&quot;: &quot;43869d9e1cbd4003867c97efa95a768da95aae11d26c5bec5558169bbc88ade1&quot;,
+      &quot;sha256&quot;: &quot;f16230936aaa2e1a0f5f93c8fdb3d1e4f27ca760938b9e61d7ec6f40c67d137d&quot;,
+      &quot;shape&quot;: [
+        160,
+        768,
+        3
+      ]
+    }
+  },
+  &quot;baseline&quot;: {
+    &quot;effective_params&quot;: {
+      &quot;mode&quot;: &quot;widget&quot;,
+      &quot;return_visuals&quot;: false
+    },
+    &quot;unsupported_metadata_params&quot;: [],
+    &quot;alignment&quot;: {
+      &quot;fallback&quot;: true,
+      &quot;method&quot;: &quot;identity&quot;,
+      &quot;mode&quot;: &quot;widget&quot;,
+      &quot;note&quot;: &quot;widget mode assumes a pre-aligned crop&quot;
+    },
+    &quot;canvas&quot;: {
+      &quot;candidate&quot;: {
+        &quot;orig_h&quot;: 160,
+        &quot;orig_w&quot;: 768,
+        &quot;scale&quot;: 1
+      },
+      &quot;height&quot;: 160,
+      &quot;ignore_input_space&quot;: &quot;reference_original_pixels&quot;,
+      &quot;ignore_space&quot;: &quot;canonical_768&quot;,
+      &quot;reference&quot;: {
+        &quot;orig_h&quot;: 160,
+        &quot;orig_w&quot;: 768,
+        &quot;scale&quot;: 1
+      },
+      &quot;width&quot;: 768
+    }
+  },
+  &quot;current&quot;: {
+    &quot;effective_params&quot;: {
+      &quot;mode&quot;: &quot;widget&quot;,
+      &quot;return_visuals&quot;: false
+    },
+    &quot;alignment&quot;: {
+      &quot;fallback&quot;: true,
+      &quot;method&quot;: &quot;identity&quot;,
+      &quot;mode&quot;: &quot;widget&quot;,
+      &quot;note&quot;: &quot;widget mode assumes a pre-aligned crop&quot;,
+      &quot;outcome&quot;: &quot;not_requested&quot;,
+      &quot;reason&quot;: &quot;widget_identity&quot;
+    },
+    &quot;canvas&quot;: {
+      &quot;candidate&quot;: {
+        &quot;orig_h&quot;: 160,
+        &quot;orig_w&quot;: 768,
+        &quot;scale&quot;: 1
+      },
+      &quot;height&quot;: 160,
+      &quot;ignore_input_space&quot;: &quot;reference_original_pixels&quot;,
+      &quot;ignore_space&quot;: &quot;canonical_768&quot;,
+      &quot;reference&quot;: {
+        &quot;orig_h&quot;: 160,
+        &quot;orig_w&quot;: 768,
+        &quot;scale&quot;: 1
+      },
+      &quot;width&quot;: 768
+    },
+    &quot;diagnostics&quot;: {
+      &quot;capture&quot;: {
+        &quot;candidate&quot;: {
+          &quot;gray_stddev&quot;: 109,
+          &quot;near_uniform&quot;: false,
+          &quot;rgb_stddev_max&quot;: 109
+        },
+        &quot;reference&quot;: {
+          &quot;gray_stddev&quot;: 109,
+          &quot;near_uniform&quot;: false,
+          &quot;rgb_stddev_max&quot;: 109
+        }
+      },
+      &quot;issues&quot;: [],
+      &quot;layout_identity_score&quot;: 100,
+      &quot;scope&quot;: {
+        &quot;compared_fraction&quot;: 1,
+        &quot;ignored_fraction&quot;: 0
+      },
+      &quot;status&quot;: &quot;ok&quot;,
+      &quot;version&quot;: 1
+    },
+    &quot;provenance&quot;: {
+      &quot;comparison_key&quot;: &quot;c66a643ad6de8b59642f3182cd6df0caaf67714b5deca71778c651c91c911623&quot;,
+      &quot;inputs&quot;: {
+        &quot;candidate&quot;: {
+          &quot;height&quot;: 160,
+          &quot;rgb_sha256&quot;: &quot;8994daeda2007dee176f132701efcba3b718da117bb312a95ba5ce3768abce98&quot;,
+          &quot;width&quot;: 768
+        },
+        &quot;reference&quot;: {
+          &quot;height&quot;: 160,
+          &quot;rgb_sha256&quot;: &quot;8994daeda2007dee176f132701efcba3b718da117bb312a95ba5ce3768abce98&quot;,
+          &quot;width&quot;: 768
+        }
+      },
+      &quot;run_key&quot;: &quot;b9a7fd5779eb2b820aafc6990214b4b7d7e9e48c54774dbf25128f2031eb5aad&quot;,
+      &quot;settings&quot;: {
+        &quot;alignment_policy&quot;: &quot;ecc-translation-guards-v1&quot;,
+        &quot;canonical_width&quot;: 768,
+        &quot;comparison_context&quot;: null,
+        &quot;engine_revision&quot;: &quot;sha256:8ed84986061066a98aae998020cb64c80e326c7feab6d5bd28493f2eac705bed&quot;,
+        &quot;ignore_policy&quot;: &quot;reference-boxes-per-image-modal-fill-v1&quot;,
+        &quot;ignore_regions&quot;: [],
+        &quot;mode&quot;: &quot;widget&quot;,
+        &quot;normalization_policy&quot;: &quot;independent-width-modal-bottom-pad-v1&quot;,
+        &quot;preset&quot;: &quot;default&quot;,
+        &quot;runtime_versions&quot;: {
+          &quot;Pillow&quot;: &quot;12.3.0&quot;,
+          &quot;numpy&quot;: &quot;2.5.1&quot;,
+          &quot;opencv&quot;: &quot;5.0.0&quot;,
+          &quot;python&quot;: &quot;3.13.7&quot;,
+          &quot;scikit-image&quot;: &quot;0.26.0&quot;,
+          &quot;scikit-learn&quot;: &quot;1.9.0&quot;,
+          &quot;scipy&quot;: &quot;1.18.0&quot;
+        },
+        &quot;weights&quot;: {
+          &quot;color&quot;: 0.2,
+          &quot;content&quot;: 0.15,
+          &quot;layout&quot;: 0.35,
+          &quot;spacing&quot;: 0.15,
+          &quot;typography&quot;: 0.15
+        }
+      },
+      &quot;version&quot;: 1
+    }
+  }
+}</pre><h4>accent_recolored</h4><p>Replace all blue calendar accents with red; preserve geometry and other colors.</p><pre>{
+  &quot;reference&quot;: &quot;fixtures/calendar-reference.png&quot;,
+  &quot;candidate&quot;: &quot;fixtures/calendar-recolored.png&quot;,
+  &quot;params&quot;: {
+    &quot;return_visuals&quot;: false
+  },
+  &quot;fixtures&quot;: {
+    &quot;fixtures/calendar-reference.png&quot;: {
+      &quot;mode&quot;: &quot;RGB&quot;,
+      &quot;pixels_sha256&quot;: &quot;458ef06706ae5589837ca1bac20f5db60abc879827bb62375efef1e86c92f905&quot;,
+      &quot;sha256&quot;: &quot;630f2b254b64e52791583af453335528ef7fe9237cdee77bcc5fc9369e02aa03&quot;,
+      &quot;shape&quot;: [
+        320,
+        384,
+        3
+      ]
+    },
+    &quot;fixtures/calendar-recolored.png&quot;: {
+      &quot;mode&quot;: &quot;RGB&quot;,
+      &quot;pixels_sha256&quot;: &quot;19f548378391a1668a66a45005f8d796655a6a1676ce8288c54c8927e44505b3&quot;,
+      &quot;sha256&quot;: &quot;f620e434a6eb81f98853590ad60843a04f1e859cc3f06e0cb152981c9080753f&quot;,
+      &quot;shape&quot;: [
+        320,
+        384,
+        3
+      ]
+    }
+  },
+  &quot;baseline&quot;: {
+    &quot;effective_params&quot;: {
+      &quot;return_visuals&quot;: false
+    },
+    &quot;unsupported_metadata_params&quot;: [],
+    &quot;alignment&quot;: {
+      &quot;cc&quot;: 0.9999,
+      &quot;dx&quot;: 0,
+      &quot;dy&quot;: 0,
+      &quot;fallback&quot;: false,
+      &quot;method&quot;: &quot;ecc_translation&quot;,
+      &quot;mode&quot;: &quot;screen&quot;
+    },
+    &quot;canvas&quot;: {
+      &quot;candidate&quot;: {
+        &quot;orig_h&quot;: 320,
+        &quot;orig_w&quot;: 384,
+        &quot;scale&quot;: 2
+      },
+      &quot;height&quot;: 640,
+      &quot;ignore_input_space&quot;: &quot;reference_original_pixels&quot;,
+      &quot;ignore_space&quot;: &quot;canonical_768&quot;,
+      &quot;reference&quot;: {
+        &quot;orig_h&quot;: 320,
+        &quot;orig_w&quot;: 384,
+        &quot;scale&quot;: 2
+      },
+      &quot;width&quot;: 768
+    }
+  },
+  &quot;current&quot;: {
+    &quot;effective_params&quot;: {
+      &quot;return_visuals&quot;: false
+    },
+    &quot;alignment&quot;: {
+      &quot;cc&quot;: 0.9999,
+      &quot;dx&quot;: 0,
+      &quot;dy&quot;: 0,
+      &quot;fallback&quot;: false,
+      &quot;method&quot;: &quot;ecc_translation&quot;,
+      &quot;mode&quot;: &quot;screen&quot;,
+      &quot;outcome&quot;: &quot;applied&quot;,
+      &quot;reason&quot;: &quot;ecc_accepted&quot;
+    },
+    &quot;canvas&quot;: {
+      &quot;candidate&quot;: {
+        &quot;orig_h&quot;: 320,
+        &quot;orig_w&quot;: 384,
+        &quot;scale&quot;: 2
+      },
+      &quot;height&quot;: 640,
+      &quot;ignore_input_space&quot;: &quot;reference_original_pixels&quot;,
+      &quot;ignore_space&quot;: &quot;canonical_768&quot;,
+      &quot;reference&quot;: {
+        &quot;orig_h&quot;: 320,
+        &quot;orig_w&quot;: 384,
+        &quot;scale&quot;: 2
+      },
+      &quot;width&quot;: 768
+    },
+    &quot;diagnostics&quot;: {
+      &quot;capture&quot;: {
+        &quot;candidate&quot;: {
+          &quot;gray_stddev&quot;: 81.53886612028334,
+          &quot;near_uniform&quot;: false,
+          &quot;rgb_stddev_max&quot;: 85.98131462712692
+        },
+        &quot;reference&quot;: {
+          &quot;gray_stddev&quot;: 81.40526778157218,
+          &quot;near_uniform&quot;: false,
+          &quot;rgb_stddev_max&quot;: 87.45570871710888
+        }
+      },
+      &quot;issues&quot;: [],
+      &quot;layout_identity_score&quot;: 99.99492684108111,
+      &quot;scope&quot;: {
+        &quot;compared_fraction&quot;: 1,
+        &quot;ignored_fraction&quot;: 0
+      },
+      &quot;status&quot;: &quot;ok&quot;,
+      &quot;version&quot;: 1
+    },
+    &quot;provenance&quot;: {
+      &quot;comparison_key&quot;: &quot;cb71f27201d920a3bdbb1a4e3a626406988894a50bdb4a2dda0f65e3bdc5689c&quot;,
+      &quot;inputs&quot;: {
+        &quot;candidate&quot;: {
+          &quot;height&quot;: 320,
+          &quot;rgb_sha256&quot;: &quot;994dbe6f5660545a3dfe2db37b568449bea3d3f7b14673e9b1be7f89973774ca&quot;,
+          &quot;width&quot;: 384
+        },
+        &quot;reference&quot;: {
+          &quot;height&quot;: 320,
+          &quot;rgb_sha256&quot;: &quot;86682b46243f49037c4dbbaa876d8a3154e4a0dcd7a105e78e248ee6a4cc526a&quot;,
+          &quot;width&quot;: 384
+        }
+      },
+      &quot;run_key&quot;: &quot;11d6f5fe9ebf104347f15aa3f2649243f6a39563ef727ed98646bfd2271868a8&quot;,
+      &quot;settings&quot;: {
+        &quot;alignment_policy&quot;: &quot;ecc-translation-guards-v1&quot;,
+        &quot;canonical_width&quot;: 768,
+        &quot;comparison_context&quot;: null,
+        &quot;engine_revision&quot;: &quot;sha256:8ed84986061066a98aae998020cb64c80e326c7feab6d5bd28493f2eac705bed&quot;,
+        &quot;ignore_policy&quot;: &quot;reference-boxes-per-image-modal-fill-v1&quot;,
+        &quot;ignore_regions&quot;: [],
+        &quot;mode&quot;: &quot;screen&quot;,
+        &quot;normalization_policy&quot;: &quot;independent-width-modal-bottom-pad-v1&quot;,
+        &quot;preset&quot;: &quot;default&quot;,
+        &quot;runtime_versions&quot;: {
+          &quot;Pillow&quot;: &quot;12.3.0&quot;,
+          &quot;numpy&quot;: &quot;2.5.1&quot;,
+          &quot;opencv&quot;: &quot;5.0.0&quot;,
+          &quot;python&quot;: &quot;3.13.7&quot;,
+          &quot;scikit-image&quot;: &quot;0.26.0&quot;,
+          &quot;scikit-learn&quot;: &quot;1.9.0&quot;,
+          &quot;scipy&quot;: &quot;1.18.0&quot;
+        },
+        &quot;weights&quot;: {
+          &quot;color&quot;: 0.2,
+          &quot;content&quot;: 0.15,
+          &quot;layout&quot;: 0.35,
+          &quot;spacing&quot;: 0.15,
+          &quot;typography&quot;: 0.15
+        }
+      },
+      &quot;version&quot;: 1
+    }
+  }
+}</pre><h4>accent_missing</h4><p>Remove all blue calendar accents, leaving their white card backgrounds.</p><pre>{
+  &quot;reference&quot;: &quot;fixtures/calendar-reference.png&quot;,
+  &quot;candidate&quot;: &quot;fixtures/calendar-missing-accent.png&quot;,
+  &quot;params&quot;: {
+    &quot;return_visuals&quot;: false
+  },
+  &quot;fixtures&quot;: {
+    &quot;fixtures/calendar-reference.png&quot;: {
+      &quot;mode&quot;: &quot;RGB&quot;,
+      &quot;pixels_sha256&quot;: &quot;458ef06706ae5589837ca1bac20f5db60abc879827bb62375efef1e86c92f905&quot;,
+      &quot;sha256&quot;: &quot;630f2b254b64e52791583af453335528ef7fe9237cdee77bcc5fc9369e02aa03&quot;,
+      &quot;shape&quot;: [
+        320,
+        384,
+        3
+      ]
+    },
+    &quot;fixtures/calendar-missing-accent.png&quot;: {
+      &quot;mode&quot;: &quot;RGB&quot;,
+      &quot;pixels_sha256&quot;: &quot;5208b7a4bc0b653cfa65eddcfa68b68715aa30afe80ee41206a221eea1fdcbc5&quot;,
+      &quot;sha256&quot;: &quot;8dc54fb85df0830de34bdf074a0032ce423e4af3df05b711f4d591d5bd7dfe89&quot;,
+      &quot;shape&quot;: [
+        320,
+        384,
+        3
+      ]
+    }
+  },
+  &quot;baseline&quot;: {
+    &quot;effective_params&quot;: {
+      &quot;return_visuals&quot;: false
+    },
+    &quot;unsupported_metadata_params&quot;: [],
+    &quot;alignment&quot;: {
+      &quot;cc&quot;: 0.9743,
+      &quot;dx&quot;: 0,
+      &quot;dy&quot;: 0,
+      &quot;fallback&quot;: false,
+      &quot;method&quot;: &quot;ecc_translation&quot;,
+      &quot;mode&quot;: &quot;screen&quot;
+    },
+    &quot;canvas&quot;: {
+      &quot;candidate&quot;: {
+        &quot;orig_h&quot;: 320,
+        &quot;orig_w&quot;: 384,
+        &quot;scale&quot;: 2
+      },
+      &quot;height&quot;: 640,
+      &quot;ignore_input_space&quot;: &quot;reference_original_pixels&quot;,
+      &quot;ignore_space&quot;: &quot;canonical_768&quot;,
+      &quot;reference&quot;: {
+        &quot;orig_h&quot;: 320,
+        &quot;orig_w&quot;: 384,
+        &quot;scale&quot;: 2
+      },
+      &quot;width&quot;: 768
+    }
+  },
+  &quot;current&quot;: {
+    &quot;effective_params&quot;: {
+      &quot;return_visuals&quot;: false
+    },
+    &quot;alignment&quot;: {
+      &quot;cc&quot;: 0.9743,
+      &quot;dx&quot;: 0,
+      &quot;dy&quot;: 0,
+      &quot;fallback&quot;: false,
+      &quot;method&quot;: &quot;ecc_translation&quot;,
+      &quot;mode&quot;: &quot;screen&quot;,
+      &quot;outcome&quot;: &quot;applied&quot;,
+      &quot;reason&quot;: &quot;ecc_accepted&quot;
+    },
+    &quot;canvas&quot;: {
+      &quot;candidate&quot;: {
+        &quot;orig_h&quot;: 320,
+        &quot;orig_w&quot;: 384,
+        &quot;scale&quot;: 2
+      },
+      &quot;height&quot;: 640,
+      &quot;ignore_input_space&quot;: &quot;reference_original_pixels&quot;,
+      &quot;ignore_space&quot;: &quot;canonical_768&quot;,
+      &quot;reference&quot;: {
+        &quot;orig_h&quot;: 320,
+        &quot;orig_w&quot;: 384,
+        &quot;scale&quot;: 2
+      },
+      &quot;width&quot;: 768
+    },
+    &quot;diagnostics&quot;: {
+      &quot;capture&quot;: {
+        &quot;candidate&quot;: {
+          &quot;gray_stddev&quot;: 80.82157666374721,
+          &quot;near_uniform&quot;: false,
+          &quot;rgb_stddev_max&quot;: 86.20106489565393
+        },
+        &quot;reference&quot;: {
+          &quot;gray_stddev&quot;: 81.40526778157218,
+          &quot;near_uniform&quot;: false,
+          &quot;rgb_stddev_max&quot;: 87.45570871710888
+        }
+      },
+      &quot;issues&quot;: [],
+      &quot;layout_identity_score&quot;: 97.9270246455535,
+      &quot;scope&quot;: {
+        &quot;compared_fraction&quot;: 1,
+        &quot;ignored_fraction&quot;: 0
+      },
+      &quot;status&quot;: &quot;ok&quot;,
+      &quot;version&quot;: 1
+    },
+    &quot;provenance&quot;: {
+      &quot;comparison_key&quot;: &quot;cb71f27201d920a3bdbb1a4e3a626406988894a50bdb4a2dda0f65e3bdc5689c&quot;,
+      &quot;inputs&quot;: {
+        &quot;candidate&quot;: {
+          &quot;height&quot;: 320,
+          &quot;rgb_sha256&quot;: &quot;8b2b70e825c548c0a15c72829678994d19894f1f32d31c5d71fb9f4a7798b376&quot;,
+          &quot;width&quot;: 384
+        },
+        &quot;reference&quot;: {
+          &quot;height&quot;: 320,
+          &quot;rgb_sha256&quot;: &quot;86682b46243f49037c4dbbaa876d8a3154e4a0dcd7a105e78e248ee6a4cc526a&quot;,
+          &quot;width&quot;: 384
+        }
+      },
+      &quot;run_key&quot;: &quot;4295e9ab3c711f0779ae6f4d3bc84d7ed33cacbddd4cbb67c87042d5ebcbfffa&quot;,
+      &quot;settings&quot;: {
+        &quot;alignment_policy&quot;: &quot;ecc-translation-guards-v1&quot;,
+        &quot;canonical_width&quot;: 768,
+        &quot;comparison_context&quot;: null,
+        &quot;engine_revision&quot;: &quot;sha256:8ed84986061066a98aae998020cb64c80e326c7feab6d5bd28493f2eac705bed&quot;,
+        &quot;ignore_policy&quot;: &quot;reference-boxes-per-image-modal-fill-v1&quot;,
+        &quot;ignore_regions&quot;: [],
+        &quot;mode&quot;: &quot;screen&quot;,
+        &quot;normalization_policy&quot;: &quot;independent-width-modal-bottom-pad-v1&quot;,
+        &quot;preset&quot;: &quot;default&quot;,
+        &quot;runtime_versions&quot;: {
+          &quot;Pillow&quot;: &quot;12.3.0&quot;,
+          &quot;numpy&quot;: &quot;2.5.1&quot;,
+          &quot;opencv&quot;: &quot;5.0.0&quot;,
+          &quot;python&quot;: &quot;3.13.7&quot;,
+          &quot;scikit-image&quot;: &quot;0.26.0&quot;,
+          &quot;scikit-learn&quot;: &quot;1.9.0&quot;,
+          &quot;scipy&quot;: &quot;1.18.0&quot;
+        },
+        &quot;weights&quot;: {
+          &quot;color&quot;: 0.2,
+          &quot;content&quot;: 0.15,
+          &quot;layout&quot;: 0.35,
+          &quot;spacing&quot;: 0.15,
+          &quot;typography&quot;: 0.15
+        }
+      },
+      &quot;version&quot;: 1
+    }
+  }
+}</pre><p><a href="assets/reliability/6b09f1b6e6ce606c/raw/baseline.json">Baseline raw JSON</a> · <a href="assets/reliability/6b09f1b6e6ce606c/raw/current.json">Current raw JSON</a> · <a href="assets/reliability/6b09f1b6e6ce606c/report.md">Run report</a></p></details></article>
+<article class="rel-card rel-card-3" aria-labelledby="rel-title-3"><p class="rel-number">Example 3 / 5</p><h3 id="rel-title-3">Equal energy can hide an opposite sampled rhythm.</h3><p>The candidate reverses all nine frames. The amount of frame-to-frame change stays equal, but its sampled profile differs. No source timestamps or capture cadence are supplied.</p><div class="rel-inputs"><figure><figcaption>Reference</figcaption><ol class="rel-strip"><li><a href="assets/reliability/6b09f1b6e6ce606c/fixtures/motion-reference-00.png"><img src="assets/reliability/6b09f1b6e6ce606c/fixtures/motion-reference-00.png" alt="Reference fixture motion-reference-00.png, frame 0" width="100" height="50" loading="lazy" /></a><span>Frame 0</span></li><li><a href="assets/reliability/6b09f1b6e6ce606c/fixtures/motion-reference-01.png"><img src="assets/reliability/6b09f1b6e6ce606c/fixtures/motion-reference-01.png" alt="Reference fixture motion-reference-01.png, frame 1" width="100" height="50" loading="lazy" /></a><span>Frame 1</span></li><li><a href="assets/reliability/6b09f1b6e6ce606c/fixtures/motion-reference-02.png"><img src="assets/reliability/6b09f1b6e6ce606c/fixtures/motion-reference-02.png" alt="Reference fixture motion-reference-02.png, frame 2" width="100" height="50" loading="lazy" /></a><span>Frame 2</span></li><li><a href="assets/reliability/6b09f1b6e6ce606c/fixtures/motion-reference-03.png"><img src="assets/reliability/6b09f1b6e6ce606c/fixtures/motion-reference-03.png" alt="Reference fixture motion-reference-03.png, frame 3" width="100" height="50" loading="lazy" /></a><span>Frame 3</span></li><li><a href="assets/reliability/6b09f1b6e6ce606c/fixtures/motion-reference-04.png"><img src="assets/reliability/6b09f1b6e6ce606c/fixtures/motion-reference-04.png" alt="Reference fixture motion-reference-04.png, frame 4" width="100" height="50" loading="lazy" /></a><span>Frame 4</span></li><li><a href="assets/reliability/6b09f1b6e6ce606c/fixtures/motion-reference-05.png"><img src="assets/reliability/6b09f1b6e6ce606c/fixtures/motion-reference-05.png" alt="Reference fixture motion-reference-05.png, frame 5" width="100" height="50" loading="lazy" /></a><span>Frame 5</span></li><li><a href="assets/reliability/6b09f1b6e6ce606c/fixtures/motion-reference-06.png"><img src="assets/reliability/6b09f1b6e6ce606c/fixtures/motion-reference-06.png" alt="Reference fixture motion-reference-06.png, frame 6" width="100" height="50" loading="lazy" /></a><span>Frame 6</span></li><li><a href="assets/reliability/6b09f1b6e6ce606c/fixtures/motion-reference-07.png"><img src="assets/reliability/6b09f1b6e6ce606c/fixtures/motion-reference-07.png" alt="Reference fixture motion-reference-07.png, frame 7" width="100" height="50" loading="lazy" /></a><span>Frame 7</span></li><li><a href="assets/reliability/6b09f1b6e6ce606c/fixtures/motion-reference-08.png"><img src="assets/reliability/6b09f1b6e6ce606c/fixtures/motion-reference-08.png" alt="Reference fixture motion-reference-08.png, frame 8" width="100" height="50" loading="lazy" /></a><span>Frame 8</span></li></ol></figure><figure><figcaption>Candidate · unchanged between pipelines</figcaption><ol class="rel-strip"><li><a href="assets/reliability/6b09f1b6e6ce606c/fixtures/motion-reversed-00.png"><img src="assets/reliability/6b09f1b6e6ce606c/fixtures/motion-reversed-00.png" alt="Candidate fixture motion-reversed-00.png, frame 0" width="100" height="50" loading="lazy" /></a><span>Frame 0</span></li><li><a href="assets/reliability/6b09f1b6e6ce606c/fixtures/motion-reversed-01.png"><img src="assets/reliability/6b09f1b6e6ce606c/fixtures/motion-reversed-01.png" alt="Candidate fixture motion-reversed-01.png, frame 1" width="100" height="50" loading="lazy" /></a><span>Frame 1</span></li><li><a href="assets/reliability/6b09f1b6e6ce606c/fixtures/motion-reversed-02.png"><img src="assets/reliability/6b09f1b6e6ce606c/fixtures/motion-reversed-02.png" alt="Candidate fixture motion-reversed-02.png, frame 2" width="100" height="50" loading="lazy" /></a><span>Frame 2</span></li><li><a href="assets/reliability/6b09f1b6e6ce606c/fixtures/motion-reversed-03.png"><img src="assets/reliability/6b09f1b6e6ce606c/fixtures/motion-reversed-03.png" alt="Candidate fixture motion-reversed-03.png, frame 3" width="100" height="50" loading="lazy" /></a><span>Frame 3</span></li><li><a href="assets/reliability/6b09f1b6e6ce606c/fixtures/motion-reversed-04.png"><img src="assets/reliability/6b09f1b6e6ce606c/fixtures/motion-reversed-04.png" alt="Candidate fixture motion-reversed-04.png, frame 4" width="100" height="50" loading="lazy" /></a><span>Frame 4</span></li><li><a href="assets/reliability/6b09f1b6e6ce606c/fixtures/motion-reversed-05.png"><img src="assets/reliability/6b09f1b6e6ce606c/fixtures/motion-reversed-05.png" alt="Candidate fixture motion-reversed-05.png, frame 5" width="100" height="50" loading="lazy" /></a><span>Frame 5</span></li><li><a href="assets/reliability/6b09f1b6e6ce606c/fixtures/motion-reversed-06.png"><img src="assets/reliability/6b09f1b6e6ce606c/fixtures/motion-reversed-06.png" alt="Candidate fixture motion-reversed-06.png, frame 6" width="100" height="50" loading="lazy" /></a><span>Frame 6</span></li><li><a href="assets/reliability/6b09f1b6e6ce606c/fixtures/motion-reversed-07.png"><img src="assets/reliability/6b09f1b6e6ce606c/fixtures/motion-reversed-07.png" alt="Candidate fixture motion-reversed-07.png, frame 7" width="100" height="50" loading="lazy" /></a><span>Frame 7</span></li><li><a href="assets/reliability/6b09f1b6e6ce606c/fixtures/motion-reversed-08.png"><img src="assets/reliability/6b09f1b6e6ce606c/fixtures/motion-reversed-08.png" alt="Candidate fixture motion-reversed-08.png, frame 8" width="100" height="50" loading="lazy" /></a><span>Frame 8</span></li></ol></figure></div><div class="rel-results"><section aria-label="Previous pipeline"><h4>Before · b7139a2</h4><dl class="rel-fields"><div><dt>motion_score</dt><dd><code>100</code></dd></div><div><dt>motion_energy_score</dt><dd><code>not returned</code></dd></div><div><dt>Meaning</dt><dd><code>not returned</code></dd></div><div><dt>Energy ratio</dt><dd><code>1</code></dd></div><div><dt>Frame-index correlation</dt><dd><code>-0.5153364271492592</code></dd></div><div><dt>Timing status</dt><dd><code>not returned</code></dd></div><div><dt>Timing reason</dt><dd><code>not returned</code></dd></div><div><dt>Timing score</dt><dd><code>not returned</code></dd></div></dl></section><section aria-label="Updated pipeline"><h4>After · dirty snapshot 0a5ca0c9c0a3</h4><dl class="rel-fields"><div><dt>motion_score</dt><dd><code>100</code></dd></div><div><dt>motion_energy_score</dt><dd><code>100</code></dd></div><div><dt>Meaning</dt><dd><code>motion_energy_similarity_only</code></dd></div><div><dt>Energy ratio</dt><dd><code>1</code></dd></div><div><dt>Frame-index correlation</dt><dd><code>-0.5153364271492592</code></dd></div><div><dt>Timing status</dt><dd><code>inconclusive</code></dd></div><div><dt>Timing reason</dt><dd><code>cadence_unknown</code></dd></div><div><dt>Timing score</dt><dd><code>null</code></dd></div></dl></section></div><p class="rel-reading">The energy score is not animation fidelity. Negative frame-index correlation describes these samples; unknown cadence leaves elapsed-time alignment inconclusive.</p><details class="rel-details"><summary>Static control and exact sampled signatures</summary><div class="rel-results"><section aria-label="Previous pipeline"><h4>Before · b7139a2</h4><dl class="rel-fields"><div><dt>motion_score</dt><dd><code>null</code></dd></div><div><dt>motion_status</dt><dd><code>static</code></dd></div><div><dt>Timing status</dt><dd><code>not returned</code></dd></div></dl></section><section aria-label="Updated pipeline"><h4>After · dirty snapshot 0a5ca0c9c0a3</h4><dl class="rel-fields"><div><dt>motion_score</dt><dd><code>null</code></dd></div><div><dt>motion_status</dt><dd><code>static</code></dd></div><div><dt>Timing status</dt><dd><code>inconclusive</code></dd></div></dl></section></div><dl class="rel-fields"><div><dt>Reference signature</dt><dd><code>[0.0041,0,0.0146,0,0.0076,0,0.0286,0]</code></dd></div><div><dt>Candidate signature</dt><dd><code>[0,0.0286,0,0.0076,0,0.0146,0,0.0041]</code></dd></div><div><dt>Frame counts</dt><dd><code>{&quot;candidate&quot;:9,&quot;reference&quot;:9}</code></dd></div></dl><p>A true null is shown as <code>null</code>. A field absent from the old worker is shown as <code>not returned</code>.</p></details><details class="rel-details"><summary>Inputs, settings and raw evidence</summary><h4>motion_reversed</h4><p>Reverse frame order. Same mean energy, different sampled rhythm; no capture timestamps are claimed.</p><pre>{
+  &quot;reference&quot;: [
+    &quot;fixtures/motion-reference-00.png&quot;,
+    &quot;fixtures/motion-reference-01.png&quot;,
+    &quot;fixtures/motion-reference-02.png&quot;,
+    &quot;fixtures/motion-reference-03.png&quot;,
+    &quot;fixtures/motion-reference-04.png&quot;,
+    &quot;fixtures/motion-reference-05.png&quot;,
+    &quot;fixtures/motion-reference-06.png&quot;,
+    &quot;fixtures/motion-reference-07.png&quot;,
+    &quot;fixtures/motion-reference-08.png&quot;
+  ],
+  &quot;candidate&quot;: [
+    &quot;fixtures/motion-reversed-00.png&quot;,
+    &quot;fixtures/motion-reversed-01.png&quot;,
+    &quot;fixtures/motion-reversed-02.png&quot;,
+    &quot;fixtures/motion-reversed-03.png&quot;,
+    &quot;fixtures/motion-reversed-04.png&quot;,
+    &quot;fixtures/motion-reversed-05.png&quot;,
+    &quot;fixtures/motion-reversed-06.png&quot;,
+    &quot;fixtures/motion-reversed-07.png&quot;,
+    &quot;fixtures/motion-reversed-08.png&quot;
+  ],
+  &quot;params&quot;: {
+    &quot;return_visuals&quot;: false
+  },
+  &quot;fixtures&quot;: {
+    &quot;fixtures/motion-reference-00.png&quot;: {
+      &quot;mode&quot;: &quot;L&quot;,
+      &quot;pixels_sha256&quot;: &quot;6955058556630e4d905359f6f6d811f9187d2a5b47b0c6862c953ed5cc7b93ba&quot;,
+      &quot;sha256&quot;: &quot;2199c0f6da9106037124b340433375de42f9b400b87eb7b151cc8c36e2e4e334&quot;,
+      &quot;shape&quot;: [
+        50,
+        100
+      ]
+    },
+    &quot;fixtures/motion-reference-01.png&quot;: {
+      &quot;mode&quot;: &quot;L&quot;,
+      &quot;pixels_sha256&quot;: &quot;1a0c98614c8c370071b47f609c7d98752a03daa0962c880cb99e750ffca7cfce&quot;,
+      &quot;sha256&quot;: &quot;0f6f71b6630a8fbeadcd5852026084bb99ba1edea7da2b5881994ba3b8c53323&quot;,
+      &quot;shape&quot;: [
+        50,
+        100
+      ]
+    },
+    &quot;fixtures/motion-reference-02.png&quot;: {
+      &quot;mode&quot;: &quot;L&quot;,
+      &quot;pixels_sha256&quot;: &quot;1a0c98614c8c370071b47f609c7d98752a03daa0962c880cb99e750ffca7cfce&quot;,
+      &quot;sha256&quot;: &quot;0f6f71b6630a8fbeadcd5852026084bb99ba1edea7da2b5881994ba3b8c53323&quot;,
+      &quot;shape&quot;: [
+        50,
+        100
+      ]
+    },
+    &quot;fixtures/motion-reference-03.png&quot;: {
+      &quot;mode&quot;: &quot;L&quot;,
+      &quot;pixels_sha256&quot;: &quot;c05dea69b215a4364684fe683333f199393c2d368b615e272c3efa780bdd4ad1&quot;,
+      &quot;sha256&quot;: &quot;2f9f2fbe0652f89b428e9063e07429251c7604c2b563505cb03bf555d5bdf4ba&quot;,
+      &quot;shape&quot;: [
+        50,
+        100
+      ]
+    },
+    &quot;fixtures/motion-reference-04.png&quot;: {
+      &quot;mode&quot;: &quot;L&quot;,
+      &quot;pixels_sha256&quot;: &quot;c05dea69b215a4364684fe683333f199393c2d368b615e272c3efa780bdd4ad1&quot;,
+      &quot;sha256&quot;: &quot;2f9f2fbe0652f89b428e9063e07429251c7604c2b563505cb03bf555d5bdf4ba&quot;,
+      &quot;shape&quot;: [
+        50,
+        100
+      ]
+    },
+    &quot;fixtures/motion-reference-05.png&quot;: {
+      &quot;mode&quot;: &quot;L&quot;,
+      &quot;pixels_sha256&quot;: &quot;5c5752c56196c12a0b55fb4b11216589b9e2a5a890b29e623f689a2200f422d1&quot;,
+      &quot;sha256&quot;: &quot;f0db19fa5b06cb338bd587457b7ce858628195b9be767d2bee3a50bb49a51603&quot;,
+      &quot;shape&quot;: [
+        50,
+        100
+      ]
+    },
+    &quot;fixtures/motion-reference-06.png&quot;: {
+      &quot;mode&quot;: &quot;L&quot;,
+      &quot;pixels_sha256&quot;: &quot;5c5752c56196c12a0b55fb4b11216589b9e2a5a890b29e623f689a2200f422d1&quot;,
+      &quot;sha256&quot;: &quot;f0db19fa5b06cb338bd587457b7ce858628195b9be767d2bee3a50bb49a51603&quot;,
+      &quot;shape&quot;: [
+        50,
+        100
+      ]
+    },
+    &quot;fixtures/motion-reference-07.png&quot;: {
+      &quot;mode&quot;: &quot;L&quot;,
+      &quot;pixels_sha256&quot;: &quot;546c16fc13f972c4f86cda49d539439e15e4ee6f7dbfdaeda14b09a8b70493fc&quot;,
+      &quot;sha256&quot;: &quot;bac6f6bca8e0f1130e423ea34db71643eb478cb9a12a493fa1c97ab9cec97878&quot;,
+      &quot;shape&quot;: [
+        50,
+        100
+      ]
+    },
+    &quot;fixtures/motion-reference-08.png&quot;: {
+      &quot;mode&quot;: &quot;L&quot;,
+      &quot;pixels_sha256&quot;: &quot;546c16fc13f972c4f86cda49d539439e15e4ee6f7dbfdaeda14b09a8b70493fc&quot;,
+      &quot;sha256&quot;: &quot;bac6f6bca8e0f1130e423ea34db71643eb478cb9a12a493fa1c97ab9cec97878&quot;,
+      &quot;shape&quot;: [
+        50,
+        100
+      ]
+    },
+    &quot;fixtures/motion-reversed-00.png&quot;: {
+      &quot;mode&quot;: &quot;L&quot;,
+      &quot;pixels_sha256&quot;: &quot;546c16fc13f972c4f86cda49d539439e15e4ee6f7dbfdaeda14b09a8b70493fc&quot;,
+      &quot;sha256&quot;: &quot;bac6f6bca8e0f1130e423ea34db71643eb478cb9a12a493fa1c97ab9cec97878&quot;,
+      &quot;shape&quot;: [
+        50,
+        100
+      ]
+    },
+    &quot;fixtures/motion-reversed-01.png&quot;: {
+      &quot;mode&quot;: &quot;L&quot;,
+      &quot;pixels_sha256&quot;: &quot;546c16fc13f972c4f86cda49d539439e15e4ee6f7dbfdaeda14b09a8b70493fc&quot;,
+      &quot;sha256&quot;: &quot;bac6f6bca8e0f1130e423ea34db71643eb478cb9a12a493fa1c97ab9cec97878&quot;,
+      &quot;shape&quot;: [
+        50,
+        100
+      ]
+    },
+    &quot;fixtures/motion-reversed-02.png&quot;: {
+      &quot;mode&quot;: &quot;L&quot;,
+      &quot;pixels_sha256&quot;: &quot;5c5752c56196c12a0b55fb4b11216589b9e2a5a890b29e623f689a2200f422d1&quot;,
+      &quot;sha256&quot;: &quot;f0db19fa5b06cb338bd587457b7ce858628195b9be767d2bee3a50bb49a51603&quot;,
+      &quot;shape&quot;: [
+        50,
+        100
+      ]
+    },
+    &quot;fixtures/motion-reversed-03.png&quot;: {
+      &quot;mode&quot;: &quot;L&quot;,
+      &quot;pixels_sha256&quot;: &quot;5c5752c56196c12a0b55fb4b11216589b9e2a5a890b29e623f689a2200f422d1&quot;,
+      &quot;sha256&quot;: &quot;f0db19fa5b06cb338bd587457b7ce858628195b9be767d2bee3a50bb49a51603&quot;,
+      &quot;shape&quot;: [
+        50,
+        100
+      ]
+    },
+    &quot;fixtures/motion-reversed-04.png&quot;: {
+      &quot;mode&quot;: &quot;L&quot;,
+      &quot;pixels_sha256&quot;: &quot;c05dea69b215a4364684fe683333f199393c2d368b615e272c3efa780bdd4ad1&quot;,
+      &quot;sha256&quot;: &quot;2f9f2fbe0652f89b428e9063e07429251c7604c2b563505cb03bf555d5bdf4ba&quot;,
+      &quot;shape&quot;: [
+        50,
+        100
+      ]
+    },
+    &quot;fixtures/motion-reversed-05.png&quot;: {
+      &quot;mode&quot;: &quot;L&quot;,
+      &quot;pixels_sha256&quot;: &quot;c05dea69b215a4364684fe683333f199393c2d368b615e272c3efa780bdd4ad1&quot;,
+      &quot;sha256&quot;: &quot;2f9f2fbe0652f89b428e9063e07429251c7604c2b563505cb03bf555d5bdf4ba&quot;,
+      &quot;shape&quot;: [
+        50,
+        100
+      ]
+    },
+    &quot;fixtures/motion-reversed-06.png&quot;: {
+      &quot;mode&quot;: &quot;L&quot;,
+      &quot;pixels_sha256&quot;: &quot;1a0c98614c8c370071b47f609c7d98752a03daa0962c880cb99e750ffca7cfce&quot;,
+      &quot;sha256&quot;: &quot;0f6f71b6630a8fbeadcd5852026084bb99ba1edea7da2b5881994ba3b8c53323&quot;,
+      &quot;shape&quot;: [
+        50,
+        100
+      ]
+    },
+    &quot;fixtures/motion-reversed-07.png&quot;: {
+      &quot;mode&quot;: &quot;L&quot;,
+      &quot;pixels_sha256&quot;: &quot;1a0c98614c8c370071b47f609c7d98752a03daa0962c880cb99e750ffca7cfce&quot;,
+      &quot;sha256&quot;: &quot;0f6f71b6630a8fbeadcd5852026084bb99ba1edea7da2b5881994ba3b8c53323&quot;,
+      &quot;shape&quot;: [
+        50,
+        100
+      ]
+    },
+    &quot;fixtures/motion-reversed-08.png&quot;: {
+      &quot;mode&quot;: &quot;L&quot;,
+      &quot;pixels_sha256&quot;: &quot;6955058556630e4d905359f6f6d811f9187d2a5b47b0c6862c953ed5cc7b93ba&quot;,
+      &quot;sha256&quot;: &quot;2199c0f6da9106037124b340433375de42f9b400b87eb7b151cc8c36e2e4e334&quot;,
+      &quot;shape&quot;: [
+        50,
+        100
+      ]
+    }
+  },
+  &quot;baseline&quot;: {
+    &quot;effective_params&quot;: {
+      &quot;return_visuals&quot;: false
+    },
+    &quot;unsupported_metadata_params&quot;: []
+  },
+  &quot;current&quot;: {
+    &quot;effective_params&quot;: {
+      &quot;return_visuals&quot;: false
+    }
+  }
+}</pre><h4>motion_both_static</h4><p>Neither side moves. A null motion score is inconclusive, not perfect fidelity.</p><pre>{
+  &quot;reference&quot;: [
+    &quot;fixtures/motion-static-00.png&quot;,
+    &quot;fixtures/motion-static-01.png&quot;,
+    &quot;fixtures/motion-static-02.png&quot;,
+    &quot;fixtures/motion-static-03.png&quot;,
+    &quot;fixtures/motion-static-04.png&quot;,
+    &quot;fixtures/motion-static-05.png&quot;,
+    &quot;fixtures/motion-static-06.png&quot;,
+    &quot;fixtures/motion-static-07.png&quot;,
+    &quot;fixtures/motion-static-08.png&quot;
+  ],
+  &quot;candidate&quot;: [
+    &quot;fixtures/motion-static-00.png&quot;,
+    &quot;fixtures/motion-static-01.png&quot;,
+    &quot;fixtures/motion-static-02.png&quot;,
+    &quot;fixtures/motion-static-03.png&quot;,
+    &quot;fixtures/motion-static-04.png&quot;,
+    &quot;fixtures/motion-static-05.png&quot;,
+    &quot;fixtures/motion-static-06.png&quot;,
+    &quot;fixtures/motion-static-07.png&quot;,
+    &quot;fixtures/motion-static-08.png&quot;
+  ],
+  &quot;params&quot;: {
+    &quot;return_visuals&quot;: false
+  },
+  &quot;fixtures&quot;: {
+    &quot;fixtures/motion-static-00.png&quot;: {
+      &quot;mode&quot;: &quot;L&quot;,
+      &quot;pixels_sha256&quot;: &quot;6955058556630e4d905359f6f6d811f9187d2a5b47b0c6862c953ed5cc7b93ba&quot;,
+      &quot;sha256&quot;: &quot;2199c0f6da9106037124b340433375de42f9b400b87eb7b151cc8c36e2e4e334&quot;,
+      &quot;shape&quot;: [
+        50,
+        100
+      ]
+    },
+    &quot;fixtures/motion-static-01.png&quot;: {
+      &quot;mode&quot;: &quot;L&quot;,
+      &quot;pixels_sha256&quot;: &quot;6955058556630e4d905359f6f6d811f9187d2a5b47b0c6862c953ed5cc7b93ba&quot;,
+      &quot;sha256&quot;: &quot;2199c0f6da9106037124b340433375de42f9b400b87eb7b151cc8c36e2e4e334&quot;,
+      &quot;shape&quot;: [
+        50,
+        100
+      ]
+    },
+    &quot;fixtures/motion-static-02.png&quot;: {
+      &quot;mode&quot;: &quot;L&quot;,
+      &quot;pixels_sha256&quot;: &quot;6955058556630e4d905359f6f6d811f9187d2a5b47b0c6862c953ed5cc7b93ba&quot;,
+      &quot;sha256&quot;: &quot;2199c0f6da9106037124b340433375de42f9b400b87eb7b151cc8c36e2e4e334&quot;,
+      &quot;shape&quot;: [
+        50,
+        100
+      ]
+    },
+    &quot;fixtures/motion-static-03.png&quot;: {
+      &quot;mode&quot;: &quot;L&quot;,
+      &quot;pixels_sha256&quot;: &quot;6955058556630e4d905359f6f6d811f9187d2a5b47b0c6862c953ed5cc7b93ba&quot;,
+      &quot;sha256&quot;: &quot;2199c0f6da9106037124b340433375de42f9b400b87eb7b151cc8c36e2e4e334&quot;,
+      &quot;shape&quot;: [
+        50,
+        100
+      ]
+    },
+    &quot;fixtures/motion-static-04.png&quot;: {
+      &quot;mode&quot;: &quot;L&quot;,
+      &quot;pixels_sha256&quot;: &quot;6955058556630e4d905359f6f6d811f9187d2a5b47b0c6862c953ed5cc7b93ba&quot;,
+      &quot;sha256&quot;: &quot;2199c0f6da9106037124b340433375de42f9b400b87eb7b151cc8c36e2e4e334&quot;,
+      &quot;shape&quot;: [
+        50,
+        100
+      ]
+    },
+    &quot;fixtures/motion-static-05.png&quot;: {
+      &quot;mode&quot;: &quot;L&quot;,
+      &quot;pixels_sha256&quot;: &quot;6955058556630e4d905359f6f6d811f9187d2a5b47b0c6862c953ed5cc7b93ba&quot;,
+      &quot;sha256&quot;: &quot;2199c0f6da9106037124b340433375de42f9b400b87eb7b151cc8c36e2e4e334&quot;,
+      &quot;shape&quot;: [
+        50,
+        100
+      ]
+    },
+    &quot;fixtures/motion-static-06.png&quot;: {
+      &quot;mode&quot;: &quot;L&quot;,
+      &quot;pixels_sha256&quot;: &quot;6955058556630e4d905359f6f6d811f9187d2a5b47b0c6862c953ed5cc7b93ba&quot;,
+      &quot;sha256&quot;: &quot;2199c0f6da9106037124b340433375de42f9b400b87eb7b151cc8c36e2e4e334&quot;,
+      &quot;shape&quot;: [
+        50,
+        100
+      ]
+    },
+    &quot;fixtures/motion-static-07.png&quot;: {
+      &quot;mode&quot;: &quot;L&quot;,
+      &quot;pixels_sha256&quot;: &quot;6955058556630e4d905359f6f6d811f9187d2a5b47b0c6862c953ed5cc7b93ba&quot;,
+      &quot;sha256&quot;: &quot;2199c0f6da9106037124b340433375de42f9b400b87eb7b151cc8c36e2e4e334&quot;,
+      &quot;shape&quot;: [
+        50,
+        100
+      ]
+    },
+    &quot;fixtures/motion-static-08.png&quot;: {
+      &quot;mode&quot;: &quot;L&quot;,
+      &quot;pixels_sha256&quot;: &quot;6955058556630e4d905359f6f6d811f9187d2a5b47b0c6862c953ed5cc7b93ba&quot;,
+      &quot;sha256&quot;: &quot;2199c0f6da9106037124b340433375de42f9b400b87eb7b151cc8c36e2e4e334&quot;,
+      &quot;shape&quot;: [
+        50,
+        100
+      ]
+    }
+  },
+  &quot;baseline&quot;: {
+    &quot;effective_params&quot;: {
+      &quot;return_visuals&quot;: false
+    },
+    &quot;unsupported_metadata_params&quot;: []
+  },
+  &quot;current&quot;: {
+    &quot;effective_params&quot;: {
+      &quot;return_visuals&quot;: false
+    }
+  }
+}</pre><p><a href="assets/reliability/6b09f1b6e6ce606c/raw/baseline.json">Baseline raw JSON</a> · <a href="assets/reliability/6b09f1b6e6ce606c/raw/current.json">Current raw JSON</a> · <a href="assets/reliability/6b09f1b6e6ce606c/report.md">Run report</a></p></details></article>
+<article class="rel-card rel-card-4" aria-labelledby="rel-title-4"><p class="rel-number">Example 4 / 5</p><h3 id="rel-title-4">Alignment fallback needs a review signal.</h3><p>Different flat inputs make ECC undefined. Identity fallback is not successful registration, and a near-uniform observation is not proof of a failed capture.</p><div class="rel-inputs"><figure><figcaption>Reference</figcaption><a href="assets/reliability/6b09f1b6e6ce606c/fixtures/ecc-flat-reference.png"><img src="assets/reliability/6b09f1b6e6ce606c/fixtures/ecc-flat-reference.png" alt="Reference fixture ecc-flat-reference.png" width="192" height="128" loading="lazy" /></a></figure><figure><figcaption>Candidate · unchanged between pipelines</figcaption><a href="assets/reliability/6b09f1b6e6ce606c/fixtures/ecc-flat-candidate.png"><img src="assets/reliability/6b09f1b6e6ce606c/fixtures/ecc-flat-candidate.png" alt="Candidate fixture ecc-flat-candidate.png" width="192" height="128" loading="lazy" /></a></figure></div><div class="rel-results"><section aria-label="Previous pipeline"><h4>Before · b7139a2</h4><dl class="rel-fields"><div><dt>Alignment method</dt><dd><code>identity</code></dd></div><div><dt>Fallback</dt><dd><code>true</code></dd></div><div><dt>Outcome</dt><dd><code>not returned</code></dd></div><div><dt>Reason</dt><dd><code>not returned</code></dd></div><div><dt>Diagnostic status</dt><dd><code>not returned</code></dd></div><div><dt>Issues</dt><dd><code>not returned</code></dd></div></dl></section><section aria-label="Updated pipeline"><h4>After · dirty snapshot 0a5ca0c9c0a3</h4><dl class="rel-fields"><div><dt>Alignment method</dt><dd><code>identity</code></dd></div><div><dt>Fallback</dt><dd><code>true</code></dd></div><div><dt>Outcome</dt><dd><code>identity_fallback</code></dd></div><div><dt>Reason</dt><dd><code>ecc_nonconvergence</code></dd></div><div><dt>Diagnostic status</dt><dd><code>review</code></dd></div><div><dt>Issues</dt><dd><code>[{&quot;code&quot;:&quot;near_uniform_input&quot;,&quot;side&quot;:&quot;reference&quot;},{&quot;code&quot;:&quot;near_uniform_input&quot;,&quot;side&quot;:&quot;candidate&quot;},{&quot;code&quot;:&quot;alignment_unresolved&quot;}]</code></dd></div></dl></section></div><p class="rel-reading">The old response already had a free-text fallback note. The updated result adds a stable outcome, reason and explicit review issue.</p><details class="rel-details"><summary>Identical flat-input control</summary><div class="rel-results"><section aria-label="Previous pipeline"><h4>Before · b7139a2</h4><dl class="rel-fields"><div><dt>Outcome</dt><dd><code>not returned</code></dd></div><div><dt>Diagnostic status</dt><dd><code>not returned</code></dd></div><div><dt>Issues</dt><dd><code>not returned</code></dd></div></dl></section><section aria-label="Updated pipeline"><h4>After · dirty snapshot 0a5ca0c9c0a3</h4><dl class="rel-fields"><div><dt>Outcome</dt><dd><code>identity_fallback</code></dd></div><div><dt>Diagnostic status</dt><dd><code>review</code></dd></div><div><dt>Issues</dt><dd><code>[{&quot;code&quot;:&quot;near_uniform_input&quot;,&quot;side&quot;:&quot;reference&quot;},{&quot;code&quot;:&quot;near_uniform_input&quot;,&quot;side&quot;:&quot;candidate&quot;}]</code></dd></div></dl></section></div><p>Inspect the control separately. Uniform content should not manufacture an unresolved-alignment warning.</p></details><details class="rel-details"><summary>Inputs, settings and raw evidence</summary><h4>ecc_failure</h4><p>Constant images make ECC undefined. Identity fallback must remain visible; not a quality success.</p><pre>{
+  &quot;reference&quot;: &quot;fixtures/ecc-flat-reference.png&quot;,
+  &quot;candidate&quot;: &quot;fixtures/ecc-flat-candidate.png&quot;,
+  &quot;params&quot;: {
+    &quot;return_visuals&quot;: false
+  },
+  &quot;fixtures&quot;: {
+    &quot;fixtures/ecc-flat-reference.png&quot;: {
+      &quot;mode&quot;: &quot;RGB&quot;,
+      &quot;pixels_sha256&quot;: &quot;14008f8b2d6f8db1f81cf8b8bde0ce14577f0a366a5149e657a7e404c0d979ba&quot;,
+      &quot;sha256&quot;: &quot;3e324bbcacca2c4faf5a3604c294a1ef2b5d30b26fb1183cd63c282ea1106664&quot;,
+      &quot;shape&quot;: [
+        128,
+        192,
+        3
+      ]
+    },
+    &quot;fixtures/ecc-flat-candidate.png&quot;: {
+      &quot;mode&quot;: &quot;RGB&quot;,
+      &quot;pixels_sha256&quot;: &quot;13560babf5cbf41eccf49d508d574cfe424ba27055635b1cf8151313de64ac2a&quot;,
+      &quot;sha256&quot;: &quot;6aed298d5e18c0ddb034c495c64208ae47dabdafa751093e7a37be0e711e5028&quot;,
+      &quot;shape&quot;: [
+        128,
+        192,
+        3
+      ]
+    }
+  },
+  &quot;baseline&quot;: {
+    &quot;effective_params&quot;: {
+      &quot;return_visuals&quot;: false
+    },
+    &quot;unsupported_metadata_params&quot;: [],
+    &quot;alignment&quot;: {
+      &quot;fallback&quot;: true,
+      &quot;method&quot;: &quot;identity&quot;,
+      &quot;mode&quot;: &quot;screen&quot;,
+      &quot;note&quot;: &quot;ECC did not converge; fell back to identity (error)&quot;
+    },
+    &quot;canvas&quot;: {
+      &quot;candidate&quot;: {
+        &quot;orig_h&quot;: 128,
+        &quot;orig_w&quot;: 192,
+        &quot;scale&quot;: 4
+      },
+      &quot;height&quot;: 512,
+      &quot;ignore_input_space&quot;: &quot;reference_original_pixels&quot;,
+      &quot;ignore_space&quot;: &quot;canonical_768&quot;,
+      &quot;reference&quot;: {
+        &quot;orig_h&quot;: 128,
+        &quot;orig_w&quot;: 192,
+        &quot;scale&quot;: 4
+      },
+      &quot;width&quot;: 768
+    }
+  },
+  &quot;current&quot;: {
+    &quot;effective_params&quot;: {
+      &quot;return_visuals&quot;: false
+    },
+    &quot;alignment&quot;: {
+      &quot;fallback&quot;: true,
+      &quot;method&quot;: &quot;identity&quot;,
+      &quot;mode&quot;: &quot;screen&quot;,
+      &quot;note&quot;: &quot;ECC did not converge; fell back to identity (error)&quot;,
+      &quot;outcome&quot;: &quot;identity_fallback&quot;,
+      &quot;reason&quot;: &quot;ecc_nonconvergence&quot;
+    },
+    &quot;canvas&quot;: {
+      &quot;candidate&quot;: {
+        &quot;orig_h&quot;: 128,
+        &quot;orig_w&quot;: 192,
+        &quot;scale&quot;: 4
+      },
+      &quot;height&quot;: 512,
+      &quot;ignore_input_space&quot;: &quot;reference_original_pixels&quot;,
+      &quot;ignore_space&quot;: &quot;canonical_768&quot;,
+      &quot;reference&quot;: {
+        &quot;orig_h&quot;: 128,
+        &quot;orig_w&quot;: 192,
+        &quot;scale&quot;: 4
+      },
+      &quot;width&quot;: 768
+    },
+    &quot;diagnostics&quot;: {
+      &quot;capture&quot;: {
+        &quot;candidate&quot;: {
+          &quot;gray_stddev&quot;: 0,
+          &quot;near_uniform&quot;: true,
+          &quot;rgb_stddev_max&quot;: 0
+        },
+        &quot;reference&quot;: {
+          &quot;gray_stddev&quot;: 0,
+          &quot;near_uniform&quot;: true,
+          &quot;rgb_stddev_max&quot;: 0
+        }
+      },
+      &quot;issues&quot;: [
+        {
+          &quot;code&quot;: &quot;near_uniform_input&quot;,
+          &quot;side&quot;: &quot;reference&quot;
+        },
+        {
+          &quot;code&quot;: &quot;near_uniform_input&quot;,
+          &quot;side&quot;: &quot;candidate&quot;
+        },
+        {
+          &quot;code&quot;: &quot;alignment_unresolved&quot;
+        }
+      ],
+      &quot;layout_identity_score&quot;: 38.470692681115636,
+      &quot;scope&quot;: {
+        &quot;compared_fraction&quot;: 1,
+        &quot;ignored_fraction&quot;: 0
+      },
+      &quot;status&quot;: &quot;review&quot;,
+      &quot;version&quot;: 1
+    },
+    &quot;provenance&quot;: {
+      &quot;comparison_key&quot;: &quot;42aaedbf4d6959e7a200096355585294bdf4751047f916c1508d09dc6e542a2b&quot;,
+      &quot;inputs&quot;: {
+        &quot;candidate&quot;: {
+          &quot;height&quot;: 128,
+          &quot;rgb_sha256&quot;: &quot;17626ea6817fce3e79e6f6588abb273f9e65411ebdf76dd8cf7efb2aa9d0f32e&quot;,
+          &quot;width&quot;: 192
+        },
+        &quot;reference&quot;: {
+          &quot;height&quot;: 128,
+          &quot;rgb_sha256&quot;: &quot;abf485a99ab309e743825130bd9bc12ae4eb7bee8f8a907ba828c200a251591b&quot;,
+          &quot;width&quot;: 192
+        }
+      },
+      &quot;run_key&quot;: &quot;225bb218bd1c4d34e6c8a9091b2ebfbd6237d64356f034accc275236b92c053a&quot;,
+      &quot;settings&quot;: {
+        &quot;alignment_policy&quot;: &quot;ecc-translation-guards-v1&quot;,
+        &quot;canonical_width&quot;: 768,
+        &quot;comparison_context&quot;: null,
+        &quot;engine_revision&quot;: &quot;sha256:8ed84986061066a98aae998020cb64c80e326c7feab6d5bd28493f2eac705bed&quot;,
+        &quot;ignore_policy&quot;: &quot;reference-boxes-per-image-modal-fill-v1&quot;,
+        &quot;ignore_regions&quot;: [],
+        &quot;mode&quot;: &quot;screen&quot;,
+        &quot;normalization_policy&quot;: &quot;independent-width-modal-bottom-pad-v1&quot;,
+        &quot;preset&quot;: &quot;default&quot;,
+        &quot;runtime_versions&quot;: {
+          &quot;Pillow&quot;: &quot;12.3.0&quot;,
+          &quot;numpy&quot;: &quot;2.5.1&quot;,
+          &quot;opencv&quot;: &quot;5.0.0&quot;,
+          &quot;python&quot;: &quot;3.13.7&quot;,
+          &quot;scikit-image&quot;: &quot;0.26.0&quot;,
+          &quot;scikit-learn&quot;: &quot;1.9.0&quot;,
+          &quot;scipy&quot;: &quot;1.18.0&quot;
+        },
+        &quot;weights&quot;: {
+          &quot;color&quot;: 0.2,
+          &quot;content&quot;: 0.15,
+          &quot;layout&quot;: 0.35,
+          &quot;spacing&quot;: 0.15,
+          &quot;typography&quot;: 0.15
+        }
+      },
+      &quot;version&quot;: 1
+    }
+  }
+}</pre><h4>flat_identical_screen</h4><p>Identical solid inputs still need a near-uniform observation, not an unresolved-alignment or failed-capture claim.</p><pre>{
+  &quot;reference&quot;: &quot;fixtures/ecc-flat-reference.png&quot;,
+  &quot;candidate&quot;: &quot;fixtures/ecc-flat-reference.png&quot;,
+  &quot;params&quot;: {
+    &quot;return_visuals&quot;: false
+  },
+  &quot;fixtures&quot;: {
+    &quot;fixtures/ecc-flat-reference.png&quot;: {
+      &quot;mode&quot;: &quot;RGB&quot;,
+      &quot;pixels_sha256&quot;: &quot;14008f8b2d6f8db1f81cf8b8bde0ce14577f0a366a5149e657a7e404c0d979ba&quot;,
+      &quot;sha256&quot;: &quot;3e324bbcacca2c4faf5a3604c294a1ef2b5d30b26fb1183cd63c282ea1106664&quot;,
+      &quot;shape&quot;: [
+        128,
+        192,
+        3
+      ]
+    }
+  },
+  &quot;baseline&quot;: {
+    &quot;effective_params&quot;: {
+      &quot;return_visuals&quot;: false
+    },
+    &quot;unsupported_metadata_params&quot;: [],
+    &quot;alignment&quot;: {
+      &quot;fallback&quot;: true,
+      &quot;method&quot;: &quot;identity&quot;,
+      &quot;mode&quot;: &quot;screen&quot;,
+      &quot;note&quot;: &quot;ECC did not converge; fell back to identity (error)&quot;
+    },
+    &quot;canvas&quot;: {
+      &quot;candidate&quot;: {
+        &quot;orig_h&quot;: 128,
+        &quot;orig_w&quot;: 192,
+        &quot;scale&quot;: 4
+      },
+      &quot;height&quot;: 512,
+      &quot;ignore_input_space&quot;: &quot;reference_original_pixels&quot;,
+      &quot;ignore_space&quot;: &quot;canonical_768&quot;,
+      &quot;reference&quot;: {
+        &quot;orig_h&quot;: 128,
+        &quot;orig_w&quot;: 192,
+        &quot;scale&quot;: 4
+      },
+      &quot;width&quot;: 768
+    }
+  },
+  &quot;current&quot;: {
+    &quot;effective_params&quot;: {
+      &quot;return_visuals&quot;: false
+    },
+    &quot;alignment&quot;: {
+      &quot;fallback&quot;: true,
+      &quot;method&quot;: &quot;identity&quot;,
+      &quot;mode&quot;: &quot;screen&quot;,
+      &quot;note&quot;: &quot;ECC did not converge; fell back to identity (error)&quot;,
+      &quot;outcome&quot;: &quot;identity_fallback&quot;,
+      &quot;reason&quot;: &quot;ecc_nonconvergence&quot;
+    },
+    &quot;canvas&quot;: {
+      &quot;candidate&quot;: {
+        &quot;orig_h&quot;: 128,
+        &quot;orig_w&quot;: 192,
+        &quot;scale&quot;: 4
+      },
+      &quot;height&quot;: 512,
+      &quot;ignore_input_space&quot;: &quot;reference_original_pixels&quot;,
+      &quot;ignore_space&quot;: &quot;canonical_768&quot;,
+      &quot;reference&quot;: {
+        &quot;orig_h&quot;: 128,
+        &quot;orig_w&quot;: 192,
+        &quot;scale&quot;: 4
+      },
+      &quot;width&quot;: 768
+    },
+    &quot;diagnostics&quot;: {
+      &quot;capture&quot;: {
+        &quot;candidate&quot;: {
+          &quot;gray_stddev&quot;: 0,
+          &quot;near_uniform&quot;: true,
+          &quot;rgb_stddev_max&quot;: 0
+        },
+        &quot;reference&quot;: {
+          &quot;gray_stddev&quot;: 0,
+          &quot;near_uniform&quot;: true,
+          &quot;rgb_stddev_max&quot;: 0
+        }
+      },
+      &quot;issues&quot;: [
+        {
+          &quot;code&quot;: &quot;near_uniform_input&quot;,
+          &quot;side&quot;: &quot;reference&quot;
+        },
+        {
+          &quot;code&quot;: &quot;near_uniform_input&quot;,
+          &quot;side&quot;: &quot;candidate&quot;
+        }
+      ],
+      &quot;layout_identity_score&quot;: 100,
+      &quot;scope&quot;: {
+        &quot;compared_fraction&quot;: 1,
+        &quot;ignored_fraction&quot;: 0
+      },
+      &quot;status&quot;: &quot;review&quot;,
+      &quot;version&quot;: 1
+    },
+    &quot;provenance&quot;: {
+      &quot;comparison_key&quot;: &quot;42aaedbf4d6959e7a200096355585294bdf4751047f916c1508d09dc6e542a2b&quot;,
+      &quot;inputs&quot;: {
+        &quot;candidate&quot;: {
+          &quot;height&quot;: 128,
+          &quot;rgb_sha256&quot;: &quot;abf485a99ab309e743825130bd9bc12ae4eb7bee8f8a907ba828c200a251591b&quot;,
+          &quot;width&quot;: 192
+        },
+        &quot;reference&quot;: {
+          &quot;height&quot;: 128,
+          &quot;rgb_sha256&quot;: &quot;abf485a99ab309e743825130bd9bc12ae4eb7bee8f8a907ba828c200a251591b&quot;,
+          &quot;width&quot;: 192
+        }
+      },
+      &quot;run_key&quot;: &quot;4b4bea6a84604d035fbe4b31397e53c20619ebd9f15487effa2ebec3568b273f&quot;,
+      &quot;settings&quot;: {
+        &quot;alignment_policy&quot;: &quot;ecc-translation-guards-v1&quot;,
+        &quot;canonical_width&quot;: 768,
+        &quot;comparison_context&quot;: null,
+        &quot;engine_revision&quot;: &quot;sha256:8ed84986061066a98aae998020cb64c80e326c7feab6d5bd28493f2eac705bed&quot;,
+        &quot;ignore_policy&quot;: &quot;reference-boxes-per-image-modal-fill-v1&quot;,
+        &quot;ignore_regions&quot;: [],
+        &quot;mode&quot;: &quot;screen&quot;,
+        &quot;normalization_policy&quot;: &quot;independent-width-modal-bottom-pad-v1&quot;,
+        &quot;preset&quot;: &quot;default&quot;,
+        &quot;runtime_versions&quot;: {
+          &quot;Pillow&quot;: &quot;12.3.0&quot;,
+          &quot;numpy&quot;: &quot;2.5.1&quot;,
+          &quot;opencv&quot;: &quot;5.0.0&quot;,
+          &quot;python&quot;: &quot;3.13.7&quot;,
+          &quot;scikit-image&quot;: &quot;0.26.0&quot;,
+          &quot;scikit-learn&quot;: &quot;1.9.0&quot;,
+          &quot;scipy&quot;: &quot;1.18.0&quot;
+        },
+        &quot;weights&quot;: {
+          &quot;color&quot;: 0.2,
+          &quot;content&quot;: 0.15,
+          &quot;layout&quot;: 0.35,
+          &quot;spacing&quot;: 0.15,
+          &quot;typography&quot;: 0.15
+        }
+      },
+      &quot;version&quot;: 1
+    }
+  }
+}</pre><p><a href="assets/reliability/6b09f1b6e6ce606c/raw/baseline.json">Baseline raw JSON</a> · <a href="assets/reliability/6b09f1b6e6ce606c/raw/current.json">Current raw JSON</a> · <a href="assets/reliability/6b09f1b6e6ce606c/report.md">Run report</a></p></details></article>
+<article class="rel-card rel-card-5" aria-labelledby="rel-title-5"><p class="rel-number">Example 5 / 5</p><h3 id="rel-title-5">No compared pixels means inconclusive evidence.</h3><p>These are the original textured inputs, before the declared full-image ignore rectangle. A legacy number can remain high or low even when no pixels remain in scope.</p><div class="rel-inputs"><figure><figcaption>Reference</figcaption><a href="assets/reliability/6b09f1b6e6ce606c/fixtures/calendar-reference.png"><img src="assets/reliability/6b09f1b6e6ce606c/fixtures/calendar-reference.png" alt="Reference fixture calendar-reference.png" width="384" height="320" loading="lazy" /></a></figure><figure><figcaption>Candidate · unchanged between pipelines</figcaption><a href="assets/reliability/6b09f1b6e6ce606c/fixtures/calendar-omitted-header-avatar.png"><img src="assets/reliability/6b09f1b6e6ce606c/fixtures/calendar-omitted-header-avatar.png" alt="Candidate fixture calendar-omitted-header-avatar.png" width="384" height="320" loading="lazy" /></a></figure></div><div class="rel-results"><section aria-label="Previous pipeline"><h4>Before · b7139a2</h4><dl class="rel-fields"><div><dt>Legacy overall</dt><dd><code>100</code></dd></div><div><dt>Diagnostic status</dt><dd><code>not returned</code></dd></div><div><dt>Compared fraction</dt><dd><code>not returned</code></dd></div><div><dt>Issues</dt><dd><code>not returned</code></dd></div></dl></section><section aria-label="Updated pipeline"><h4>After · dirty snapshot 0a5ca0c9c0a3</h4><dl class="rel-fields"><div><dt>Legacy overall</dt><dd><code>100</code></dd></div><div><dt>Diagnostic status</dt><dd><code>inconclusive</code></dd></div><div><dt>Compared fraction</dt><dd><code>0</code></dd></div><div><dt>Issues</dt><dd><code>[{&quot;code&quot;:&quot;mask_fill_semantics&quot;},{&quot;code&quot;:&quot;empty_compare_scope&quot;}]</code></dd></div></dl></section></div><table class="rel-table"><caption>Legacy overall scores, not evidence of retained content</caption><thead><tr><th scope="col">Case</th><th scope="col">Before</th><th scope="col">After</th></tr></thead><tbody><tr><th scope="row">Equal modal fills</th><td><code>100</code></td><td><code>100</code></td></tr><tr><th scope="row">Different modal fills</th><td><code>1</code></td><td><code>1</code></td></tr></tbody></table><p class="rel-reading">Read the scope status before the number. Fill-based masks can affect metrics; they do not establish correctness of the ignored area.</p><details class="rel-details"><summary>Full image versus explicit crop, and identity keys</summary><table class="rel-table"><caption>Different scopes, not recovered content</caption><thead><tr><th scope="col">Case</th><th scope="col">Before</th><th scope="col">After</th></tr></thead><tbody><tr><th scope="row">Full omitted header</th><td><code>38.29</code></td><td><code>37.05</code></td></tr><tr><th scope="row">Explicit common crop</th><td><code>100</code></td><td><code>100</code></td></tr></tbody></table><div class="rel-inputs"><figure><figcaption>Reference</figcaption><a href="assets/reliability/6b09f1b6e6ce606c/fixtures/calendar-reference.png"><img src="assets/reliability/6b09f1b6e6ce606c/fixtures/calendar-reference.png" alt="Reference fixture calendar-reference.png" width="384" height="320" loading="lazy" /></a></figure><figure><figcaption>Candidate · unchanged between pipelines</figcaption><a href="assets/reliability/6b09f1b6e6ce606c/fixtures/calendar-omitted-header-avatar.png"><img src="assets/reliability/6b09f1b6e6ce606c/fixtures/calendar-omitted-header-avatar.png" alt="Candidate fixture calendar-omitted-header-avatar.png" width="384" height="320" loading="lazy" /></a></figure></div><div class="rel-inputs"><figure><figcaption>Reference</figcaption><a href="assets/reliability/6b09f1b6e6ce606c/fixtures/calendar-scoped-reference.png"><img src="assets/reliability/6b09f1b6e6ce606c/fixtures/calendar-scoped-reference.png" alt="Reference fixture calendar-scoped-reference.png" width="384" height="240" loading="lazy" /></a></figure><figure><figcaption>Candidate · unchanged between pipelines</figcaption><a href="assets/reliability/6b09f1b6e6ce606c/fixtures/calendar-scoped-candidate.png"><img src="assets/reliability/6b09f1b6e6ce606c/fixtures/calendar-scoped-candidate.png" alt="Candidate fixture calendar-scoped-candidate.png" width="384" height="240" loading="lazy" /></a></figure></div><p>The caller cropped both inputs to [0,80,384,320]. The matching crop excludes the missing header and avatar. It does not fix them. Crop and full-image scores answer different questions.</p><p>Worker identity keys for the all-ignored case are below. The baseline does not return these fields. A comparison key identifies the reference and settings; the run key also identifies the candidate. Caller context changes protocol identity, not pixel scores.</p><div class="rel-results"><div><h4>Before · b7139a2</h4><dl class="rel-fields"><div><dt>comparison_key</dt><dd><code>not returned</code></dd></div><div><dt>run_key</dt><dd><code>not returned</code></dd></div></dl></div><div><h4>After · dirty snapshot 0a5ca0c9c0a3</h4><dl class="rel-fields"><div><dt>comparison_key</dt><dd><code>97312cd6b0a546045f118c87ca301cb22ff4ea4da6a28feee265725cbb3e23e7</code></dd></div><div><dt>run_key</dt><dd><code>c80d08b117fbbd86b3da0bd4a8052e57f1752481c9ab9ccaf56a0a85e449b8a9</code></dd></div></dl></div></div><table class="rel-table"><caption>Actual comparison keys; the baseline lacks this API</caption><thead><tr><th scope="col">Case</th><th scope="col">Before</th><th scope="col">After</th></tr></thead><tbody><tr><th scope="row">No declared context</th><td><code>not returned</code></td><td><code>cb71f27201d920a3bdbb1a4e3a626406988894a50bdb4a2dda0f65e3bdc5689c</code></td></tr><tr><th scope="row">Declared context v1</th><td><code>not returned</code></td><td><code>149e076d893a08c9b0a11d70b4bbb34a44a0832729639783738f53a264c39185</code></td></tr><tr><th scope="row">Declared context v2</th><td><code>not returned</code></td><td><code>979909554a1baec1a46c23cc5a9efde752f69f1624cdcc424bdfc81df116757b</code></td></tr></tbody></table></details><details class="rel-details"><summary>Inputs, settings and raw evidence</summary><h4>scope_all_ignored</h4><p>Entire textured image ignored with equal modal edge fills. Legacy high score is not retained evidence.</p><pre>{
+  &quot;reference&quot;: &quot;fixtures/calendar-reference.png&quot;,
+  &quot;candidate&quot;: &quot;fixtures/calendar-omitted-header-avatar.png&quot;,
+  &quot;params&quot;: {
+    &quot;ignore_regions&quot;: [
+      [
+        0,
+        0,
+        384,
+        320
+      ]
+    ],
+    &quot;mode&quot;: &quot;widget&quot;,
+    &quot;return_visuals&quot;: false
+  },
+  &quot;fixtures&quot;: {
+    &quot;fixtures/calendar-reference.png&quot;: {
+      &quot;mode&quot;: &quot;RGB&quot;,
+      &quot;pixels_sha256&quot;: &quot;458ef06706ae5589837ca1bac20f5db60abc879827bb62375efef1e86c92f905&quot;,
+      &quot;sha256&quot;: &quot;630f2b254b64e52791583af453335528ef7fe9237cdee77bcc5fc9369e02aa03&quot;,
+      &quot;shape&quot;: [
+        320,
+        384,
+        3
+      ]
+    },
+    &quot;fixtures/calendar-omitted-header-avatar.png&quot;: {
+      &quot;mode&quot;: &quot;RGB&quot;,
+      &quot;pixels_sha256&quot;: &quot;49db31b383f02b08474d2c678909f9d9abcd4e5701db99679f4266e29b4fcc47&quot;,
+      &quot;sha256&quot;: &quot;eb986f08ede457d12a2a0b20bb384cfac0abe94f96a77d6974f69e0d61423b34&quot;,
+      &quot;shape&quot;: [
+        320,
+        384,
+        3
+      ]
+    }
+  },
+  &quot;baseline&quot;: {
+    &quot;effective_params&quot;: {
+      &quot;ignore_regions&quot;: [
+        [
+          0,
+          0,
+          384,
+          320
+        ]
+      ],
+      &quot;mode&quot;: &quot;widget&quot;,
+      &quot;return_visuals&quot;: false
+    },
+    &quot;unsupported_metadata_params&quot;: [],
+    &quot;alignment&quot;: {
+      &quot;fallback&quot;: true,
+      &quot;method&quot;: &quot;identity&quot;,
+      &quot;mode&quot;: &quot;widget&quot;,
+      &quot;note&quot;: &quot;widget mode assumes a pre-aligned crop&quot;
+    },
+    &quot;canvas&quot;: {
+      &quot;candidate&quot;: {
+        &quot;orig_h&quot;: 320,
+        &quot;orig_w&quot;: 384,
+        &quot;scale&quot;: 2
+      },
+      &quot;height&quot;: 640,
+      &quot;ignore_input_space&quot;: &quot;reference_original_pixels&quot;,
+      &quot;ignore_space&quot;: &quot;canonical_768&quot;,
+      &quot;reference&quot;: {
+        &quot;orig_h&quot;: 320,
+        &quot;orig_w&quot;: 384,
+        &quot;scale&quot;: 2
+      },
+      &quot;width&quot;: 768
+    }
+  },
+  &quot;current&quot;: {
+    &quot;effective_params&quot;: {
+      &quot;ignore_regions&quot;: [
+        [
+          0,
+          0,
+          384,
+          320
+        ]
+      ],
+      &quot;mode&quot;: &quot;widget&quot;,
+      &quot;return_visuals&quot;: false
+    },
+    &quot;alignment&quot;: {
+      &quot;fallback&quot;: true,
+      &quot;method&quot;: &quot;identity&quot;,
+      &quot;mode&quot;: &quot;widget&quot;,
+      &quot;note&quot;: &quot;widget mode assumes a pre-aligned crop&quot;,
+      &quot;outcome&quot;: &quot;not_requested&quot;,
+      &quot;reason&quot;: &quot;widget_identity&quot;
+    },
+    &quot;canvas&quot;: {
+      &quot;candidate&quot;: {
+        &quot;orig_h&quot;: 320,
+        &quot;orig_w&quot;: 384,
+        &quot;scale&quot;: 2
+      },
+      &quot;height&quot;: 640,
+      &quot;ignore_input_space&quot;: &quot;reference_original_pixels&quot;,
+      &quot;ignore_space&quot;: &quot;canonical_768&quot;,
+      &quot;reference&quot;: {
+        &quot;orig_h&quot;: 320,
+        &quot;orig_w&quot;: 384,
+        &quot;scale&quot;: 2
+      },
+      &quot;width&quot;: 768
+    },
+    &quot;diagnostics&quot;: {
+      &quot;capture&quot;: {
+        &quot;candidate&quot;: {
+          &quot;gray_stddev&quot;: 40.313476801693085,
+          &quot;near_uniform&quot;: false,
+          &quot;rgb_stddev_max&quot;: 45.83730413808101
+        },
+        &quot;reference&quot;: {
+          &quot;gray_stddev&quot;: 81.40526778157218,
+          &quot;near_uniform&quot;: false,
+          &quot;rgb_stddev_max&quot;: 87.45570871710888
+        }
+      },
+      &quot;issues&quot;: [
+        {
+          &quot;code&quot;: &quot;mask_fill_semantics&quot;
+        },
+        {
+          &quot;code&quot;: &quot;empty_compare_scope&quot;
+        }
+      ],
+      &quot;layout_identity_score&quot;: 100,
+      &quot;scope&quot;: {
+        &quot;compared_fraction&quot;: 0,
+        &quot;ignored_fraction&quot;: 1
+      },
+      &quot;status&quot;: &quot;inconclusive&quot;,
+      &quot;version&quot;: 1
+    },
+    &quot;provenance&quot;: {
+      &quot;comparison_key&quot;: &quot;97312cd6b0a546045f118c87ca301cb22ff4ea4da6a28feee265725cbb3e23e7&quot;,
+      &quot;inputs&quot;: {
+        &quot;candidate&quot;: {
+          &quot;height&quot;: 320,
+          &quot;rgb_sha256&quot;: &quot;398e5b19d422ebdfafe906eaf4ee444ab5c364c494ffd5e0a94312a7e5ffde17&quot;,
+          &quot;width&quot;: 384
+        },
+        &quot;reference&quot;: {
+          &quot;height&quot;: 320,
+          &quot;rgb_sha256&quot;: &quot;86682b46243f49037c4dbbaa876d8a3154e4a0dcd7a105e78e248ee6a4cc526a&quot;,
+          &quot;width&quot;: 384
+        }
+      },
+      &quot;run_key&quot;: &quot;c80d08b117fbbd86b3da0bd4a8052e57f1752481c9ab9ccaf56a0a85e449b8a9&quot;,
+      &quot;settings&quot;: {
+        &quot;alignment_policy&quot;: &quot;ecc-translation-guards-v1&quot;,
+        &quot;canonical_width&quot;: 768,
+        &quot;comparison_context&quot;: null,
+        &quot;engine_revision&quot;: &quot;sha256:8ed84986061066a98aae998020cb64c80e326c7feab6d5bd28493f2eac705bed&quot;,
+        &quot;ignore_policy&quot;: &quot;reference-boxes-per-image-modal-fill-v1&quot;,
+        &quot;ignore_regions&quot;: [
+          [
+            0,
+            0,
+            384,
+            320
+          ]
+        ],
+        &quot;mode&quot;: &quot;widget&quot;,
+        &quot;normalization_policy&quot;: &quot;independent-width-modal-bottom-pad-v1&quot;,
+        &quot;preset&quot;: &quot;default&quot;,
+        &quot;runtime_versions&quot;: {
+          &quot;Pillow&quot;: &quot;12.3.0&quot;,
+          &quot;numpy&quot;: &quot;2.5.1&quot;,
+          &quot;opencv&quot;: &quot;5.0.0&quot;,
+          &quot;python&quot;: &quot;3.13.7&quot;,
+          &quot;scikit-image&quot;: &quot;0.26.0&quot;,
+          &quot;scikit-learn&quot;: &quot;1.9.0&quot;,
+          &quot;scipy&quot;: &quot;1.18.0&quot;
+        },
+        &quot;weights&quot;: {
+          &quot;color&quot;: 0.2,
+          &quot;content&quot;: 0.15,
+          &quot;layout&quot;: 0.35,
+          &quot;spacing&quot;: 0.15,
+          &quot;typography&quot;: 0.15
+        }
+      },
+      &quot;version&quot;: 1
+    }
+  }
+}</pre><h4>scope_all_ignored_different_fill</h4><p>Entire textured image ignored with different per-image fills. Legacy low score is also no retained evidence.</p><pre>{
+  &quot;reference&quot;: &quot;fixtures/scope-white-edge.png&quot;,
+  &quot;candidate&quot;: &quot;fixtures/scope-black-edge.png&quot;,
+  &quot;params&quot;: {
+    &quot;ignore_regions&quot;: [
+      [
+        0,
+        0,
+        192,
+        128
+      ]
+    ],
+    &quot;mode&quot;: &quot;widget&quot;,
+    &quot;return_visuals&quot;: false
+  },
+  &quot;fixtures&quot;: {
+    &quot;fixtures/scope-white-edge.png&quot;: {
+      &quot;mode&quot;: &quot;RGB&quot;,
+      &quot;pixels_sha256&quot;: &quot;0257933b4bce67ebae1b584fb5000457de417b3717bee45c7ed07c02cd95153e&quot;,
+      &quot;sha256&quot;: &quot;7045141e4c5b5f99190e475dfa9a55e5d8bbfeb3d968505ef17e160fa9a0d939&quot;,
+      &quot;shape&quot;: [
+        128,
+        192,
+        3
+      ]
+    },
+    &quot;fixtures/scope-black-edge.png&quot;: {
+      &quot;mode&quot;: &quot;RGB&quot;,
+      &quot;pixels_sha256&quot;: &quot;304199e16e322fdeb44030d174273bd881fc207b1bada36e0f687862c9d1efce&quot;,
+      &quot;sha256&quot;: &quot;40649e127cac21b87c4f69484641afaeefeab00e433954a8610afb181f205edd&quot;,
+      &quot;shape&quot;: [
+        128,
+        192,
+        3
+      ]
+    }
+  },
+  &quot;baseline&quot;: {
+    &quot;effective_params&quot;: {
+      &quot;ignore_regions&quot;: [
+        [
+          0,
+          0,
+          192,
+          128
+        ]
+      ],
+      &quot;mode&quot;: &quot;widget&quot;,
+      &quot;return_visuals&quot;: false
+    },
+    &quot;unsupported_metadata_params&quot;: [],
+    &quot;alignment&quot;: {
+      &quot;fallback&quot;: true,
+      &quot;method&quot;: &quot;identity&quot;,
+      &quot;mode&quot;: &quot;widget&quot;,
+      &quot;note&quot;: &quot;widget mode assumes a pre-aligned crop&quot;
+    },
+    &quot;canvas&quot;: {
+      &quot;candidate&quot;: {
+        &quot;orig_h&quot;: 128,
+        &quot;orig_w&quot;: 192,
+        &quot;scale&quot;: 4
+      },
+      &quot;height&quot;: 512,
+      &quot;ignore_input_space&quot;: &quot;reference_original_pixels&quot;,
+      &quot;ignore_space&quot;: &quot;canonical_768&quot;,
+      &quot;reference&quot;: {
+        &quot;orig_h&quot;: 128,
+        &quot;orig_w&quot;: 192,
+        &quot;scale&quot;: 4
+      },
+      &quot;width&quot;: 768
+    }
+  },
+  &quot;current&quot;: {
+    &quot;effective_params&quot;: {
+      &quot;ignore_regions&quot;: [
+        [
+          0,
+          0,
+          192,
+          128
+        ]
+      ],
+      &quot;mode&quot;: &quot;widget&quot;,
+      &quot;return_visuals&quot;: false
+    },
+    &quot;alignment&quot;: {
+      &quot;fallback&quot;: true,
+      &quot;method&quot;: &quot;identity&quot;,
+      &quot;mode&quot;: &quot;widget&quot;,
+      &quot;note&quot;: &quot;widget mode assumes a pre-aligned crop&quot;,
+      &quot;outcome&quot;: &quot;not_requested&quot;,
+      &quot;reason&quot;: &quot;widget_identity&quot;
+    },
+    &quot;canvas&quot;: {
+      &quot;candidate&quot;: {
+        &quot;orig_h&quot;: 128,
+        &quot;orig_w&quot;: 192,
+        &quot;scale&quot;: 4
+      },
+      &quot;height&quot;: 512,
+      &quot;ignore_input_space&quot;: &quot;reference_original_pixels&quot;,
+      &quot;ignore_space&quot;: &quot;canonical_768&quot;,
+      &quot;reference&quot;: {
+        &quot;orig_h&quot;: 128,
+        &quot;orig_w&quot;: 192,
+        &quot;scale&quot;: 4
+      },
+      &quot;width&quot;: 768
+    },
+    &quot;diagnostics&quot;: {
+      &quot;capture&quot;: {
+        &quot;candidate&quot;: {
+          &quot;gray_stddev&quot;: 52.25689927525503,
+          &quot;near_uniform&quot;: false,
+          &quot;rgb_stddev_max&quot;: 87.86558285219871
+        },
+        &quot;reference&quot;: {
+          &quot;gray_stddev&quot;: 65.66796192111696,
+          &quot;near_uniform&quot;: false,
+          &quot;rgb_stddev_max&quot;: 85.5533306718777
+        }
+      },
+      &quot;issues&quot;: [
+        {
+          &quot;code&quot;: &quot;mask_fill_semantics&quot;
+        },
+        {
+          &quot;code&quot;: &quot;mask_fill_colors_differ&quot;
+        },
+        {
+          &quot;code&quot;: &quot;empty_compare_scope&quot;
+        }
+      ],
+      &quot;layout_identity_score&quot;: 0.00999900009999,
+      &quot;scope&quot;: {
+        &quot;compared_fraction&quot;: 0,
+        &quot;ignored_fraction&quot;: 1
+      },
+      &quot;status&quot;: &quot;inconclusive&quot;,
+      &quot;version&quot;: 1
+    },
+    &quot;provenance&quot;: {
+      &quot;comparison_key&quot;: &quot;ae1a02ccf3565a9c233f511a0ee55f026b7a1c9ca7372ea0f3f33e6978005c27&quot;,
+      &quot;inputs&quot;: {
+        &quot;candidate&quot;: {
+          &quot;height&quot;: 128,
+          &quot;rgb_sha256&quot;: &quot;df6030a4d0db0fe254fb4bc434fdf689feb7a1d00e1d6c76d6fdf5b9b4e2b57f&quot;,
+          &quot;width&quot;: 192
+        },
+        &quot;reference&quot;: {
+          &quot;height&quot;: 128,
+          &quot;rgb_sha256&quot;: &quot;cc98fa66bf91d257b5c6b2c6d2044ba99bd9fc006a21a446b745151d0e12f9b8&quot;,
+          &quot;width&quot;: 192
+        }
+      },
+      &quot;run_key&quot;: &quot;437ec3644eb33e0dbfa60054357fe66eeced7dad164a1724f51ba6b1f9e934b6&quot;,
+      &quot;settings&quot;: {
+        &quot;alignment_policy&quot;: &quot;ecc-translation-guards-v1&quot;,
+        &quot;canonical_width&quot;: 768,
+        &quot;comparison_context&quot;: null,
+        &quot;engine_revision&quot;: &quot;sha256:8ed84986061066a98aae998020cb64c80e326c7feab6d5bd28493f2eac705bed&quot;,
+        &quot;ignore_policy&quot;: &quot;reference-boxes-per-image-modal-fill-v1&quot;,
+        &quot;ignore_regions&quot;: [
+          [
+            0,
+            0,
+            192,
+            128
+          ]
+        ],
+        &quot;mode&quot;: &quot;widget&quot;,
+        &quot;normalization_policy&quot;: &quot;independent-width-modal-bottom-pad-v1&quot;,
+        &quot;preset&quot;: &quot;default&quot;,
+        &quot;runtime_versions&quot;: {
+          &quot;Pillow&quot;: &quot;12.3.0&quot;,
+          &quot;numpy&quot;: &quot;2.5.1&quot;,
+          &quot;opencv&quot;: &quot;5.0.0&quot;,
+          &quot;python&quot;: &quot;3.13.7&quot;,
+          &quot;scikit-image&quot;: &quot;0.26.0&quot;,
+          &quot;scikit-learn&quot;: &quot;1.9.0&quot;,
+          &quot;scipy&quot;: &quot;1.18.0&quot;
+        },
+        &quot;weights&quot;: {
+          &quot;color&quot;: 0.2,
+          &quot;content&quot;: 0.15,
+          &quot;layout&quot;: 0.35,
+          &quot;spacing&quot;: 0.15,
+          &quot;typography&quot;: 0.15
+        }
+      },
+      &quot;version&quot;: 1
+    }
+  }
+}</pre><h4>header_omitted_full</h4><p>Header and avatar absent; full images remain in scope. Not a palette-only control.</p><pre>{
+  &quot;reference&quot;: &quot;fixtures/calendar-reference.png&quot;,
+  &quot;candidate&quot;: &quot;fixtures/calendar-omitted-header-avatar.png&quot;,
+  &quot;params&quot;: {
+    &quot;return_visuals&quot;: false
+  },
+  &quot;fixtures&quot;: {
+    &quot;fixtures/calendar-reference.png&quot;: {
+      &quot;mode&quot;: &quot;RGB&quot;,
+      &quot;pixels_sha256&quot;: &quot;458ef06706ae5589837ca1bac20f5db60abc879827bb62375efef1e86c92f905&quot;,
+      &quot;sha256&quot;: &quot;630f2b254b64e52791583af453335528ef7fe9237cdee77bcc5fc9369e02aa03&quot;,
+      &quot;shape&quot;: [
+        320,
+        384,
+        3
+      ]
+    },
+    &quot;fixtures/calendar-omitted-header-avatar.png&quot;: {
+      &quot;mode&quot;: &quot;RGB&quot;,
+      &quot;pixels_sha256&quot;: &quot;49db31b383f02b08474d2c678909f9d9abcd4e5701db99679f4266e29b4fcc47&quot;,
+      &quot;sha256&quot;: &quot;eb986f08ede457d12a2a0b20bb384cfac0abe94f96a77d6974f69e0d61423b34&quot;,
+      &quot;shape&quot;: [
+        320,
+        384,
+        3
+      ]
+    }
+  },
+  &quot;baseline&quot;: {
+    &quot;effective_params&quot;: {
+      &quot;return_visuals&quot;: false
+    },
+    &quot;unsupported_metadata_params&quot;: [],
+    &quot;alignment&quot;: {
+      &quot;cc&quot;: 0.3393,
+      &quot;dx&quot;: 0,
+      &quot;dy&quot;: 0,
+      &quot;fallback&quot;: false,
+      &quot;method&quot;: &quot;ecc_translation&quot;,
+      &quot;mode&quot;: &quot;screen&quot;
+    },
+    &quot;canvas&quot;: {
+      &quot;candidate&quot;: {
+        &quot;orig_h&quot;: 320,
+        &quot;orig_w&quot;: 384,
+        &quot;scale&quot;: 2
+      },
+      &quot;height&quot;: 640,
+      &quot;ignore_input_space&quot;: &quot;reference_original_pixels&quot;,
+      &quot;ignore_space&quot;: &quot;canonical_768&quot;,
+      &quot;reference&quot;: {
+        &quot;orig_h&quot;: 320,
+        &quot;orig_w&quot;: 384,
+        &quot;scale&quot;: 2
+      },
+      &quot;width&quot;: 768
+    }
+  },
+  &quot;current&quot;: {
+    &quot;effective_params&quot;: {
+      &quot;return_visuals&quot;: false
+    },
+    &quot;alignment&quot;: {
+      &quot;cc&quot;: 0.3393,
+      &quot;dx&quot;: 0,
+      &quot;dy&quot;: 0,
+      &quot;fallback&quot;: false,
+      &quot;method&quot;: &quot;ecc_translation&quot;,
+      &quot;mode&quot;: &quot;screen&quot;,
+      &quot;outcome&quot;: &quot;applied&quot;,
+      &quot;reason&quot;: &quot;ecc_accepted&quot;
+    },
+    &quot;canvas&quot;: {
+      &quot;candidate&quot;: {
+        &quot;orig_h&quot;: 320,
+        &quot;orig_w&quot;: 384,
+        &quot;scale&quot;: 2
+      },
+      &quot;height&quot;: 640,
+      &quot;ignore_input_space&quot;: &quot;reference_original_pixels&quot;,
+      &quot;ignore_space&quot;: &quot;canonical_768&quot;,
+      &quot;reference&quot;: {
+        &quot;orig_h&quot;: 320,
+        &quot;orig_w&quot;: 384,
+        &quot;scale&quot;: 2
+      },
+      &quot;width&quot;: 768
+    },
+    &quot;diagnostics&quot;: {
+      &quot;capture&quot;: {
+        &quot;candidate&quot;: {
+          &quot;gray_stddev&quot;: 40.313476801693085,
+          &quot;near_uniform&quot;: false,
+          &quot;rgb_stddev_max&quot;: 45.83730413808101
+        },
+        &quot;reference&quot;: {
+          &quot;gray_stddev&quot;: 81.40526778157218,
+          &quot;near_uniform&quot;: false,
+          &quot;rgb_stddev_max&quot;: 87.45570871710888
+        }
+      },
+      &quot;issues&quot;: [],
+      &quot;layout_identity_score&quot;: 85.46661804963476,
+      &quot;scope&quot;: {
+        &quot;compared_fraction&quot;: 1,
+        &quot;ignored_fraction&quot;: 0
+      },
+      &quot;status&quot;: &quot;ok&quot;,
+      &quot;version&quot;: 1
+    },
+    &quot;provenance&quot;: {
+      &quot;comparison_key&quot;: &quot;cb71f27201d920a3bdbb1a4e3a626406988894a50bdb4a2dda0f65e3bdc5689c&quot;,
+      &quot;inputs&quot;: {
+        &quot;candidate&quot;: {
+          &quot;height&quot;: 320,
+          &quot;rgb_sha256&quot;: &quot;398e5b19d422ebdfafe906eaf4ee444ab5c364c494ffd5e0a94312a7e5ffde17&quot;,
+          &quot;width&quot;: 384
+        },
+        &quot;reference&quot;: {
+          &quot;height&quot;: 320,
+          &quot;rgb_sha256&quot;: &quot;86682b46243f49037c4dbbaa876d8a3154e4a0dcd7a105e78e248ee6a4cc526a&quot;,
+          &quot;width&quot;: 384
+        }
+      },
+      &quot;run_key&quot;: &quot;35d12788f78c786127c7253f87ff3fda46d90a8ba9fc02c49580fe082aae175d&quot;,
+      &quot;settings&quot;: {
+        &quot;alignment_policy&quot;: &quot;ecc-translation-guards-v1&quot;,
+        &quot;canonical_width&quot;: 768,
+        &quot;comparison_context&quot;: null,
+        &quot;engine_revision&quot;: &quot;sha256:8ed84986061066a98aae998020cb64c80e326c7feab6d5bd28493f2eac705bed&quot;,
+        &quot;ignore_policy&quot;: &quot;reference-boxes-per-image-modal-fill-v1&quot;,
+        &quot;ignore_regions&quot;: [],
+        &quot;mode&quot;: &quot;screen&quot;,
+        &quot;normalization_policy&quot;: &quot;independent-width-modal-bottom-pad-v1&quot;,
+        &quot;preset&quot;: &quot;default&quot;,
+        &quot;runtime_versions&quot;: {
+          &quot;Pillow&quot;: &quot;12.3.0&quot;,
+          &quot;numpy&quot;: &quot;2.5.1&quot;,
+          &quot;opencv&quot;: &quot;5.0.0&quot;,
+          &quot;python&quot;: &quot;3.13.7&quot;,
+          &quot;scikit-image&quot;: &quot;0.26.0&quot;,
+          &quot;scikit-learn&quot;: &quot;1.9.0&quot;,
+          &quot;scipy&quot;: &quot;1.18.0&quot;
+        },
+        &quot;weights&quot;: {
+          &quot;color&quot;: 0.2,
+          &quot;content&quot;: 0.15,
+          &quot;layout&quot;: 0.35,
+          &quot;spacing&quot;: 0.15,
+          &quot;typography&quot;: 0.15
+        }
+      },
+      &quot;version&quot;: 1
+    }
+  }
+}</pre><h4>header_omitted_scoped</h4><p>Caller explicitly crops BOTH images to [0,80,384,320], using widget mode. Header/avatar are out of scope, not recovered.</p><pre>{
+  &quot;reference&quot;: &quot;fixtures/calendar-scoped-reference.png&quot;,
+  &quot;candidate&quot;: &quot;fixtures/calendar-scoped-candidate.png&quot;,
+  &quot;params&quot;: {
+    &quot;mode&quot;: &quot;widget&quot;,
+    &quot;return_visuals&quot;: false
+  },
+  &quot;fixtures&quot;: {
+    &quot;fixtures/calendar-scoped-reference.png&quot;: {
+      &quot;mode&quot;: &quot;RGB&quot;,
+      &quot;pixels_sha256&quot;: &quot;26ee6e5b59437d3a0283822e592ae6b34ee57a593706f0848d97d994382d59ea&quot;,
+      &quot;sha256&quot;: &quot;78edd9168c34e37b718e1d70e33a2f07614a0d5a571c75a4938663575e5baeb7&quot;,
+      &quot;shape&quot;: [
+        240,
+        384,
+        3
+      ]
+    },
+    &quot;fixtures/calendar-scoped-candidate.png&quot;: {
+      &quot;mode&quot;: &quot;RGB&quot;,
+      &quot;pixels_sha256&quot;: &quot;26ee6e5b59437d3a0283822e592ae6b34ee57a593706f0848d97d994382d59ea&quot;,
+      &quot;sha256&quot;: &quot;78edd9168c34e37b718e1d70e33a2f07614a0d5a571c75a4938663575e5baeb7&quot;,
+      &quot;shape&quot;: [
+        240,
+        384,
+        3
+      ]
+    }
+  },
+  &quot;baseline&quot;: {
+    &quot;effective_params&quot;: {
+      &quot;mode&quot;: &quot;widget&quot;,
+      &quot;return_visuals&quot;: false
+    },
+    &quot;unsupported_metadata_params&quot;: [],
+    &quot;alignment&quot;: {
+      &quot;fallback&quot;: true,
+      &quot;method&quot;: &quot;identity&quot;,
+      &quot;mode&quot;: &quot;widget&quot;,
+      &quot;note&quot;: &quot;widget mode assumes a pre-aligned crop&quot;
+    },
+    &quot;canvas&quot;: {
+      &quot;candidate&quot;: {
+        &quot;orig_h&quot;: 240,
+        &quot;orig_w&quot;: 384,
+        &quot;scale&quot;: 2
+      },
+      &quot;height&quot;: 480,
+      &quot;ignore_input_space&quot;: &quot;reference_original_pixels&quot;,
+      &quot;ignore_space&quot;: &quot;canonical_768&quot;,
+      &quot;reference&quot;: {
+        &quot;orig_h&quot;: 240,
+        &quot;orig_w&quot;: 384,
+        &quot;scale&quot;: 2
+      },
+      &quot;width&quot;: 768
+    }
+  },
+  &quot;current&quot;: {
+    &quot;effective_params&quot;: {
+      &quot;mode&quot;: &quot;widget&quot;,
+      &quot;return_visuals&quot;: false
+    },
+    &quot;alignment&quot;: {
+      &quot;fallback&quot;: true,
+      &quot;method&quot;: &quot;identity&quot;,
+      &quot;mode&quot;: &quot;widget&quot;,
+      &quot;note&quot;: &quot;widget mode assumes a pre-aligned crop&quot;,
+      &quot;outcome&quot;: &quot;not_requested&quot;,
+      &quot;reason&quot;: &quot;widget_identity&quot;
+    },
+    &quot;canvas&quot;: {
+      &quot;candidate&quot;: {
+        &quot;orig_h&quot;: 240,
+        &quot;orig_w&quot;: 384,
+        &quot;scale&quot;: 2
+      },
+      &quot;height&quot;: 480,
+      &quot;ignore_input_space&quot;: &quot;reference_original_pixels&quot;,
+      &quot;ignore_space&quot;: &quot;canonical_768&quot;,
+      &quot;reference&quot;: {
+        &quot;orig_h&quot;: 240,
+        &quot;orig_w&quot;: 384,
+        &quot;scale&quot;: 2
+      },
+      &quot;width&quot;: 768
+    },
+    &quot;diagnostics&quot;: {
+      &quot;capture&quot;: {
+        &quot;candidate&quot;: {
+          &quot;gray_stddev&quot;: 45.87302849971023,
+          &quot;near_uniform&quot;: false,
+          &quot;rgb_stddev_max&quot;: 52.44753212309309
+        },
+        &quot;reference&quot;: {
+          &quot;gray_stddev&quot;: 45.87302849971023,
+          &quot;near_uniform&quot;: false,
+          &quot;rgb_stddev_max&quot;: 52.44753212309309
+        }
+      },
+      &quot;issues&quot;: [],
+      &quot;layout_identity_score&quot;: 100,
+      &quot;scope&quot;: {
+        &quot;compared_fraction&quot;: 1,
+        &quot;ignored_fraction&quot;: 0
+      },
+      &quot;status&quot;: &quot;ok&quot;,
+      &quot;version&quot;: 1
+    },
+    &quot;provenance&quot;: {
+      &quot;comparison_key&quot;: &quot;47a1b0fd71a5145322b7fba3e019c62b1ff55457f8bb61a8d19cfc1d8bf3552a&quot;,
+      &quot;inputs&quot;: {
+        &quot;candidate&quot;: {
+          &quot;height&quot;: 240,
+          &quot;rgb_sha256&quot;: &quot;82c88751b2d6bac849f9e3c785a65e790a69139d14a31ae1ab480221d5025ecd&quot;,
+          &quot;width&quot;: 384
+        },
+        &quot;reference&quot;: {
+          &quot;height&quot;: 240,
+          &quot;rgb_sha256&quot;: &quot;82c88751b2d6bac849f9e3c785a65e790a69139d14a31ae1ab480221d5025ecd&quot;,
+          &quot;width&quot;: 384
+        }
+      },
+      &quot;run_key&quot;: &quot;1631cd74301cc4c0cc10329a7a0477e213d0d76eb5ef6a9ea725cd8fb575675c&quot;,
+      &quot;settings&quot;: {
+        &quot;alignment_policy&quot;: &quot;ecc-translation-guards-v1&quot;,
+        &quot;canonical_width&quot;: 768,
+        &quot;comparison_context&quot;: null,
+        &quot;engine_revision&quot;: &quot;sha256:8ed84986061066a98aae998020cb64c80e326c7feab6d5bd28493f2eac705bed&quot;,
+        &quot;ignore_policy&quot;: &quot;reference-boxes-per-image-modal-fill-v1&quot;,
+        &quot;ignore_regions&quot;: [],
+        &quot;mode&quot;: &quot;widget&quot;,
+        &quot;normalization_policy&quot;: &quot;independent-width-modal-bottom-pad-v1&quot;,
+        &quot;preset&quot;: &quot;default&quot;,
+        &quot;runtime_versions&quot;: {
+          &quot;Pillow&quot;: &quot;12.3.0&quot;,
+          &quot;numpy&quot;: &quot;2.5.1&quot;,
+          &quot;opencv&quot;: &quot;5.0.0&quot;,
+          &quot;python&quot;: &quot;3.13.7&quot;,
+          &quot;scikit-image&quot;: &quot;0.26.0&quot;,
+          &quot;scikit-learn&quot;: &quot;1.9.0&quot;,
+          &quot;scipy&quot;: &quot;1.18.0&quot;
+        },
+        &quot;weights&quot;: {
+          &quot;color&quot;: 0.2,
+          &quot;content&quot;: 0.15,
+          &quot;layout&quot;: 0.35,
+          &quot;spacing&quot;: 0.15,
+          &quot;typography&quot;: 0.15
+        }
+      },
+      &quot;version&quot;: 1
+    }
+  }
+}</pre><h4>settings_context_v1</h4><p>Same pair with caller-declared protocol metadata. Metadata must not change numeric scores; protocol changes split comparison keys.</p><pre>{
+  &quot;reference&quot;: &quot;fixtures/calendar-reference.png&quot;,
+  &quot;candidate&quot;: &quot;fixtures/calendar-omitted-header-avatar.png&quot;,
+  &quot;params&quot;: {
+    &quot;comparison_context&quot;: {
+      &quot;protocolKey&quot;: &quot;d1e9764c0b362634a650a022318f1af1d66ed32ca9ab37a99956e9234bcf340c&quot;,
+      &quot;scopeId&quot;: &quot;generated-calendar-full&quot;
+    },
+    &quot;return_visuals&quot;: false
+  },
+  &quot;context_manifest&quot;: {
+    &quot;capture&quot;: &quot;fixed-generated-pair&quot;,
+    &quot;declared_exclusions&quot;: [],
+    &quot;revision&quot;: 1,
+    &quot;scope&quot;: &quot;generated-calendar-full&quot;
+  },
+  &quot;fixtures&quot;: {
+    &quot;fixtures/calendar-reference.png&quot;: {
+      &quot;mode&quot;: &quot;RGB&quot;,
+      &quot;pixels_sha256&quot;: &quot;458ef06706ae5589837ca1bac20f5db60abc879827bb62375efef1e86c92f905&quot;,
+      &quot;sha256&quot;: &quot;630f2b254b64e52791583af453335528ef7fe9237cdee77bcc5fc9369e02aa03&quot;,
+      &quot;shape&quot;: [
+        320,
+        384,
+        3
+      ]
+    },
+    &quot;fixtures/calendar-omitted-header-avatar.png&quot;: {
+      &quot;mode&quot;: &quot;RGB&quot;,
+      &quot;pixels_sha256&quot;: &quot;49db31b383f02b08474d2c678909f9d9abcd4e5701db99679f4266e29b4fcc47&quot;,
+      &quot;sha256&quot;: &quot;eb986f08ede457d12a2a0b20bb384cfac0abe94f96a77d6974f69e0d61423b34&quot;,
+      &quot;shape&quot;: [
+        320,
+        384,
+        3
+      ]
+    }
+  },
+  &quot;baseline&quot;: {
+    &quot;effective_params&quot;: {
+      &quot;return_visuals&quot;: false
+    },
+    &quot;unsupported_metadata_params&quot;: [
+      &quot;comparison_context&quot;
+    ],
+    &quot;alignment&quot;: {
+      &quot;cc&quot;: 0.3393,
+      &quot;dx&quot;: 0,
+      &quot;dy&quot;: 0,
+      &quot;fallback&quot;: false,
+      &quot;method&quot;: &quot;ecc_translation&quot;,
+      &quot;mode&quot;: &quot;screen&quot;
+    },
+    &quot;canvas&quot;: {
+      &quot;candidate&quot;: {
+        &quot;orig_h&quot;: 320,
+        &quot;orig_w&quot;: 384,
+        &quot;scale&quot;: 2
+      },
+      &quot;height&quot;: 640,
+      &quot;ignore_input_space&quot;: &quot;reference_original_pixels&quot;,
+      &quot;ignore_space&quot;: &quot;canonical_768&quot;,
+      &quot;reference&quot;: {
+        &quot;orig_h&quot;: 320,
+        &quot;orig_w&quot;: 384,
+        &quot;scale&quot;: 2
+      },
+      &quot;width&quot;: 768
+    }
+  },
+  &quot;current&quot;: {
+    &quot;effective_params&quot;: {
+      &quot;comparison_context&quot;: {
+        &quot;protocolKey&quot;: &quot;d1e9764c0b362634a650a022318f1af1d66ed32ca9ab37a99956e9234bcf340c&quot;,
+        &quot;scopeId&quot;: &quot;generated-calendar-full&quot;
+      },
+      &quot;return_visuals&quot;: false
+    },
+    &quot;alignment&quot;: {
+      &quot;cc&quot;: 0.3393,
+      &quot;dx&quot;: 0,
+      &quot;dy&quot;: 0,
+      &quot;fallback&quot;: false,
+      &quot;method&quot;: &quot;ecc_translation&quot;,
+      &quot;mode&quot;: &quot;screen&quot;,
+      &quot;outcome&quot;: &quot;applied&quot;,
+      &quot;reason&quot;: &quot;ecc_accepted&quot;
+    },
+    &quot;canvas&quot;: {
+      &quot;candidate&quot;: {
+        &quot;orig_h&quot;: 320,
+        &quot;orig_w&quot;: 384,
+        &quot;scale&quot;: 2
+      },
+      &quot;height&quot;: 640,
+      &quot;ignore_input_space&quot;: &quot;reference_original_pixels&quot;,
+      &quot;ignore_space&quot;: &quot;canonical_768&quot;,
+      &quot;reference&quot;: {
+        &quot;orig_h&quot;: 320,
+        &quot;orig_w&quot;: 384,
+        &quot;scale&quot;: 2
+      },
+      &quot;width&quot;: 768
+    },
+    &quot;diagnostics&quot;: {
+      &quot;capture&quot;: {
+        &quot;candidate&quot;: {
+          &quot;gray_stddev&quot;: 40.313476801693085,
+          &quot;near_uniform&quot;: false,
+          &quot;rgb_stddev_max&quot;: 45.83730413808101
+        },
+        &quot;reference&quot;: {
+          &quot;gray_stddev&quot;: 81.40526778157218,
+          &quot;near_uniform&quot;: false,
+          &quot;rgb_stddev_max&quot;: 87.45570871710888
+        }
+      },
+      &quot;issues&quot;: [],
+      &quot;layout_identity_score&quot;: 85.46661804963476,
+      &quot;scope&quot;: {
+        &quot;compared_fraction&quot;: 1,
+        &quot;ignored_fraction&quot;: 0
+      },
+      &quot;status&quot;: &quot;ok&quot;,
+      &quot;version&quot;: 1
+    },
+    &quot;provenance&quot;: {
+      &quot;comparison_key&quot;: &quot;149e076d893a08c9b0a11d70b4bbb34a44a0832729639783738f53a264c39185&quot;,
+      &quot;inputs&quot;: {
+        &quot;candidate&quot;: {
+          &quot;height&quot;: 320,
+          &quot;rgb_sha256&quot;: &quot;398e5b19d422ebdfafe906eaf4ee444ab5c364c494ffd5e0a94312a7e5ffde17&quot;,
+          &quot;width&quot;: 384
+        },
+        &quot;reference&quot;: {
+          &quot;height&quot;: 320,
+          &quot;rgb_sha256&quot;: &quot;86682b46243f49037c4dbbaa876d8a3154e4a0dcd7a105e78e248ee6a4cc526a&quot;,
+          &quot;width&quot;: 384
+        }
+      },
+      &quot;run_key&quot;: &quot;952c20dd48de48790bd985adf7135a9aab54467b22c32733687e64d0ca040eac&quot;,
+      &quot;settings&quot;: {
+        &quot;alignment_policy&quot;: &quot;ecc-translation-guards-v1&quot;,
+        &quot;canonical_width&quot;: 768,
+        &quot;comparison_context&quot;: {
+          &quot;protocolKey&quot;: &quot;d1e9764c0b362634a650a022318f1af1d66ed32ca9ab37a99956e9234bcf340c&quot;,
+          &quot;scopeId&quot;: &quot;generated-calendar-full&quot;
+        },
+        &quot;engine_revision&quot;: &quot;sha256:8ed84986061066a98aae998020cb64c80e326c7feab6d5bd28493f2eac705bed&quot;,
+        &quot;ignore_policy&quot;: &quot;reference-boxes-per-image-modal-fill-v1&quot;,
+        &quot;ignore_regions&quot;: [],
+        &quot;mode&quot;: &quot;screen&quot;,
+        &quot;normalization_policy&quot;: &quot;independent-width-modal-bottom-pad-v1&quot;,
+        &quot;preset&quot;: &quot;default&quot;,
+        &quot;runtime_versions&quot;: {
+          &quot;Pillow&quot;: &quot;12.3.0&quot;,
+          &quot;numpy&quot;: &quot;2.5.1&quot;,
+          &quot;opencv&quot;: &quot;5.0.0&quot;,
+          &quot;python&quot;: &quot;3.13.7&quot;,
+          &quot;scikit-image&quot;: &quot;0.26.0&quot;,
+          &quot;scikit-learn&quot;: &quot;1.9.0&quot;,
+          &quot;scipy&quot;: &quot;1.18.0&quot;
+        },
+        &quot;weights&quot;: {
+          &quot;color&quot;: 0.2,
+          &quot;content&quot;: 0.15,
+          &quot;layout&quot;: 0.35,
+          &quot;spacing&quot;: 0.15,
+          &quot;typography&quot;: 0.15
+        }
+      },
+      &quot;version&quot;: 1
+    }
+  }
+}</pre><h4>settings_context_v2</h4><p>Same pair with caller-declared protocol metadata. Metadata must not change numeric scores; protocol changes split comparison keys.</p><pre>{
+  &quot;reference&quot;: &quot;fixtures/calendar-reference.png&quot;,
+  &quot;candidate&quot;: &quot;fixtures/calendar-omitted-header-avatar.png&quot;,
+  &quot;params&quot;: {
+    &quot;comparison_context&quot;: {
+      &quot;protocolKey&quot;: &quot;51c5a773abf6bd7f355b39ba01ce2d4e1b3a83e8255c6430bb6941dfb7f025c1&quot;,
+      &quot;scopeId&quot;: &quot;generated-calendar-full&quot;
+    },
+    &quot;return_visuals&quot;: false
+  },
+  &quot;context_manifest&quot;: {
+    &quot;capture&quot;: &quot;fixed-generated-pair&quot;,
+    &quot;declared_exclusions&quot;: [],
+    &quot;revision&quot;: 2,
+    &quot;scope&quot;: &quot;generated-calendar-full&quot;
+  },
+  &quot;fixtures&quot;: {
+    &quot;fixtures/calendar-reference.png&quot;: {
+      &quot;mode&quot;: &quot;RGB&quot;,
+      &quot;pixels_sha256&quot;: &quot;458ef06706ae5589837ca1bac20f5db60abc879827bb62375efef1e86c92f905&quot;,
+      &quot;sha256&quot;: &quot;630f2b254b64e52791583af453335528ef7fe9237cdee77bcc5fc9369e02aa03&quot;,
+      &quot;shape&quot;: [
+        320,
+        384,
+        3
+      ]
+    },
+    &quot;fixtures/calendar-omitted-header-avatar.png&quot;: {
+      &quot;mode&quot;: &quot;RGB&quot;,
+      &quot;pixels_sha256&quot;: &quot;49db31b383f02b08474d2c678909f9d9abcd4e5701db99679f4266e29b4fcc47&quot;,
+      &quot;sha256&quot;: &quot;eb986f08ede457d12a2a0b20bb384cfac0abe94f96a77d6974f69e0d61423b34&quot;,
+      &quot;shape&quot;: [
+        320,
+        384,
+        3
+      ]
+    }
+  },
+  &quot;baseline&quot;: {
+    &quot;effective_params&quot;: {
+      &quot;return_visuals&quot;: false
+    },
+    &quot;unsupported_metadata_params&quot;: [
+      &quot;comparison_context&quot;
+    ],
+    &quot;alignment&quot;: {
+      &quot;cc&quot;: 0.3393,
+      &quot;dx&quot;: 0,
+      &quot;dy&quot;: 0,
+      &quot;fallback&quot;: false,
+      &quot;method&quot;: &quot;ecc_translation&quot;,
+      &quot;mode&quot;: &quot;screen&quot;
+    },
+    &quot;canvas&quot;: {
+      &quot;candidate&quot;: {
+        &quot;orig_h&quot;: 320,
+        &quot;orig_w&quot;: 384,
+        &quot;scale&quot;: 2
+      },
+      &quot;height&quot;: 640,
+      &quot;ignore_input_space&quot;: &quot;reference_original_pixels&quot;,
+      &quot;ignore_space&quot;: &quot;canonical_768&quot;,
+      &quot;reference&quot;: {
+        &quot;orig_h&quot;: 320,
+        &quot;orig_w&quot;: 384,
+        &quot;scale&quot;: 2
+      },
+      &quot;width&quot;: 768
+    }
+  },
+  &quot;current&quot;: {
+    &quot;effective_params&quot;: {
+      &quot;comparison_context&quot;: {
+        &quot;protocolKey&quot;: &quot;51c5a773abf6bd7f355b39ba01ce2d4e1b3a83e8255c6430bb6941dfb7f025c1&quot;,
+        &quot;scopeId&quot;: &quot;generated-calendar-full&quot;
+      },
+      &quot;return_visuals&quot;: false
+    },
+    &quot;alignment&quot;: {
+      &quot;cc&quot;: 0.3393,
+      &quot;dx&quot;: 0,
+      &quot;dy&quot;: 0,
+      &quot;fallback&quot;: false,
+      &quot;method&quot;: &quot;ecc_translation&quot;,
+      &quot;mode&quot;: &quot;screen&quot;,
+      &quot;outcome&quot;: &quot;applied&quot;,
+      &quot;reason&quot;: &quot;ecc_accepted&quot;
+    },
+    &quot;canvas&quot;: {
+      &quot;candidate&quot;: {
+        &quot;orig_h&quot;: 320,
+        &quot;orig_w&quot;: 384,
+        &quot;scale&quot;: 2
+      },
+      &quot;height&quot;: 640,
+      &quot;ignore_input_space&quot;: &quot;reference_original_pixels&quot;,
+      &quot;ignore_space&quot;: &quot;canonical_768&quot;,
+      &quot;reference&quot;: {
+        &quot;orig_h&quot;: 320,
+        &quot;orig_w&quot;: 384,
+        &quot;scale&quot;: 2
+      },
+      &quot;width&quot;: 768
+    },
+    &quot;diagnostics&quot;: {
+      &quot;capture&quot;: {
+        &quot;candidate&quot;: {
+          &quot;gray_stddev&quot;: 40.313476801693085,
+          &quot;near_uniform&quot;: false,
+          &quot;rgb_stddev_max&quot;: 45.83730413808101
+        },
+        &quot;reference&quot;: {
+          &quot;gray_stddev&quot;: 81.40526778157218,
+          &quot;near_uniform&quot;: false,
+          &quot;rgb_stddev_max&quot;: 87.45570871710888
+        }
+      },
+      &quot;issues&quot;: [],
+      &quot;layout_identity_score&quot;: 85.46661804963476,
+      &quot;scope&quot;: {
+        &quot;compared_fraction&quot;: 1,
+        &quot;ignored_fraction&quot;: 0
+      },
+      &quot;status&quot;: &quot;ok&quot;,
+      &quot;version&quot;: 1
+    },
+    &quot;provenance&quot;: {
+      &quot;comparison_key&quot;: &quot;979909554a1baec1a46c23cc5a9efde752f69f1624cdcc424bdfc81df116757b&quot;,
+      &quot;inputs&quot;: {
+        &quot;candidate&quot;: {
+          &quot;height&quot;: 320,
+          &quot;rgb_sha256&quot;: &quot;398e5b19d422ebdfafe906eaf4ee444ab5c364c494ffd5e0a94312a7e5ffde17&quot;,
+          &quot;width&quot;: 384
+        },
+        &quot;reference&quot;: {
+          &quot;height&quot;: 320,
+          &quot;rgb_sha256&quot;: &quot;86682b46243f49037c4dbbaa876d8a3154e4a0dcd7a105e78e248ee6a4cc526a&quot;,
+          &quot;width&quot;: 384
+        }
+      },
+      &quot;run_key&quot;: &quot;f9c8f75607a6fb1c168f65a856045711e2d35c564d916b1215d05d5cb3f6d6ee&quot;,
+      &quot;settings&quot;: {
+        &quot;alignment_policy&quot;: &quot;ecc-translation-guards-v1&quot;,
+        &quot;canonical_width&quot;: 768,
+        &quot;comparison_context&quot;: {
+          &quot;protocolKey&quot;: &quot;51c5a773abf6bd7f355b39ba01ce2d4e1b3a83e8255c6430bb6941dfb7f025c1&quot;,
+          &quot;scopeId&quot;: &quot;generated-calendar-full&quot;
+        },
+        &quot;engine_revision&quot;: &quot;sha256:8ed84986061066a98aae998020cb64c80e326c7feab6d5bd28493f2eac705bed&quot;,
+        &quot;ignore_policy&quot;: &quot;reference-boxes-per-image-modal-fill-v1&quot;,
+        &quot;ignore_regions&quot;: [],
+        &quot;mode&quot;: &quot;screen&quot;,
+        &quot;normalization_policy&quot;: &quot;independent-width-modal-bottom-pad-v1&quot;,
+        &quot;preset&quot;: &quot;default&quot;,
+        &quot;runtime_versions&quot;: {
+          &quot;Pillow&quot;: &quot;12.3.0&quot;,
+          &quot;numpy&quot;: &quot;2.5.1&quot;,
+          &quot;opencv&quot;: &quot;5.0.0&quot;,
+          &quot;python&quot;: &quot;3.13.7&quot;,
+          &quot;scikit-image&quot;: &quot;0.26.0&quot;,
+          &quot;scikit-learn&quot;: &quot;1.9.0&quot;,
+          &quot;scipy&quot;: &quot;1.18.0&quot;
+        },
+        &quot;weights&quot;: {
+          &quot;color&quot;: 0.2,
+          &quot;content&quot;: 0.15,
+          &quot;layout&quot;: 0.35,
+          &quot;spacing&quot;: 0.15,
+          &quot;typography&quot;: 0.15
+        }
+      },
+      &quot;version&quot;: 1
+    }
+  }
+}</pre><p><a href="assets/reliability/6b09f1b6e6ce606c/raw/baseline.json">Baseline raw JSON</a> · <a href="assets/reliability/6b09f1b6e6ce606c/raw/current.json">Current raw JSON</a> · <a href="assets/reliability/6b09f1b6e6ce606c/report.md">Run report</a></p></details></article>
+</div>
+<details class="rel-details rel-run"><summary>Run identity and reproduction</summary><p>Recorded 2026-10-23T14:05:32.724956+00:00. Phase <code>integrated</code>. Integration rerun requested by caller; inspect source hashes and failed checks before publication.</p><p>vision_worker.pipeline.compare / compare_motion; isolated immutable snapshots; no stdio/RPC overhead. Synthetic behavior checks do not establish perceptual accuracy, transport behavior or deployment readiness.</p><pre>/Users/codenameakshay/Development/codenameakshay/design-compare-mcp/worker/.venv/bin/python scripts/reliability-benchmark.py --baseline b7139a2d29bc5fd2cae567688e5660b501f509ec --output /Users/codenameakshay/Development/codenameakshay/design-compare-mcp/docs/reliability/runs/final-rerun --repeats 3 --warmups 1 --phase integrated</pre><p>Fixture generation: calendar-motion-and-color-controls-v5; Pillow drawing, integer coordinates, NumPy default_rng(74) for nine-stripe colors; exact new256color boundary histograms; review3 common-pixel transport and shortlist controls</p><p>Results SHA-256 <code>6b09f1b6e6ce606c27853995a2cfe22266b9e26c61bec443e90eb58080f0b888</code>. Harness SHA-256 <code>a0f860e88c22c88ae0331765e4f4d81cf5c6061e37619bc8b672d45caf3db0a4</code>.</p><pre>{
+  &quot;baseline&quot;: {
+    &quot;files&quot;: {
+      &quot;worker/pyproject.toml&quot;: &quot;bca746f25d7459ac486d53e86f7f6ad5634bbfdcc54db2e642c936130caf7d41&quot;,
+      &quot;worker/vision_worker/__init__.py&quot;: &quot;a9df0cd401acf7ac777a36433291c98e5276347aa2a3ba85d5e6444409028686&quot;,
+      &quot;worker/vision_worker/__main__.py&quot;: &quot;862f6feb3a897b1add4014d524b782be86c092eb27acd165aa3d2c2a4545305b&quot;,
+      &quot;worker/vision_worker/aggregate.py&quot;: &quot;4f694075facbe4a4db024bdd743a78e886ccc7758144f637249bd10e1d68870d&quot;,
+      &quot;worker/vision_worker/align.py&quot;: &quot;10d081789aabaa8fdc026d37593a876693fe129903c64984241770dac2e1436a&quot;,
+      &quot;worker/vision_worker/io_utils.py&quot;: &quot;80ba55b5038cd347bd25c3ca79f649dbc092e0c5517059a89e4a5a484b5af5e9&quot;,
+      &quot;worker/vision_worker/metrics/__init__.py&quot;: &quot;4cd624363c9e2d61624a35eef96bf591e8532521e479fdea93dbb1b62c67fcba&quot;,
+      &quot;worker/vision_worker/metrics/color.py&quot;: &quot;7dc7fa90d348000a633ce885d1d2bac45e2cdf20556a2572ff2fc80d04f319ae&quot;,
+      &quot;worker/vision_worker/metrics/content.py&quot;: &quot;16c93f0e05d08909cfb2c5fceb8855301eae7f92c938ed46fcdd05addf50aea5&quot;,
+      &quot;worker/vision_worker/metrics/spacing.py&quot;: &quot;a63833e3166c3877ba3e5a381b2249f2dda34af83f072c1a9412f827bcdd8fe0&quot;,
+      &quot;worker/vision_worker/metrics/structure.py&quot;: &quot;e9747971a1d717c59de4d74e4e92c2082524a3fa2d4fa4a51d171f0654c78ce3&quot;,
+      &quot;worker/vision_worker/metrics/typography.py&quot;: &quot;ec79568f13e90725ac0dae79d8fb42da2db7210014fe4f8a2722f966882dc0d7&quot;,
+      &quot;worker/vision_worker/motion.py&quot;: &quot;919c94c738821e403a35f18e30ff3b91ac575d5f61b820aee85ec540b5964cb9&quot;,
+      &quot;worker/vision_worker/normalize.py&quot;: &quot;ffb6edc6a18564717e38847f8eb5cf81bef26ad6ed8415d6ef6ff8934c1042fd&quot;,
+      &quot;worker/vision_worker/pipeline.py&quot;: &quot;5e4a01baa04990553d1d2005f3dbfd6a88b6157e7620836e61d067f28a4ed780&quot;,
+      &quot;worker/vision_worker/visuals.py&quot;: &quot;c7b38a035832d91b0bfb5947e5740b4c9aacba15232968a9bcdd8ad6bd3f27d9&quot;
+    },
+    &quot;sha256&quot;: &quot;c6a3181a64d5a832c25a5ac914b7d132166fabb9723eabfa0b349afe94179d7f&quot;
+  },
+  &quot;current&quot;: {
+    &quot;files&quot;: {
+      &quot;worker/pyproject.toml&quot;: &quot;bca746f25d7459ac486d53e86f7f6ad5634bbfdcc54db2e642c936130caf7d41&quot;,
+      &quot;worker/vision_worker/__init__.py&quot;: &quot;a9df0cd401acf7ac777a36433291c98e5276347aa2a3ba85d5e6444409028686&quot;,
+      &quot;worker/vision_worker/__main__.py&quot;: &quot;a0c16f1f2fa961fc816fa65ae2f451c4e0ba2da31d73e82a79586e66cefff7c9&quot;,
+      &quot;worker/vision_worker/aggregate.py&quot;: &quot;4f694075facbe4a4db024bdd743a78e886ccc7758144f637249bd10e1d68870d&quot;,
+      &quot;worker/vision_worker/align.py&quot;: &quot;9be365675ec078b83f00fae86223b019268c4cd414432c2028b88bae70a5998b&quot;,
+      &quot;worker/vision_worker/io_utils.py&quot;: &quot;80ba55b5038cd347bd25c3ca79f649dbc092e0c5517059a89e4a5a484b5af5e9&quot;,
+      &quot;worker/vision_worker/metrics/__init__.py&quot;: &quot;4cd624363c9e2d61624a35eef96bf591e8532521e479fdea93dbb1b62c67fcba&quot;,
+      &quot;worker/vision_worker/metrics/color.py&quot;: &quot;296712351518bf2a88b46dcfa9f0811dc8ce68f8c1989d09d624e87d62724e46&quot;,
+      &quot;worker/vision_worker/metrics/content.py&quot;: &quot;16c93f0e05d08909cfb2c5fceb8855301eae7f92c938ed46fcdd05addf50aea5&quot;,
+      &quot;worker/vision_worker/metrics/spacing.py&quot;: &quot;a63833e3166c3877ba3e5a381b2249f2dda34af83f072c1a9412f827bcdd8fe0&quot;,
+      &quot;worker/vision_worker/metrics/structure.py&quot;: &quot;e9747971a1d717c59de4d74e4e92c2082524a3fa2d4fa4a51d171f0654c78ce3&quot;,
+      &quot;worker/vision_worker/metrics/typography.py&quot;: &quot;ec79568f13e90725ac0dae79d8fb42da2db7210014fe4f8a2722f966882dc0d7&quot;,
+      &quot;worker/vision_worker/motion.py&quot;: &quot;aeb2cf71efb93f6f1b08db23bb272f57b3b7affd864e9ff8f4df657fc4a12042&quot;,
+      &quot;worker/vision_worker/normalize.py&quot;: &quot;ffb6edc6a18564717e38847f8eb5cf81bef26ad6ed8415d6ef6ff8934c1042fd&quot;,
+      &quot;worker/vision_worker/pipeline.py&quot;: &quot;e121550fb92801346b0aca9c99e615c503eb59b0eebff27a26a6cd502faed76e&quot;,
+      &quot;worker/vision_worker/reliability.py&quot;: &quot;5a7567cd1104f206aec1d0f8a42f6aa91086064f701820e51e66cd3969eb68c8&quot;,
+      &quot;worker/vision_worker/visuals.py&quot;: &quot;c7b38a035832d91b0bfb5947e5740b4c9aacba15232968a9bcdd8ad6bd3f27d9&quot;
+    },
+    &quot;sha256&quot;: &quot;0a5ca0c9c0a3f38ee0f48590f0ad20ce0e6269f1a5b5b112c616b2007702a144&quot;
+  },
+  &quot;environment&quot;: {
+    &quot;cpu_count&quot;: 18,
+    &quot;dependencies&quot;: {
+      &quot;ImageIO&quot;: &quot;2.37.4&quot;,
+      &quot;design-compare-vision-worker&quot;: &quot;0.11.0&quot;,
+      &quot;joblib&quot;: &quot;1.5.3&quot;,
+      &quot;lazy-loader&quot;: &quot;0.5&quot;,
+      &quot;narwhals&quot;: &quot;2.24.0&quot;,
+      &quot;networkx&quot;: &quot;3.6.1&quot;,
+      &quot;numpy&quot;: &quot;2.5.1&quot;,
+      &quot;opencv-python-headless&quot;: &quot;5.0.0.93&quot;,
+      &quot;packaging&quot;: &quot;26.2&quot;,
+      &quot;pillow&quot;: &quot;12.3.0&quot;,
+      &quot;pip&quot;: &quot;26.1.2&quot;,
+      &quot;scikit-image&quot;: &quot;0.26.0&quot;,
+      &quot;scikit-learn&quot;: &quot;1.9.0&quot;,
+      &quot;scipy&quot;: &quot;1.18.0&quot;,
+      &quot;threadpoolctl&quot;: &quot;3.6.0&quot;,
+      &quot;tifffile&quot;: &quot;2026.7.14&quot;
+    },
+    &quot;executable&quot;: &quot;/Users/codenameakshay/Development/codenameakshay/design-compare-mcp/worker/.venv/bin/python&quot;,
+    &quot;loaded_worker_files&quot;: {
+      &quot;vision_worker&quot;: &quot;worker/vision_worker/__init__.py&quot;,
+      &quot;vision_worker.aggregate&quot;: &quot;worker/vision_worker/aggregate.py&quot;,
+      &quot;vision_worker.align&quot;: &quot;worker/vision_worker/align.py&quot;,
+      &quot;vision_worker.io_utils&quot;: &quot;worker/vision_worker/io_utils.py&quot;,
+      &quot;vision_worker.metrics&quot;: &quot;worker/vision_worker/metrics/__init__.py&quot;,
+      &quot;vision_worker.metrics.color&quot;: &quot;worker/vision_worker/metrics/color.py&quot;,
+      &quot;vision_worker.metrics.content&quot;: &quot;worker/vision_worker/metrics/content.py&quot;,
+      &quot;vision_worker.metrics.spacing&quot;: &quot;worker/vision_worker/metrics/spacing.py&quot;,
+      &quot;vision_worker.metrics.structure&quot;: &quot;worker/vision_worker/metrics/structure.py&quot;,
+      &quot;vision_worker.metrics.typography&quot;: &quot;worker/vision_worker/metrics/typography.py&quot;,
+      &quot;vision_worker.motion&quot;: &quot;worker/vision_worker/motion.py&quot;,
+      &quot;vision_worker.normalize&quot;: &quot;worker/vision_worker/normalize.py&quot;,
+      &quot;vision_worker.pipeline&quot;: &quot;worker/vision_worker/pipeline.py&quot;,
+      &quot;vision_worker.reliability&quot;: &quot;worker/vision_worker/reliability.py&quot;,
+      &quot;vision_worker.visuals&quot;: &quot;worker/vision_worker/visuals.py&quot;
+    },
+    &quot;machine&quot;: &quot;arm64&quot;,
+    &quot;numpy&quot;: &quot;2.5.1&quot;,
+    &quot;opencv&quot;: &quot;5.0.0&quot;,
+    &quot;opencv_threads&quot;: 18,
+    &quot;platform&quot;: &quot;macOS-27.0.1-arm64-arm-64bit-Mach-O&quot;,
+    &quot;processor&quot;: &quot;arm&quot;,
+    &quot;python&quot;: &quot;3.13.7 (v3.13.7:bcee1c32211, Aug 14 2025, 19:10:51) [Clang 16.0.0 (clang-1600.0.26.6)]&quot;,
+    &quot;source_manifest&quot;: {
+      &quot;files&quot;: {
+        &quot;worker/pyproject.toml&quot;: &quot;bca746f25d7459ac486d53e86f7f6ad5634bbfdcc54db2e642c936130caf7d41&quot;,
+        &quot;worker/vision_worker/__init__.py&quot;: &quot;a9df0cd401acf7ac777a36433291c98e5276347aa2a3ba85d5e6444409028686&quot;,
+        &quot;worker/vision_worker/__main__.py&quot;: &quot;a0c16f1f2fa961fc816fa65ae2f451c4e0ba2da31d73e82a79586e66cefff7c9&quot;,
+        &quot;worker/vision_worker/aggregate.py&quot;: &quot;4f694075facbe4a4db024bdd743a78e886ccc7758144f637249bd10e1d68870d&quot;,
+        &quot;worker/vision_worker/align.py&quot;: &quot;9be365675ec078b83f00fae86223b019268c4cd414432c2028b88bae70a5998b&quot;,
+        &quot;worker/vision_worker/io_utils.py&quot;: &quot;80ba55b5038cd347bd25c3ca79f649dbc092e0c5517059a89e4a5a484b5af5e9&quot;,
+        &quot;worker/vision_worker/metrics/__init__.py&quot;: &quot;4cd624363c9e2d61624a35eef96bf591e8532521e479fdea93dbb1b62c67fcba&quot;,
+        &quot;worker/vision_worker/metrics/color.py&quot;: &quot;296712351518bf2a88b46dcfa9f0811dc8ce68f8c1989d09d624e87d62724e46&quot;,
+        &quot;worker/vision_worker/metrics/content.py&quot;: &quot;16c93f0e05d08909cfb2c5fceb8855301eae7f92c938ed46fcdd05addf50aea5&quot;,
+        &quot;worker/vision_worker/metrics/spacing.py&quot;: &quot;a63833e3166c3877ba3e5a381b2249f2dda34af83f072c1a9412f827bcdd8fe0&quot;,
+        &quot;worker/vision_worker/metrics/structure.py&quot;: &quot;e9747971a1d717c59de4d74e4e92c2082524a3fa2d4fa4a51d171f0654c78ce3&quot;,
+        &quot;worker/vision_worker/metrics/typography.py&quot;: &quot;ec79568f13e90725ac0dae79d8fb42da2db7210014fe4f8a2722f966882dc0d7&quot;,
+        &quot;worker/vision_worker/motion.py&quot;: &quot;aeb2cf71efb93f6f1b08db23bb272f57b3b7affd864e9ff8f4df657fc4a12042&quot;,
+        &quot;worker/vision_worker/normalize.py&quot;: &quot;ffb6edc6a18564717e38847f8eb5cf81bef26ad6ed8415d6ef6ff8934c1042fd&quot;,
+        &quot;worker/vision_worker/pipeline.py&quot;: &quot;e121550fb92801346b0aca9c99e615c503eb59b0eebff27a26a6cd502faed76e&quot;,
+        &quot;worker/vision_worker/reliability.py&quot;: &quot;5a7567cd1104f206aec1d0f8a42f6aa91086064f701820e51e66cd3969eb68c8&quot;,
+        &quot;worker/vision_worker/visuals.py&quot;: &quot;c7b38a035832d91b0bfb5947e5740b4c9aacba15232968a9bcdd8ad6bd3f27d9&quot;
+      },
+      &quot;sha256&quot;: &quot;0a5ca0c9c0a3f38ee0f48590f0ad20ce0e6269f1a5b5b112c616b2007702a144&quot;
+    },
+    &quot;thread_environment&quot;: {
+      &quot;MKL_NUM_THREADS&quot;: &quot;1&quot;,
+      &quot;NUMEXPR_NUM_THREADS&quot;: &quot;1&quot;,
+      &quot;OMP_NUM_THREADS&quot;: &quot;1&quot;,
+      &quot;OPENBLAS_NUM_THREADS&quot;: &quot;1&quot;,
+      &quot;PYTHONHASHSEED&quot;: &quot;0&quot;,
+      &quot;VECLIB_MAXIMUM_THREADS&quot;: &quot;1&quot;
+    },
+    &quot;worker_module&quot;: &quot;worker/vision_worker/__init__.py&quot;,
+    &quot;worker_version&quot;: &quot;0.11.0&quot;
+  }
+}</pre><p><a href="assets/reliability/6b09f1b6e6ce606c/raw/sources.json">Source manifests</a> · <a href="assets/reliability/6b09f1b6e6ce606c/raw/benchmark.py">Exact fixture generator</a> · <a href="assets/reliability/6b09f1b6e6ce606c/raw/inputs.json">All input declarations and hashes</a></p></details>
+</section>
+    <!-- reliability-examples:end -->
+
     <!-- THE IDEA -->
     <section class="section" id="idea" aria-labelledby="idea-eyebrow">
       <p class="eyebrow reveal" id="idea-eyebrow">The idea</p>
       <h2 class="statement reveal">
-        A <mark>reference</mark>, a <mark>candidate</mark>, and a score that <em>rises as they converge</em>.
+        A <mark>reference</mark>, a <mark>candidate</mark>, and evidence to inspect.
       </h2>
       <div class="idea-flow reveal" aria-hidden="true">
         <div class="flow-node">reference<br/><small>design / site / component</small></div>
@@ -187,85 +3387,77 @@
         <div class="flow-node flow-engine">compare_designs<br/><small>5 CV dimensions</small></div>
         <div class="flow-arrow">→</div>
         <div class="flow-out">
-          <div class="flow-node flow-score">overall&nbsp;0–100</div>
-          <div class="flow-node flow-list">punch-list of fixes</div>
+          <div class="flow-node flow-score">overall + dimension status</div>
+          <div class="flow-node flow-list">suggested fixes</div>
         </div>
       </div>
       <p class="idea-note reveal">
-        Every run returns an <code>overall</code>, five sub-scores, a <code>cv_findings</code> punch-list,
-        and diagnostic images. Pass <code>ignoreRegions</code> in original reference pixels to mask
-        chrome. The score is built to be <strong>actionable and monotonic</strong> — not a
-        single "true" number.
+        A static comparison returns dimension scores, findings and optional diagnostic images.
+        Use the same state, crop, masks and settings when comparing revisions. Scores are heuristic
+        signals, not a guarantee that a higher number looks better.
       </p>
     </section>
 
     <!-- BUILT FOR THE LOOP -->
     <section class="section" id="loop" aria-labelledby="loop-eyebrow">
       <p class="eyebrow reveal" id="loop-eyebrow">Built for the loop</p>
-      <h2 class="statement reveal">Give your agent one number to climb.</h2>
-      <p class="idea-note reveal">Point a <code>/loop</code> — or any goal-driven agent run — at
-      <code>overall</code>. It's the target: the agent renders, compares, fixes the top finding, and
-      repeats until it clears your threshold. Because the score is <strong>monotonic and
-      deterministic</strong>, a rising number is real, repeatable progress — safe to set as the goal and
-      to gate on.</p>
+      <h2 class="statement reveal">Give your agent evidence to review.</h2>
+      <p class="idea-note reveal">Render the same state, compare it, inspect the findings and diagnostic
+      images, then verify the change. Keep the comparison setup fixed. A higher score alone is not an acceptance test.</p>
       <div class="loop-wrap reveal">
         <div class="code-block">
-          <div class="code-top"><span class="code-cap">the hill-climb loop</span>
+          <div class="code-top"><span class="code-cap">bounded review · pseudocode</span>
             <button class="copy-btn" type="button">copy</button></div>
-          <pre><code>target = 95
-while overall &lt; target:                     # the goal
-    render(candidate)                        # your build step
-    r = compare_designs(ref, candidate, mode="screen")
-    overall = r["overall"]                   # ← the number to climb
-    fix(r["cv_findings"][0])                 # highest-severity miss first</code></pre>
+          <pre><code>for attempt in bounded_review_budget:
+    render the candidate in the reference state
+    compare with fixed crop, masks, mode and weights
+    inspect dimension status, findings and diagnostics
+    if inconclusive or no verified next fix:
+        stop and report
+    apply one reviewed fix
+    review the next render and run behavioral checks</code></pre>
         </div>
         <ul class="loop-points">
-          <li><b>Set the goal.</b> Pick a target like <code>overall ≥ 95</code>, or gate a PR / CI check
-          on it.</li>
-          <li><b>Work the punch-list.</b> <code>cv_findings</code> is already ordered by severity — fix the
-          top item each pass.</li>
-          <li><b>Trust the delta.</b> Same inputs, same score — so a higher number is measured progress,
-          not luck.</li>
+          <li><b>Keep inputs comparable.</b> Preserve reference, crop, masks, mode and weights.</li>
+          <li><b>Review each finding.</b> Confirm it against the diagnostic images before changing code.</li>
+          <li><b>Verify the result.</b> Review screenshots and test behavior separately. Use project-specific thresholds only after validation.</li>
         </ul>
       </div>
+      <p class="idea-note"><a href="#reliability-examples">See measured synthetic examples</a></p>
     </section>
 
     <!-- FEATURE CARDS -->
     <section class="section" id="features" aria-label="What makes it different">
       <div class="cards">
         <article class="card card-peach reveal">
-          <div class="card-tag">monotonic</div>
-          <h3>A number that only goes up as you get closer.</h3>
-          <p>Deterministic and monotonic — so an agent can hill-climb it: render, compare, fix, repeat.</p>
+          <div class="card-tag">reviewable</div>
+          <h3>Scores to inspect, not promises to optimize.</h3>
+          <p>Compare revisions under the same settings. Confirm changes in the images and dimension results.</p>
         </article>
         <article class="card card-lav reveal">
           <div class="card-tag">five dimensions</div>
-          <h3>Not one score. Five you can act on.</h3>
-          <p>Layout, color, content, typography, spacing — scored separately, so you see <em>which</em>
-          axis is off.</p>
+          <h3>Five dimensions to inspect.</h3>
+          <p>Layout, color, content, typography and spacing have separate results to help locate differences.</p>
         </article>
         <article class="card card-mint reveal">
           <div class="card-tag">punch-list</div>
-          <h3>A punch-list, not just a grade.</h3>
-          <p>Findings name the exact problem — a hex that drifted, an element that's missing, with its box.</p>
+          <h3>Suggested fixes beside the scores.</h3>
+          <p>Findings suggest color shifts and missing or extra regions. Confirm them in the images before applying a fix.</p>
         </article>
         <article class="card card-blue reveal">
           <div class="card-tag">motion</div>
-          <h3>A screenshot can't see motion. This can.</h3>
-          <p><code>compare_motion</code> reads two frame sequences — do they animate with the same energy
-          and rhythm? Both still returns <code>null</code>, not a fake 100. Read <code>motion_status</code>.</p>
+          <h3>Inspect change across frames.</h3>
+          <p>Motion diagnostics summarize sampled pixel changes, not animation fidelity. They do not establish matching direction, easing or interaction. Read <code>motion_status</code> first.</p>
         </article>
         <article class="card card-sand reveal">
           <div class="card-tag">deterministic</div>
-          <h3>Same inputs, same score. Every time.</h3>
-          <p>Seeded k-means, fixed pipeline, nothing random. Safe to optimize against, safe to trust when
-          it moves.</p>
+          <h3>Repeat the comparison under the same setup.</h3>
+          <p>Keep image bytes, settings, tool version and environment fixed. Repeatability does not guarantee perceptual accuracy.</p>
         </article>
         <article class="card card-pink reveal">
           <div class="card-tag">honest</div>
-          <h3>It tells you where it's weak.</h3>
-          <p>Calibrated against human labels — with the correlation numbers <em>and</em> the failure modes
-          published.</p>
+          <h3>Published checks, with their limits.</h3>
+          <p>Inspect synthetic regression checks and historical human-label calibration. Each measures a different kind of evidence.</p>
         </article>
       </div>
     </section>
@@ -273,22 +3465,22 @@ while overall &lt; target:                     # the goal
     <!-- WHAT IT MEASURES / DIMENSIONS -->
     <section class="section" id="dimensions" aria-labelledby="dim-eyebrow">
       <p class="eyebrow reveal" id="dim-eyebrow">What it measures</p>
-      <h2 class="statement reveal">Everything that makes a clone feel faithful.</h2>
+      <h2 class="statement reveal">What the metrics inspect.</h2>
 
       <div class="marquee reveal" aria-hidden="true">
         <div class="marquee-track">
-          <span class="pill">SSIM</span><span class="pill">ΔE2000</span><span class="pill">CIELAB</span>
-          <span class="pill">k-means palette</span><span class="pill">Hungarian match</span>
+          <span class="pill">SSIM</span><span class="pill">fixed color lattice</span><span class="pill">chroma-compressed Lab</span>
+          <span class="pill">max-sliced mass distance</span><span class="pill">soft rare-color coverage</span>
           <span class="pill">IoU region matching</span><span class="pill">ECC alignment</span>
           <span class="pill">morphology</span><span class="pill">connected components</span>
-          <span class="pill">geometric mean</span><span class="pill">temporal correlation</span>
+          <span class="pill">geometric mean</span><span class="pill">sampled frame changes</span>
           <span class="pill">motion energy</span><span class="pill">Otsu threshold</span>
           <span class="pill">gradient edges</span>
-          <span class="pill">SSIM</span><span class="pill">ΔE2000</span><span class="pill">CIELAB</span>
-          <span class="pill">k-means palette</span><span class="pill">Hungarian match</span>
+          <span class="pill">SSIM</span><span class="pill">fixed color lattice</span><span class="pill">chroma-compressed Lab</span>
+          <span class="pill">max-sliced mass distance</span><span class="pill">soft rare-color coverage</span>
           <span class="pill">IoU region matching</span><span class="pill">ECC alignment</span>
           <span class="pill">morphology</span><span class="pill">connected components</span>
-          <span class="pill">geometric mean</span><span class="pill">temporal correlation</span>
+          <span class="pill">geometric mean</span><span class="pill">sampled frame changes</span>
           <span class="pill">motion energy</span><span class="pill">Otsu threshold</span>
           <span class="pill">gradient edges</span>
         </div>
@@ -297,15 +3489,13 @@ while overall &lt; target:                     # the goal
       <div class="dim-grid">
         <article class="dim reveal">
           <div class="dim-head"><h3>Layout</h3><span class="dim-weight">weight 0.35</span></div>
-          <p class="dim-what">SSIM on the aligned grayscale. Measures <em>shape</em> — the global shift is
-          registered away first, so a 1-px offset doesn't tank it.</p>
+          <p class="dim-what">SSIM compares grayscale structure. Screen mode may align a global translation; inspect alignment diagnostics.</p>
           <p class="dim-weak"><span>weakness</span> grayscale; plateaus under heavy blur.</p>
         </article>
         <article class="dim reveal">
           <div class="dim-head"><h3>Color</h3><span class="dim-weight">weight 0.20</span></div>
-          <p class="dim-what">A seeded k-means palette in CIELAB, matched one-to-one by ΔE2000. Score =
-          <code>100·exp(−ΔE/19)</code>, leftover unmatched mass penalized, each shift named as hex.</p>
-          <p class="dim-weak"><span>weakness</span> flat in a single-theme UI; ignores position.</p>
+          <p class="dim-what">Projects every pixel onto a fixed color lattice. Combines maximum sliced mass distance across 64 directions with source-density-scaled soft rare-color coverage in chroma-compressed Lab proxy units. Each direction uses the same source-query density correction for own and target occupancy.</p>
+          <p class="dim-weak"><span>weakness</span> not CIEDE2000 or 3D optimal transport. Equal-histogram spatial swaps are invisible. Soft coverage does not prove exact absence. Color-shift findings summarize certified unmatched mass on both sides, not any recoloring operation. Failure to certify absence does not prove presence. The independent color review records a close-hue reversal as recolored mass grows. Local qualification and independent PASS cover the frozen v2 contract; full-project checks and hosted CI remain pending. No universal accuracy or monotonicity claim.</p>
         </article>
         <article class="dim reveal">
           <div class="dim-head"><h3>Content</h3><span class="dim-weight">weight 0.15</span></div>
@@ -326,9 +3516,8 @@ while overall &lt; target:                     # the goal
         </article>
         <article class="dim dim-agg reveal">
           <div class="dim-head"><h3>Aggregate</h3><span class="dim-weight">geometric</span></div>
-          <p class="dim-what">The five combine as a <strong>weighted geometric mean</strong> — one weak
-          axis drags the whole score down.</p>
-          <p class="dim-formula"><code>overall = exp( Σ wᵢ·ln(scoreᵢ) )</code></p>
+          <p class="dim-what">Numeric dimensions combine as a weighted geometric mean. Non-applicable dimensions are omitted and weights renormalized. Inspect failures before interpreting the result.</p>
+          <p class="dim-formula"><code>exp(Σ (wᵢ / Σw) · ln(clamp(scoreᵢ, 1, 100)))</code></p>
         </article>
       </div>
     </section>
@@ -336,8 +3525,8 @@ while overall &lt; target:                     # the goal
     <!-- INTERACTIVE: TRY IT -->
     <section class="section section-cream" id="try" aria-labelledby="try-eyebrow">
       <p class="eyebrow reveal" id="try-eyebrow">Try it</p>
-      <h2 class="statement reveal">Play with the actual math.</h2>
-      <p class="idea-note reveal">These run the same formulas the worker does.</p>
+      <h2 class="statement reveal">Explore the formulas.</h2>
+      <p class="idea-note reveal">Browser-only illustrations with adjustable inputs. These controls do not run the image-comparison worker.</p>
 
       <div class="demos">
         <div class="demo reveal" id="demo-agg">
@@ -348,7 +3537,7 @@ while overall &lt; target:                     # the goal
               <button type="button" class="chip-btn" data-preset="dark-ui">dark-ui</button>
             </div>
           </div>
-          <p class="demo-desc">One low dimension pulls the overall down far harder than an average would.</p>
+          <p class="demo-desc">For the same scores and positive weights, the geometric mean is no greater than the arithmetic mean. This does not prevent metric gaming. Slider scores are illustrative inputs.</p>
           <div class="sliders" id="agg-sliders"><!-- injected --></div>
           <div class="demo-out">
             <div class="agg-result">
@@ -363,9 +3552,8 @@ while overall &lt; target:                     # the goal
         </div>
 
         <div class="demo reveal" id="demo-color">
-          <div class="demo-head"><h3>Color · ΔE2000 → score</h3></div>
-          <p class="demo-desc">Each palette pair scores <code>100·exp(−ΔE/19)</code>, ΔE by CIEDE2000. Pick a
-          candidate color.</p>
+          <div class="demo-head"><h3>Illustrative single-color ΔE</h3></div>
+          <p class="demo-desc">Compare two chosen sRGB colors with CIEDE2000. This illustration does not extract palettes, compare their proportions, or run the full image metric.</p>
           <div class="color-demo">
             <div class="color-pick">
               <label>reference
@@ -385,21 +3573,21 @@ while overall &lt; target:                     # the goal
               </div>
               <div class="color-metrics">
                 <div><span>ΔE2000</span><b id="de-val">—</b></div>
-                <div><span>color score</span><b id="de-score">—</b></div>
               </div>
               <div class="finding" id="color-finding"><!-- injected --></div>
             </div>
           </div>
         </div>
       </div>
+      <p class="idea-note"><a href="#reliability-examples">See measured synthetic examples</a></p>
     </section>
 
     <!-- INSTALL -->
     <section class="section" id="install" aria-labelledby="install-eyebrow">
       <p class="eyebrow reveal" id="install-eyebrow">Install &amp; register</p>
-      <h2 class="statement reveal">Running in about a minute.</h2>
-      <p class="idea-note reveal">Needs <strong>Node ≥ 20</strong>, <strong>Python ≥ 3.10</strong>, and —
-      for <code>capture_frames</code> — a local <strong>Chrome</strong>.</p>
+      <h2 class="statement reveal">Install the server and vision worker.</h2>
+      <p class="idea-note reveal">Needs <strong>Node ≥ 20</strong> and <strong>Python ≥ 3.10</strong>.
+      <code>capture_frames</code> needs local <strong>Chrome</strong>. Local recording extraction also needs <strong>FFmpeg</strong> and <strong>ffprobe</strong> on PATH.</p>
 
       <div class="install-steps">
         <div class="code-block reveal">
@@ -415,7 +3603,7 @@ npm run build</code></pre>
             <button class="copy-btn" type="button">copy</button></div>
           <pre><code>python3 -m venv worker/.venv
 worker/.venv/bin/pip install -e './worker[cv]'
-npm run smoke   # ends with: ALL CHECKS PASSED ✅</code></pre>
+npm run smoke   # see output for coverage and skips</code></pre>
         </div>
         <div class="code-block reveal">
           <div class="code-top"><span class="code-cap">3 · register with Claude Code</span>
@@ -437,26 +3625,27 @@ npm run smoke   # ends with: ALL CHECKS PASSED ✅</code></pre>
 }</code></pre>
         </div>
       </div>
-      <p class="idea-note reveal">Registers four tools: <code>ping</code>, <code>compare_designs</code>,
-      <code>compare_motion</code>, <code>capture_frames</code>. Rebuild <code>dist/</code> and restart the
+      <p class="idea-note reveal">Registers five tools: <code>ping</code>, <code>compare_designs</code>,
+      <code>compare_motion</code>, <code>capture_frames</code> and <code>extract_video_frames</code>. Rebuild <code>dist/</code> and restart the
       client after you pull.</p>
     </section>
 
     <!-- CALIBRATION / HONEST -->
     <section class="section section-dark" id="calibration" aria-labelledby="cal-eyebrow">
-      <p class="eyebrow reveal" id="cal-eyebrow">Is it any good?</p>
-      <h2 class="statement reveal">Calibrated against human judgment.</h2>
-      <p class="idea-note reveal">Scored against 26 components of a dark component library vs. its Flutter
-      port, each rated 0–100 by eye. Correlation is Spearman.</p>
+      <p class="eyebrow reveal" id="cal-eyebrow">Historical evidence</p>
+      <h2 class="statement reveal">Historical human-label calibration.</h2>
+      <p class="idea-note reveal">An earlier scoring pipeline was evaluated on 26 dark-library components
+      and their Flutter ports, each rated 0–100 by eye. These Spearman correlations have not been revalidated for the reliability changes.</p>
+      <p class="cal-source reveal">Source: <a href="https://github.com/codenameakshay/design-compare-mcp/blob/b7139a2d29bc5fd2cae567688e5660b501f509ec/README.md#calibration-is-it-any-good">pre-reliability documentation at b7139a2</a>. The underlying run's exact version was not recorded.</p>
 
       <div class="stats">
-        <div class="stat reveal"><b>−0.03</b><span>default preset, out of the box</span></div>
-        <div class="stat reveal stat-good"><b>+0.44</b><span><code>dark-ui</code> preset — the honest working number</span></div>
-        <div class="stat reveal"><b>+0.54</b><span>best possible weighting — a ceiling, overfit to 26 points</span></div>
+        <div class="stat reveal"><b>−0.03</b><span>historical default-preset result</span></div>
+        <div class="stat reveal stat-good"><b>+0.44</b><span>historical <code>dark-ui</code> result</span></div>
+        <div class="stat reveal"><b>+0.54</b><span>best weighting found in that search, fitted to the same 26 pairs</span></div>
       </div>
 
       <div class="perdim reveal">
-        <h3>Per-dimension correlation, on that dataset</h3>
+        <h3>Historical per-dimension correlations</h3>
         <ul class="perdim-list">
           <li><span>layout</span><div class="bar"><i style="--v:33"></i></div><b>+0.33</b></li>
           <li><span>typography</span><div class="bar"><i style="--v:31"></i></div><b>+0.31</b></li>
@@ -464,26 +3653,22 @@ npm run smoke   # ends with: ALL CHECKS PASSED ✅</code></pre>
           <li><span>color</span><div class="bar"><i style="--v:3"></i></div><b>+0.03</b></li>
           <li class="neg"><span>spacing</span><div class="bar"><i style="--v:13"></i></div><b>−0.13</b></li>
         </ul>
-        <p class="perdim-read">A decent <strong>layout + typography checker</strong> on this set — not a
-        full oracle. Drop your own labeled pairs into <code>calibration/</code> and re-run the tuner to
-        calibrate for your UI.</p>
+        <p class="perdim-read">Layout and typography had the strongest positive correlations on this
+        dataset. The weight search used the same 26 pairs, not an independent held-out evaluation.
+        Use your own labeled pairs in <code>calibration/</code> to evaluate your UI.</p>
       </div>
 
       <div class="limits reveal">
         <h3>Where it can mislead you</h3>
         <div class="limit-grid">
-          <div class="limit"><b>The motion ceiling.</b> A screenshot can't see animation. Use
-          <code>compare_motion</code>. Both still returns <code>null</code>, not 100. Read
-          <code>motion_status</code>.</div>
-          <div class="limit"><b>Single-theme color.</b> One palette means no variance for ΔE. Don't weight
-          color.</div>
+          <div class="limit"><b>Motion energy.</b> Similar motion energy can hide different paths or timing. Static and unreliable captures are inconclusive. Read <code>motion_status</code>.</div>
+          <div class="limit"><b>Color ranking.</b> The old dark-library dataset showed little color-ranking signal. Palette errors can still matter in a single-theme UI.</div>
           <div class="limit"><b>Typography ≠ font.</b> Amount and scale, not font family or weight.</div>
-          <div class="limit"><b>One-shot animations.</b> A reveal that finishes before sampling reads as
-          static. <code>motion_status</code> will be <code>static</code>.</div>
+          <div class="limit"><b>One-shot animations.</b> An animation that ends before sampling can be missed. Inspect the frames and status.</div>
           <div class="limit"><b>Ignore chrome.</b> Status bars and OS chrome: pass
           <code>ignoreRegions</code> as <code>[x, y, w, h]</code> in original reference pixels.</div>
           <div class="limit"><b>Capture URLs.</b> <code>capture_frames</code> accepts http and https only.
-          Set <code>DESIGN_COMPARE_ALLOWED_ROOTS</code> to sandbox file reads and <code>outDir</code>.</div>
+          Set <code>DESIGN_COMPARE_ALLOWED_ROOTS</code> to restrict local file reads and capture output paths, not network access.</div>
         </div>
       </div>
     </section>
@@ -495,22 +3680,22 @@ npm run smoke   # ends with: ALL CHECKS PASSED ✅</code></pre>
       <div class="faq-list reveal">
         <details class="faq-item">
           <summary>What problem does this solve?<span class="faq-plus" aria-hidden="true"></span></summary>
-          <div class="faq-body"><p>Cloning a UI is a loop: render, compare to the reference, fix the
-          biggest gap, repeat. This replaces the eyeballing with a reproducible number and a specific
-          punch-list.</p></div>
+          <div class="faq-body"><p>It adds repeatable measurements and diagnostic images to visual review.
+          The output helps identify differences; it does not replace visual or behavioral checks.</p></div>
         </details>
         <details class="faq-item">
           <summary>What do I feed it?<span class="faq-plus" aria-hidden="true"></span></summary>
-          <div class="faq-body"><p>Two local images — a reference and a candidate. <code>widget</code> mode
+          <div class="faq-body"><p>Two local images, a reference and a candidate. <code>widget</code> mode
           for a tight crop, <code>screen</code> mode for a full view. Optional <code>ignoreRegions</code>
           in original reference pixels. For motion, two frame sequences from <code>capture_frames</code>
-          (http or https URLs only).</p></div>
+          using http or https URLs. For recorded video, extract a bounded local window with
+          <code>extract_video_frames</code>, then review timestamps, sampling completeness and matching action before comparison.</p></div>
         </details>
         <details class="faq-item">
           <summary>How is the score computed?<span class="faq-plus" aria-hidden="true"></span></summary>
-          <div class="faq-body"><p>Five dimensions measured independently, combined with a weighted
-          geometric mean. A dimension that does not apply returns <code>null</code> and is left out.
-          A dimension that fails still counts, floored at 1.0, so <code>overall</code> cannot reach 0.</p></div>
+          <div class="faq-body"><p>Applicable numeric dimensions contribute to the weighted geometric mean,
+          with scores clamped to 1–100 and weights renormalized. Inspect failed and non-applicable
+          dimensions before interpreting the aggregate. If no dimensions have numeric scores, the aggregate is 0, not a usable comparison.</p></div>
         </details>
         <details class="faq-item">
           <summary>Can I ignore a status bar?<span class="faq-plus" aria-hidden="true"></span></summary>
@@ -520,9 +3705,9 @@ npm run smoke   # ends with: ALL CHECKS PASSED ✅</code></pre>
         </details>
         <details class="faq-item">
           <summary>Is the number accurate?<span class="faq-plus" aria-hidden="true"></span></summary>
-          <div class="faq-body"><p>Useful, not authoritative — about +0.44 Spearman with human judgment on
-          the calibration set. A first-pass gate and punch-list, not a replacement for a human's final
-          call.</p></div>
+          <div class="faq-body"><p>The published human-label correlations describe an earlier pipeline
+          on 26 pairs. They are not a current accuracy estimate for the reliability changes. Synthetic
+          regression checks test specific cases, not broad perceptual accuracy.</p></div>
         </details>
         <details class="faq-item">
           <summary>Can I calibrate it for my own UI?<span class="faq-plus" aria-hidden="true"></span></summary>
@@ -536,9 +3721,10 @@ npm run smoke   # ends with: ALL CHECKS PASSED ✅</code></pre>
         </details>
         <details class="faq-item">
           <summary>Is it safe to run?<span class="faq-plus" aria-hidden="true"></span></summary>
-          <div class="faq-body"><p>It reads local paths you pass. <code>capture_frames</code> navigates only
-          to http or https URLs. Inputs are size-capped, metrics isolated, the worker respawns on crash.
-          Set <code>DESIGN_COMPARE_ALLOWED_ROOTS</code> to sandbox file reads and capture <code>outDir</code>.</p></div>
+          <div class="faq-body"><p>It reads local paths you pass. Set <code>DESIGN_COMPARE_ALLOWED_ROOTS</code>
+          to restrict local file reads and capture output paths. These are path restrictions, not process
+          or network isolation. <code>capture_frames</code> accepts http and https; use trusted URLs.
+          Recording extraction runs local FFmpeg, so use trusted recordings and keep the decoder updated.</p></div>
         </details>
         <details class="faq-item">
           <summary>What's the license?<span class="faq-plus" aria-hidden="true"></span></summary>
@@ -550,8 +3736,8 @@ npm run smoke   # ends with: ALL CHECKS PASSED ✅</code></pre>
 
     <!-- FINAL CTA -->
     <section class="cta" aria-labelledby="cta-title">
-      <h2 id="cta-title" class="reveal">Stop eyeballing your clones.</h2>
-      <p class="reveal">Give an agent a number to climb.</p>
+      <h2 id="cta-title" class="reveal">Compare the details. Review the evidence.</h2>
+      <p class="reveal">Give your agent measurements and diagnostics to inspect.</p>
       <div class="hero-actions reveal">
         <a class="btn btn-dark btn-lg" href="https://github.com/codenameakshay/design-compare-mcp" target="_blank" rel="noopener">Get it on GitHub&nbsp;↗</a>
         <a class="btn btn-outline btn-lg" href="#install">Install steps</a>
@@ -566,7 +3752,7 @@ npm run smoke   # ends with: ALL CHECKS PASSED ✅</code></pre>
           <span class="brand-mark" aria-hidden="true"><span></span><span></span></span>
           <span class="brand-word">design&#8288;-&#8288;compare</span>
         </a>
-        <p>Measures how faithfully one UI reproduces another — and tells you what to fix.</p>
+        <p>Compares UI images and sampled motion, with scores, diagnostics and suggested fixes.</p>
       </div>
       <nav class="footer-cols" aria-label="Footer">
         <div>

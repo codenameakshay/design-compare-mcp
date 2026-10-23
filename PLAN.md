@@ -1,5 +1,10 @@
 # design-compare-mcp — Design/Prototype Comparison MCP
 
+> Historical design plan, not the runtime contract. The original design below includes superseded
+> algorithms and unvalidated goals for monotonicity and accuracy. Its palette and CIEDE2000 proposal
+> does not describe the current color worker. See the [current README](README.md) and
+> [production color policy and API](calibration/README.md#color-policy-and-regression-checks).
+
 An MCP server that scores how closely a **candidate** UI (a screenshot / video frame / cropped
 widget from your own app) matches a **reference** design image, and hands the calling agent a
 prioritized punch-list of what to fix. Built for an iterative "hill-climb the clone" loop.

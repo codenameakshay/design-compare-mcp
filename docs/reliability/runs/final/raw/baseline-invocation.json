@@ -1,0 +1,743 @@
+{
+  "command": [
+    "/Users/codenameakshay/Development/codenameakshay/design-compare-mcp/worker/.venv/bin/python",
+    "-I",
+    "/Users/codenameakshay/Development/codenameakshay/design-compare-mcp/scripts/reliability-benchmark.py",
+    "--internal-runner"
+  ],
+  "environment_overrides": {
+    "MKL_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "PYTHONHASHSEED": "0",
+    "VECLIB_MAXIMUM_THREADS": "1"
+  },
+  "request": {
+    "cases": [
+      {
+        "candidate": "fixtures/calendar-reference.png",
+        "description": "Identical full generated UI.",
+        "id": "screen_identical",
+        "kind": "screen",
+        "params": {
+          "return_visuals": false
+        },
+        "reference": "fixtures/calendar-reference.png"
+      },
+      {
+        "candidate": "fixtures/calendar-translation--2.png",
+        "description": "Translate content dx=-2, dy=2 input pixels; exposed border is background.",
+        "id": "translation_-2",
+        "kind": "screen",
+        "params": {
+          "return_visuals": false
+        },
+        "reference": "fixtures/calendar-reference.png"
+      },
+      {
+        "candidate": "fixtures/calendar-crop--2.png",
+        "description": "Crop 2 input pixels from right/bottom; normal width normalization still applies.",
+        "id": "crop_-2",
+        "kind": "screen",
+        "params": {
+          "return_visuals": false
+        },
+        "reference": "fixtures/calendar-reference.png"
+      },
+      {
+        "candidate": "fixtures/calendar-translation--1.png",
+        "description": "Translate content dx=-1, dy=1 input pixels; exposed border is background.",
+        "id": "translation_-1",
+        "kind": "screen",
+        "params": {
+          "return_visuals": false
+        },
+        "reference": "fixtures/calendar-reference.png"
+      },
+      {
+        "candidate": "fixtures/calendar-crop--1.png",
+        "description": "Crop 1 input pixels from right/bottom; normal width normalization still applies.",
+        "id": "crop_-1",
+        "kind": "screen",
+        "params": {
+          "return_visuals": false
+        },
+        "reference": "fixtures/calendar-reference.png"
+      },
+      {
+        "candidate": "fixtures/calendar-translation-+1.png",
+        "description": "Translate content dx=1, dy=-1 input pixels; exposed border is background.",
+        "id": "translation_+1",
+        "kind": "screen",
+        "params": {
+          "return_visuals": false
+        },
+        "reference": "fixtures/calendar-reference.png"
+      },
+      {
+        "candidate": "fixtures/calendar-crop-+1.png",
+        "description": "Crop 1 input pixels from left/top; normal width normalization still applies.",
+        "id": "crop_+1",
+        "kind": "screen",
+        "params": {
+          "return_visuals": false
+        },
+        "reference": "fixtures/calendar-reference.png"
+      },
+      {
+        "candidate": "fixtures/calendar-translation-+2.png",
+        "description": "Translate content dx=2, dy=-2 input pixels; exposed border is background.",
+        "id": "translation_+2",
+        "kind": "screen",
+        "params": {
+          "return_visuals": false
+        },
+        "reference": "fixtures/calendar-reference.png"
+      },
+      {
+        "candidate": "fixtures/calendar-crop-+2.png",
+        "description": "Crop 2 input pixels from left/top; normal width normalization still applies.",
+        "id": "crop_+2",
+        "kind": "screen",
+        "params": {
+          "return_visuals": false
+        },
+        "reference": "fixtures/calendar-reference.png"
+      },
+      {
+        "candidate": "fixtures/calendar-recolored.png",
+        "description": "Replace all blue calendar accents with red; preserve geometry and other colors.",
+        "id": "accent_recolored",
+        "kind": "screen",
+        "params": {
+          "return_visuals": false
+        },
+        "reference": "fixtures/calendar-reference.png"
+      },
+      {
+        "candidate": "fixtures/calendar-missing-accent.png",
+        "description": "Remove all blue calendar accents, leaving their white card backgrounds.",
+        "id": "accent_missing",
+        "kind": "screen",
+        "params": {
+          "return_visuals": false
+        },
+        "reference": "fixtures/calendar-reference.png"
+      },
+      {
+        "candidate": "fixtures/color-mass-light-width-384.png",
+        "description": "Same two RGB colors, light coverage 50% to 50%. Canonical-width input and exact old sampling boundaries isolate mass changes; widget mode skips registration.",
+        "id": "color_mass_50_to_50",
+        "kind": "screen",
+        "params": {
+          "mode": "widget",
+          "return_visuals": false
+        },
+        "reference": "fixtures/color-mass-light-width-384.png"
+      },
+      {
+        "candidate": "fixtures/color-mass-light-width-432.png",
+        "description": "Same two RGB colors, light coverage 50% to 56.25%. Canonical-width input and exact old sampling boundaries isolate mass changes; widget mode skips registration.",
+        "id": "color_mass_50_to_56_25",
+        "kind": "screen",
+        "params": {
+          "mode": "widget",
+          "return_visuals": false
+        },
+        "reference": "fixtures/color-mass-light-width-384.png"
+      },
+      {
+        "candidate": "fixtures/color-mass-light-width-480.png",
+        "description": "Same two RGB colors, light coverage 50% to 62.5%. Canonical-width input and exact old sampling boundaries isolate mass changes; widget mode skips registration.",
+        "id": "color_mass_50_to_62_5",
+        "kind": "screen",
+        "params": {
+          "mode": "widget",
+          "return_visuals": false
+        },
+        "reference": "fixtures/color-mass-light-width-384.png"
+      },
+      {
+        "candidate": "fixtures/color-mass-light-width-624.png",
+        "description": "Same two RGB colors, light coverage 50% to 81.25%. Canonical-width input and exact old sampling boundaries isolate mass changes; widget mode skips registration.",
+        "id": "color_mass_50_to_81_25",
+        "kind": "screen",
+        "params": {
+          "mode": "widget",
+          "return_visuals": false
+        },
+        "reference": "fixtures/color-mass-light-width-384.png"
+      },
+      {
+        "candidate": "fixtures/color-mass-light-width-144.png",
+        "description": "Same two RGB colors, light coverage 81.25% to 18.75%. A major visible mass swap, not recoloring.",
+        "id": "color_mass_81_25_to_18_75",
+        "kind": "screen",
+        "params": {
+          "mode": "widget",
+          "return_visuals": false
+        },
+        "reference": "fixtures/color-mass-light-width-624.png"
+      },
+      {
+        "candidate": "fixtures/color-periodic-crop-0px.png",
+        "description": "Crop ten complete 48px periods from origin y=0. Exact RGB histogram is unchanged; canonical width avoids normalization interpolation. Only color invariance is expected, not identical layout/overall.",
+        "id": "color_periodic_crop_0px",
+        "kind": "screen",
+        "params": {
+          "mode": "widget",
+          "return_visuals": false
+        },
+        "reference": "fixtures/color-periodic-crop-0px.png"
+      },
+      {
+        "candidate": "fixtures/color-periodic-crop-1px.png",
+        "description": "Crop ten complete 48px periods from origin y=1. Exact RGB histogram is unchanged; canonical width avoids normalization interpolation. Only color invariance is expected, not identical layout/overall.",
+        "id": "color_periodic_crop_1px",
+        "kind": "screen",
+        "params": {
+          "mode": "widget",
+          "return_visuals": false
+        },
+        "reference": "fixtures/color-periodic-crop-0px.png"
+      },
+      {
+        "candidate": "fixtures/color-periodic-crop-2px.png",
+        "description": "Crop ten complete 48px periods from origin y=2. Exact RGB histogram is unchanged; canonical width avoids normalization interpolation. Only color invariance is expected, not identical layout/overall.",
+        "id": "color_periodic_crop_2px",
+        "kind": "screen",
+        "params": {
+          "mode": "widget",
+          "return_visuals": false
+        },
+        "reference": "fixtures/color-periodic-crop-0px.png"
+      },
+      {
+        "candidate": "fixtures/color-periodic-crop-3px.png",
+        "description": "Crop ten complete 48px periods from origin y=3. Exact RGB histogram is unchanged; canonical width avoids normalization interpolation. Only color invariance is expected, not identical layout/overall.",
+        "id": "color_periodic_crop_3px",
+        "kind": "screen",
+        "params": {
+          "mode": "widget",
+          "return_visuals": false
+        },
+        "reference": "fixtures/color-periodic-crop-0px.png"
+      },
+      {
+        "candidate": "fixtures/color-periodic-crop-4px.png",
+        "description": "Crop ten complete 48px periods from origin y=4. Exact RGB histogram is unchanged; canonical width avoids normalization interpolation. Only color invariance is expected, not identical layout/overall.",
+        "id": "color_periodic_crop_4px",
+        "kind": "screen",
+        "params": {
+          "mode": "widget",
+          "return_visuals": false
+        },
+        "reference": "fixtures/color-periodic-crop-0px.png"
+      },
+      {
+        "candidate": "fixtures/color-nine-stripes-rgb-plus-one.png",
+        "description": "Nine seeded RGB stripes, each 16px wide and 160px high; candidate adds one to every RGB channel. The 144px-wide inputs exercise normal public pipeline upscaling, not direct metric calls.",
+        "id": "color_nine_stripes_rgb_plus_one",
+        "kind": "screen",
+        "params": {
+          "mode": "widget",
+          "return_visuals": false
+        },
+        "reference": "fixtures/color-nine-stripes-reference.png"
+      },
+      {
+        "candidate": "fixtures/color-gray-single-red-pixel.png",
+        "description": "One red RGB(210,45,65) pixel on a 768x768 RGB(240,240,240) canvas. Negligible contamination must not act like a dominant palette change.",
+        "id": "color_single_red_pixel",
+        "kind": "screen",
+        "params": {
+          "mode": "widget",
+          "return_visuals": false
+        },
+        "reference": "fixtures/color-gray-240-reference.png"
+      },
+      {
+        "candidate": "fixtures/color-gray-240-reference.png",
+        "description": "Remove a contiguous 7373-pixel red RGB(210,45,65) accent, approximately 1.25% of a 768x768 gray canvas. This meaningful accent must remain distinct from one-pixel contamination.",
+        "id": "color_small_red_accent_missing",
+        "kind": "screen",
+        "params": {
+          "mode": "widget",
+          "return_visuals": false
+        },
+        "reference": "fixtures/color-gray-small-red-accent.png"
+      },
+      {
+        "candidate": "fixtures/color-new256color-clean_crop_0px-candidate.png",
+        "description": "Remove exactly 3840 red RGB(210,45,65) pixels, 5% of a 768x100 canvas, against 255 near-white background colors; crop origin y=0. No background perturbation. Repeated rows keep all other exact RGB counts unchanged; canonical width and widget mode avoid resampling/registration.",
+        "id": "color_new256color_clean_crop_0px",
+        "kind": "screen",
+        "params": {
+          "mode": "widget",
+          "return_visuals": false
+        },
+        "reference": "fixtures/color-new256color-clean_crop_0px-reference.png"
+      },
+      {
+        "candidate": "fixtures/color-new256color-clean_crop_1px-candidate.png",
+        "description": "Remove exactly 3840 red RGB(210,45,65) pixels, 5% of a 768x100 canvas, against 255 near-white background colors; crop origin y=1. No background perturbation. Repeated rows keep all other exact RGB counts unchanged; canonical width and widget mode avoid resampling/registration.",
+        "id": "color_new256color_clean_crop_1px",
+        "kind": "screen",
+        "params": {
+          "mode": "widget",
+          "return_visuals": false
+        },
+        "reference": "fixtures/color-new256color-clean_crop_1px-reference.png"
+      },
+      {
+        "candidate": "fixtures/color-new256color-common_pixel_crop_0px-candidate.png",
+        "description": "Remove exactly 3840 red RGB(210,45,65) pixels, 5% of a 768x100 canvas, against 255 near-white background colors; crop origin y=0. The same one-level background-pixel perturbation at source [0,10,0] is included only at origin 0, crossing the reference's 256-color cutoff. Repeated rows keep all other exact RGB counts unchanged; canonical width and widget mode avoid resampling/registration.",
+        "id": "color_new256color_common_pixel_crop_0px",
+        "kind": "screen",
+        "params": {
+          "mode": "widget",
+          "return_visuals": false
+        },
+        "reference": "fixtures/color-new256color-common_pixel_crop_0px-reference.png"
+      },
+      {
+        "candidate": "fixtures/color-new256color-common_pixel_crop_1px-candidate.png",
+        "description": "Remove exactly 3840 red RGB(210,45,65) pixels, 5% of a 768x100 canvas, against 255 near-white background colors; crop origin y=1. The same one-level background-pixel perturbation at source [0,10,0] is included only at origin 0, crossing the reference's 256-color cutoff. Repeated rows keep all other exact RGB counts unchanged; canonical width and widget mode avoid resampling/registration.",
+        "id": "color_new256color_common_pixel_crop_1px",
+        "kind": "screen",
+        "params": {
+          "mode": "widget",
+          "return_visuals": false
+        },
+        "reference": "fixtures/color-new256color-common_pixel_crop_1px-reference.png"
+      },
+      {
+        "candidate": "fixtures/color-transport256-clean-candidate.png",
+        "description": "Same exact RGB support on both sides, but swap [600,600,1,1] to [1,1,600,600] pixel weights within each of six four-color groups; 232 seeded extra colors and 236 tail pixels. Both sides contain 256 colors. The real mass mismatch must remain visible without invented missing/added colors; 768x10 widget inputs avoid resampling and registration.",
+        "id": "color_transport256_clean",
+        "kind": "screen",
+        "params": {
+          "mode": "widget",
+          "return_visuals": false
+        },
+        "reference": "fixtures/color-transport256-clean-reference.png"
+      },
+      {
+        "candidate": "fixtures/color-transport256-common_pixel-candidate.png",
+        "description": "Same exact RGB support on both sides, but swap [600,600,1,1] to [1,1,600,600] pixel weights within each of six four-color groups; 232 seeded extra colors and 236 tail pixels. Add one to the red channel of the last pixel on both sides, crossing 256 to 257 colors. The real mass mismatch must remain visible without invented missing/added colors; 768x10 widget inputs avoid resampling and registration.",
+        "id": "color_transport256_common_pixel",
+        "kind": "screen",
+        "params": {
+          "mode": "widget",
+          "return_visuals": false
+        },
+        "reference": "fixtures/color-transport256-common_pixel-reference.png"
+      },
+      {
+        "candidate": "fixtures/color-shortlist32-clean-candidate.png",
+        "description": "Keep the same 5% accent difference, seeded RGB[5] versus RGB[17292], on a shared background with 30 singleton colors from default_rng(31025). Both sides contain 32 colors. Existing perceptual counterparts must not become a false missing/added accent at the shortlist cutoff; 768x100 widget inputs avoid resampling and registration.",
+        "id": "color_shortlist32_clean",
+        "kind": "screen",
+        "params": {
+          "mode": "widget",
+          "return_visuals": false
+        },
+        "reference": "fixtures/color-shortlist32-clean-reference.png"
+      },
+      {
+        "candidate": "fixtures/color-shortlist32-common_pixel-candidate.png",
+        "description": "Keep the same 5% accent difference, seeded RGB[5] versus RGB[17292], on a shared background with 30 singleton colors from default_rng(31025). Replace background pixel [0,0] with the same RGB[13393] on both sides, crossing 32 to 33 colors. Existing perceptual counterparts must not become a false missing/added accent at the shortlist cutoff; 768x100 widget inputs avoid resampling and registration.",
+        "id": "color_shortlist32_common_pixel",
+        "kind": "screen",
+        "params": {
+          "mode": "widget",
+          "return_visuals": false
+        },
+        "reference": "fixtures/color-shortlist32-common_pixel-reference.png"
+      },
+      {
+        "candidate": "fixtures/calendar-omitted-header-avatar.png",
+        "description": "Header and avatar absent; full images remain in scope. Not a palette-only control.",
+        "id": "header_omitted_full",
+        "kind": "screen",
+        "params": {
+          "return_visuals": false
+        },
+        "reference": "fixtures/calendar-reference.png"
+      },
+      {
+        "candidate": "fixtures/calendar-scoped-candidate.png",
+        "description": "Caller explicitly crops BOTH images to [0,80,384,320], using widget mode. Header/avatar are out of scope, not recovered.",
+        "id": "header_omitted_scoped",
+        "kind": "screen",
+        "params": {
+          "mode": "widget",
+          "return_visuals": false
+        },
+        "reference": "fixtures/calendar-scoped-reference.png"
+      },
+      {
+        "candidate": "fixtures/calendar-omitted-header-avatar.png",
+        "description": "Caller explicitly ignores [0,0,384,80] in original reference pixels.",
+        "id": "header_omitted_ignored",
+        "kind": "screen",
+        "params": {
+          "ignore_regions": [
+            [
+              0,
+              0,
+              384,
+              80
+            ]
+          ],
+          "return_visuals": false
+        },
+        "reference": "fixtures/calendar-reference.png"
+      },
+      {
+        "candidate": "fixtures/calendar-omitted-header-avatar.png",
+        "description": "Entire textured image ignored with equal modal edge fills. Legacy high score is not retained evidence.",
+        "id": "scope_all_ignored",
+        "kind": "screen",
+        "params": {
+          "ignore_regions": [
+            [
+              0,
+              0,
+              384,
+              320
+            ]
+          ],
+          "mode": "widget",
+          "return_visuals": false
+        },
+        "reference": "fixtures/calendar-reference.png"
+      },
+      {
+        "candidate": "fixtures/scope-black-edge.png",
+        "description": "Entire textured image ignored with different per-image fills. Legacy low score is also no retained evidence.",
+        "id": "scope_all_ignored_different_fill",
+        "kind": "screen",
+        "params": {
+          "ignore_regions": [
+            [
+              0,
+              0,
+              192,
+              128
+            ]
+          ],
+          "mode": "widget",
+          "return_visuals": false
+        },
+        "reference": "fixtures/scope-white-edge.png"
+      },
+      {
+        "candidate": "fixtures/ecc-flat-candidate.png",
+        "description": "Constant images make ECC undefined. Identity fallback must remain visible; not a quality success.",
+        "id": "ecc_failure",
+        "kind": "screen",
+        "params": {
+          "return_visuals": false
+        },
+        "reference": "fixtures/ecc-flat-reference.png"
+      },
+      {
+        "candidate": "fixtures/ecc-flat-reference.png",
+        "description": "Identical solid inputs still need a near-uniform observation, not an unresolved-alignment or failed-capture claim.",
+        "id": "flat_identical_screen",
+        "kind": "screen",
+        "params": {
+          "return_visuals": false
+        },
+        "reference": "fixtures/ecc-flat-reference.png"
+      },
+      {
+        "candidate": "fixtures/ecc-flat-reference.png",
+        "description": "Identical solid widget deliberately uses identity. No unresolved-alignment warning is appropriate.",
+        "id": "flat_identical_widget",
+        "kind": "screen",
+        "params": {
+          "mode": "widget",
+          "return_visuals": false
+        },
+        "reference": "fixtures/ecc-flat-reference.png"
+      },
+      {
+        "candidate": "fixtures/calendar-omitted-header-avatar.png",
+        "description": "Same full omitted-header pair, different explicit comparison settings for provenance checks.",
+        "id": "settings_dark_ui",
+        "kind": "screen",
+        "params": {
+          "preset": "dark-ui",
+          "return_visuals": false
+        },
+        "reference": "fixtures/calendar-reference.png"
+      },
+      {
+        "candidate": "fixtures/calendar-omitted-header-avatar.png",
+        "description": "Same full omitted-header pair, different explicit comparison settings for provenance checks.",
+        "id": "settings_custom_weights",
+        "kind": "screen",
+        "params": {
+          "return_visuals": false,
+          "weights": {
+            "color": 0.7,
+            "layout": 0.1
+          }
+        },
+        "reference": "fixtures/calendar-reference.png"
+      },
+      {
+        "candidate": "fixtures/calendar-omitted-header-avatar.png",
+        "description": "Same full omitted-header pair, different explicit comparison settings for provenance checks.",
+        "id": "settings_widget",
+        "kind": "screen",
+        "params": {
+          "mode": "widget",
+          "return_visuals": false
+        },
+        "reference": "fixtures/calendar-reference.png"
+      },
+      {
+        "candidate": "fixtures/calendar-omitted-header-avatar.png",
+        "context_manifest": {
+          "capture": "fixed-generated-pair",
+          "declared_exclusions": [],
+          "revision": 1,
+          "scope": "generated-calendar-full"
+        },
+        "description": "Same pair with caller-declared protocol metadata. Metadata must not change numeric scores; protocol changes split comparison keys.",
+        "id": "settings_context_v1",
+        "kind": "screen",
+        "params": {
+          "comparison_context": {
+            "protocolKey": "d1e9764c0b362634a650a022318f1af1d66ed32ca9ab37a99956e9234bcf340c",
+            "scopeId": "generated-calendar-full"
+          },
+          "return_visuals": false
+        },
+        "reference": "fixtures/calendar-reference.png"
+      },
+      {
+        "candidate": "fixtures/calendar-omitted-header-avatar.png",
+        "context_manifest": {
+          "capture": "fixed-generated-pair",
+          "declared_exclusions": [],
+          "revision": 2,
+          "scope": "generated-calendar-full"
+        },
+        "description": "Same pair with caller-declared protocol metadata. Metadata must not change numeric scores; protocol changes split comparison keys.",
+        "id": "settings_context_v2",
+        "kind": "screen",
+        "params": {
+          "comparison_context": {
+            "protocolKey": "51c5a773abf6bd7f355b39ba01ce2d4e1b3a83e8255c6430bb6941dfb7f025c1",
+            "scopeId": "generated-calendar-full"
+          },
+          "return_visuals": false
+        },
+        "reference": "fixtures/calendar-reference.png"
+      },
+      {
+        "candidate": "fixtures/calendar-reference.png",
+        "description": "Representative full-screen call including visual generation; payload bytes are hashed, not embedded.",
+        "id": "latency_screen_visuals",
+        "kind": "screen",
+        "params": {
+          "return_visuals": true
+        },
+        "reference": "fixtures/calendar-reference.png"
+      },
+      {
+        "candidate": [
+          "fixtures/motion-reference-00.png",
+          "fixtures/motion-reference-01.png",
+          "fixtures/motion-reference-02.png",
+          "fixtures/motion-reference-03.png",
+          "fixtures/motion-reference-04.png",
+          "fixtures/motion-reference-05.png",
+          "fixtures/motion-reference-06.png",
+          "fixtures/motion-reference-07.png",
+          "fixtures/motion-reference-08.png"
+        ],
+        "description": "Identical nonconstant sampled motion profiles, equal lengths.",
+        "id": "motion_identical",
+        "kind": "motion",
+        "params": {
+          "return_visuals": false
+        },
+        "reference": [
+          "fixtures/motion-reference-00.png",
+          "fixtures/motion-reference-01.png",
+          "fixtures/motion-reference-02.png",
+          "fixtures/motion-reference-03.png",
+          "fixtures/motion-reference-04.png",
+          "fixtures/motion-reference-05.png",
+          "fixtures/motion-reference-06.png",
+          "fixtures/motion-reference-07.png",
+          "fixtures/motion-reference-08.png"
+        ]
+      },
+      {
+        "candidate": [
+          "fixtures/motion-reversed-00.png",
+          "fixtures/motion-reversed-01.png",
+          "fixtures/motion-reversed-02.png",
+          "fixtures/motion-reversed-03.png",
+          "fixtures/motion-reversed-04.png",
+          "fixtures/motion-reversed-05.png",
+          "fixtures/motion-reversed-06.png",
+          "fixtures/motion-reversed-07.png",
+          "fixtures/motion-reversed-08.png"
+        ],
+        "description": "Reverse frame order. Same mean energy, different sampled rhythm; no capture timestamps are claimed.",
+        "id": "motion_reversed",
+        "kind": "motion",
+        "params": {
+          "return_visuals": false
+        },
+        "reference": [
+          "fixtures/motion-reference-00.png",
+          "fixtures/motion-reference-01.png",
+          "fixtures/motion-reference-02.png",
+          "fixtures/motion-reference-03.png",
+          "fixtures/motion-reference-04.png",
+          "fixtures/motion-reference-05.png",
+          "fixtures/motion-reference-06.png",
+          "fixtures/motion-reference-07.png",
+          "fixtures/motion-reference-08.png"
+        ]
+      },
+      {
+        "candidate": [
+          "fixtures/motion-shifted-00.png",
+          "fixtures/motion-shifted-01.png",
+          "fixtures/motion-shifted-02.png",
+          "fixtures/motion-shifted-03.png",
+          "fixtures/motion-shifted-04.png",
+          "fixtures/motion-shifted-05.png",
+          "fixtures/motion-shifted-06.png",
+          "fixtures/motion-shifted-07.png",
+          "fixtures/motion-shifted-08.png"
+        ],
+        "description": "Shift the change profile by one frame. Same mean energy, opposite sampled rhythm.",
+        "id": "motion_shifted",
+        "kind": "motion",
+        "params": {
+          "return_visuals": false
+        },
+        "reference": [
+          "fixtures/motion-reference-00.png",
+          "fixtures/motion-reference-01.png",
+          "fixtures/motion-reference-02.png",
+          "fixtures/motion-reference-03.png",
+          "fixtures/motion-reference-04.png",
+          "fixtures/motion-reference-05.png",
+          "fixtures/motion-reference-06.png",
+          "fixtures/motion-reference-07.png",
+          "fixtures/motion-reference-08.png"
+        ]
+      },
+      {
+        "candidate": [
+          "fixtures/motion-unequal-00.png",
+          "fixtures/motion-unequal-01.png",
+          "fixtures/motion-unequal-02.png",
+          "fixtures/motion-unequal-03.png",
+          "fixtures/motion-unequal-04.png",
+          "fixtures/motion-unequal-05.png",
+          "fixtures/motion-unequal-06.png",
+          "fixtures/motion-unequal-07.png",
+          "fixtures/motion-unequal-08.png",
+          "fixtures/motion-unequal-09.png",
+          "fixtures/motion-unequal-10.png",
+          "fixtures/motion-unequal-11.png",
+          "fixtures/motion-unequal-12.png"
+        ],
+        "description": "Candidate shares a prefix but has four extra frames. Do not claim timing fidelity from truncation.",
+        "id": "motion_unequal",
+        "kind": "motion",
+        "params": {
+          "return_visuals": false
+        },
+        "reference": [
+          "fixtures/motion-reference-00.png",
+          "fixtures/motion-reference-01.png",
+          "fixtures/motion-reference-02.png",
+          "fixtures/motion-reference-03.png",
+          "fixtures/motion-reference-04.png",
+          "fixtures/motion-reference-05.png",
+          "fixtures/motion-reference-06.png",
+          "fixtures/motion-reference-07.png",
+          "fixtures/motion-reference-08.png"
+        ]
+      },
+      {
+        "candidate": [
+          "fixtures/motion-static-00.png",
+          "fixtures/motion-static-01.png",
+          "fixtures/motion-static-02.png",
+          "fixtures/motion-static-03.png",
+          "fixtures/motion-static-04.png",
+          "fixtures/motion-static-05.png",
+          "fixtures/motion-static-06.png",
+          "fixtures/motion-static-07.png",
+          "fixtures/motion-static-08.png"
+        ],
+        "description": "Moving reference versus stationary, nonblank candidate.",
+        "id": "motion_static",
+        "kind": "motion",
+        "params": {
+          "return_visuals": false
+        },
+        "reference": [
+          "fixtures/motion-reference-00.png",
+          "fixtures/motion-reference-01.png",
+          "fixtures/motion-reference-02.png",
+          "fixtures/motion-reference-03.png",
+          "fixtures/motion-reference-04.png",
+          "fixtures/motion-reference-05.png",
+          "fixtures/motion-reference-06.png",
+          "fixtures/motion-reference-07.png",
+          "fixtures/motion-reference-08.png"
+        ]
+      },
+      {
+        "candidate": [
+          "fixtures/motion-static-00.png",
+          "fixtures/motion-static-01.png",
+          "fixtures/motion-static-02.png",
+          "fixtures/motion-static-03.png",
+          "fixtures/motion-static-04.png",
+          "fixtures/motion-static-05.png",
+          "fixtures/motion-static-06.png",
+          "fixtures/motion-static-07.png",
+          "fixtures/motion-static-08.png"
+        ],
+        "description": "Neither side moves. A null motion score is inconclusive, not perfect fidelity.",
+        "id": "motion_both_static",
+        "kind": "motion",
+        "params": {
+          "return_visuals": false
+        },
+        "reference": [
+          "fixtures/motion-static-00.png",
+          "fixtures/motion-static-01.png",
+          "fixtures/motion-static-02.png",
+          "fixtures/motion-static-03.png",
+          "fixtures/motion-static-04.png",
+          "fixtures/motion-static-05.png",
+          "fixtures/motion-static-06.png",
+          "fixtures/motion-static-07.png",
+          "fixtures/motion-static-08.png"
+        ]
+      }
+    ],
+    "inputs": "/Users/codenameakshay/Development/codenameakshay/design-compare-mcp/docs/reliability/runs/final",
+    "repeats": 3,
+    "source": "/var/folders/nd/g6xnd2650d5444zpkr29ppgm0000gn/T/design-compare-reliability-nmp99m0e/baseline",
+    "warmups": 1
+  }
+}

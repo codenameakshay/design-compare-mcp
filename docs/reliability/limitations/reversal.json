@@ -1,0 +1,862 @@
+[
+  {
+    "fraction": 0.0125,
+    "v2": {
+      "score": 98.45729860594888,
+      "types": [],
+      "measurements": {
+        "metric": "soft_grid_source_density_scaled_clearance_v2",
+        "units": "chroma_compressed_lab_proxy",
+        "coordinate_system": {
+          "base": "D65_CIELab",
+          "chroma_compression": 0.045
+        },
+        "lattice": {
+          "step": 4.0,
+          "origin": [
+            0.0,
+            -48.0,
+            -48.0
+          ],
+          "shape": [
+            26,
+            25,
+            25
+          ],
+          "nodes": 16250,
+          "assignment": "trilinear_all_pixels",
+          "pixel_batch": 65536
+        },
+        "mass_method": {
+          "name": "max_sliced_wasserstein_1d",
+          "directions": 64,
+          "exact_3d_transport": false
+        },
+        "coverage_method": {
+          "name": "source_density_scaled_bidirectional_soft_clearance",
+          "radii": [
+            0.0,
+            2.0,
+            4.0,
+            6.0,
+            8.0,
+            10.0,
+            14.0,
+            20.0,
+            28.0,
+            40.0,
+            60.0,
+            90.0,
+            140.0
+          ],
+          "mass_scale": 0.001,
+          "density_sigma": 10.0,
+          "density_cap": 0.05,
+          "gain": 0.9,
+          "source_alpha": "density_cap / max(source_density, density_cap)",
+          "query_mass_resolution": "mass_scale / source_alpha",
+          "occupancy_scaling": "same_source_query_alpha_for_own_and_target"
+        },
+        "certificate": {
+          "distance": 10.0,
+          "lattice_guard": 13.856406460551018,
+          "mass_floor": 0.001,
+          "missing_mass": 0.0,
+          "added_mass": 0.0
+        },
+        "distance": 0.2953977214325461,
+        "mass_distance": 0.026894923851652767,
+        "coverage_distance": 0.3282196904806068,
+        "weighted_coverage_distance": 0.2953977214325461,
+        "decay": 19.0
+      }
+    },
+    "v1": {
+      "score": 98.45729860594888,
+      "types": [],
+      "measurements": {
+        "metric": "soft_grid_max_sliced_and_soft_clearance_v1",
+        "units": "chroma_compressed_lab_proxy",
+        "coordinate_system": {
+          "base": "D65_CIELab",
+          "chroma_compression": 0.045
+        },
+        "lattice": {
+          "step": 4.0,
+          "origin": [
+            0.0,
+            -48.0,
+            -48.0
+          ],
+          "shape": [
+            26,
+            25,
+            25
+          ],
+          "nodes": 16250,
+          "assignment": "trilinear_all_pixels",
+          "pixel_batch": 65536
+        },
+        "mass_method": {
+          "name": "max_sliced_wasserstein_1d",
+          "directions": 64,
+          "exact_3d_transport": false
+        },
+        "coverage_method": {
+          "name": "bidirectional_soft_clearance",
+          "radii": [
+            0.0,
+            2.0,
+            4.0,
+            6.0,
+            8.0,
+            10.0,
+            14.0,
+            20.0,
+            28.0,
+            40.0,
+            60.0,
+            90.0,
+            140.0
+          ],
+          "mass_scale": 0.001,
+          "density_sigma": 10.0,
+          "density_cap": 0.05,
+          "gain": 0.9
+        },
+        "certificate": {
+          "distance": 10.0,
+          "lattice_guard": 13.856406460551018,
+          "mass_floor": 0.001,
+          "missing_mass": 0.0,
+          "added_mass": 0.0
+        },
+        "distance": 0.2953977214325461,
+        "mass_distance": 0.026894923851652767,
+        "coverage_distance": 0.3282196904806068,
+        "weighted_coverage_distance": 0.2953977214325461,
+        "decay": 19.0
+      }
+    },
+    "rejected": {
+      "score": 97.756899625013,
+      "types": [],
+      "measurements": {
+        "mean_delta_e": 0.43,
+        "palette_size": [
+          2,
+          2
+        ],
+        "support_size": [
+          2,
+          2
+        ],
+        "support_matching": {
+          "method": "chroma_compressed_lab_and_opposite_hue_shortlist",
+          "candidate_limit": 40,
+          "lab_candidates": 32,
+          "opposite_hue_candidates": 8,
+          "approximate": [
+            false,
+            false
+          ]
+        },
+        "top_deltas": [
+          2.2,
+          0.0
+        ],
+        "transport_delta_e": 0.03,
+        "support_delta_e": 0.43,
+        "shifted_mass": 0.0
+      }
+    }
+  },
+  {
+    "fraction": 0.025,
+    "v2": {
+      "score": 98.13473999163266,
+      "types": [],
+      "measurements": {
+        "metric": "soft_grid_source_density_scaled_clearance_v2",
+        "units": "chroma_compressed_lab_proxy",
+        "coordinate_system": {
+          "base": "D65_CIELab",
+          "chroma_compression": 0.045
+        },
+        "lattice": {
+          "step": 4.0,
+          "origin": [
+            0.0,
+            -48.0,
+            -48.0
+          ],
+          "shape": [
+            26,
+            25,
+            25
+          ],
+          "nodes": 16250,
+          "assignment": "trilinear_all_pixels",
+          "pixel_batch": 65536
+        },
+        "mass_method": {
+          "name": "max_sliced_wasserstein_1d",
+          "directions": 64,
+          "exact_3d_transport": false
+        },
+        "coverage_method": {
+          "name": "source_density_scaled_bidirectional_soft_clearance",
+          "radii": [
+            0.0,
+            2.0,
+            4.0,
+            6.0,
+            8.0,
+            10.0,
+            14.0,
+            20.0,
+            28.0,
+            40.0,
+            60.0,
+            90.0,
+            140.0
+          ],
+          "mass_scale": 0.001,
+          "density_sigma": 10.0,
+          "density_cap": 0.05,
+          "gain": 0.9,
+          "source_alpha": "density_cap / max(source_density, density_cap)",
+          "query_mass_resolution": "mass_scale / source_alpha",
+          "occupancy_scaling": "same_source_query_alpha_for_own_and_target"
+        },
+        "certificate": {
+          "distance": 10.0,
+          "lattice_guard": 13.856406460551018,
+          "mass_floor": 0.001,
+          "missing_mass": 0.0,
+          "added_mass": 0.0
+        },
+        "distance": 0.35774632125660255,
+        "mass_distance": 0.05378984770330533,
+        "coverage_distance": 0.3974959125073362,
+        "weighted_coverage_distance": 0.35774632125660255,
+        "decay": 19.0
+      }
+    },
+    "v1": {
+      "score": 98.13473999163266,
+      "types": [],
+      "measurements": {
+        "metric": "soft_grid_max_sliced_and_soft_clearance_v1",
+        "units": "chroma_compressed_lab_proxy",
+        "coordinate_system": {
+          "base": "D65_CIELab",
+          "chroma_compression": 0.045
+        },
+        "lattice": {
+          "step": 4.0,
+          "origin": [
+            0.0,
+            -48.0,
+            -48.0
+          ],
+          "shape": [
+            26,
+            25,
+            25
+          ],
+          "nodes": 16250,
+          "assignment": "trilinear_all_pixels",
+          "pixel_batch": 65536
+        },
+        "mass_method": {
+          "name": "max_sliced_wasserstein_1d",
+          "directions": 64,
+          "exact_3d_transport": false
+        },
+        "coverage_method": {
+          "name": "bidirectional_soft_clearance",
+          "radii": [
+            0.0,
+            2.0,
+            4.0,
+            6.0,
+            8.0,
+            10.0,
+            14.0,
+            20.0,
+            28.0,
+            40.0,
+            60.0,
+            90.0,
+            140.0
+          ],
+          "mass_scale": 0.001,
+          "density_sigma": 10.0,
+          "density_cap": 0.05,
+          "gain": 0.9
+        },
+        "certificate": {
+          "distance": 10.0,
+          "lattice_guard": 13.856406460551018,
+          "mass_floor": 0.001,
+          "missing_mass": 0.0,
+          "added_mass": 0.0
+        },
+        "distance": 0.3577463212566026,
+        "mass_distance": 0.05378984770330533,
+        "coverage_distance": 0.39749591250733624,
+        "weighted_coverage_distance": 0.3577463212566026,
+        "decay": 19.0
+      }
+    },
+    "rejected": {
+      "score": 96.28952234293594,
+      "types": [],
+      "measurements": {
+        "mean_delta_e": 0.72,
+        "palette_size": [
+          2,
+          2
+        ],
+        "support_size": [
+          2,
+          2
+        ],
+        "support_matching": {
+          "method": "chroma_compressed_lab_and_opposite_hue_shortlist",
+          "candidate_limit": 40,
+          "lab_candidates": 32,
+          "opposite_hue_candidates": 8,
+          "approximate": [
+            false,
+            false
+          ]
+        },
+        "top_deltas": [
+          2.2,
+          0.0
+        ],
+        "transport_delta_e": 0.05,
+        "support_delta_e": 0.72,
+        "shifted_mass": 0.0
+      }
+    }
+  },
+  {
+    "fraction": 0.05,
+    "v2": {
+      "score": 98.60237748044528,
+      "types": [],
+      "measurements": {
+        "metric": "soft_grid_source_density_scaled_clearance_v2",
+        "units": "chroma_compressed_lab_proxy",
+        "coordinate_system": {
+          "base": "D65_CIELab",
+          "chroma_compression": 0.045
+        },
+        "lattice": {
+          "step": 4.0,
+          "origin": [
+            0.0,
+            -48.0,
+            -48.0
+          ],
+          "shape": [
+            26,
+            25,
+            25
+          ],
+          "nodes": 16250,
+          "assignment": "trilinear_all_pixels",
+          "pixel_batch": 65536
+        },
+        "mass_method": {
+          "name": "max_sliced_wasserstein_1d",
+          "directions": 64,
+          "exact_3d_transport": false
+        },
+        "coverage_method": {
+          "name": "source_density_scaled_bidirectional_soft_clearance",
+          "radii": [
+            0.0,
+            2.0,
+            4.0,
+            6.0,
+            8.0,
+            10.0,
+            14.0,
+            20.0,
+            28.0,
+            40.0,
+            60.0,
+            90.0,
+            140.0
+          ],
+          "mass_scale": 0.001,
+          "density_sigma": 10.0,
+          "density_cap": 0.05,
+          "gain": 0.9,
+          "source_alpha": "density_cap / max(source_density, density_cap)",
+          "query_mass_resolution": "mass_scale / source_alpha",
+          "occupancy_scaling": "same_source_query_alpha_for_own_and_target"
+        },
+        "certificate": {
+          "distance": 10.0,
+          "lattice_guard": 13.856406460551018,
+          "mass_floor": 0.001,
+          "missing_mass": 0.0,
+          "added_mass": 0.0
+        },
+        "distance": 0.26742143355672143,
+        "mass_distance": 0.10757969540661182,
+        "coverage_distance": 0.2971349261741349,
+        "weighted_coverage_distance": 0.26742143355672143,
+        "decay": 19.0
+      }
+    },
+    "v1": {
+      "score": 98.60237748044528,
+      "types": [],
+      "measurements": {
+        "metric": "soft_grid_max_sliced_and_soft_clearance_v1",
+        "units": "chroma_compressed_lab_proxy",
+        "coordinate_system": {
+          "base": "D65_CIELab",
+          "chroma_compression": 0.045
+        },
+        "lattice": {
+          "step": 4.0,
+          "origin": [
+            0.0,
+            -48.0,
+            -48.0
+          ],
+          "shape": [
+            26,
+            25,
+            25
+          ],
+          "nodes": 16250,
+          "assignment": "trilinear_all_pixels",
+          "pixel_batch": 65536
+        },
+        "mass_method": {
+          "name": "max_sliced_wasserstein_1d",
+          "directions": 64,
+          "exact_3d_transport": false
+        },
+        "coverage_method": {
+          "name": "bidirectional_soft_clearance",
+          "radii": [
+            0.0,
+            2.0,
+            4.0,
+            6.0,
+            8.0,
+            10.0,
+            14.0,
+            20.0,
+            28.0,
+            40.0,
+            60.0,
+            90.0,
+            140.0
+          ],
+          "mass_scale": 0.001,
+          "density_sigma": 10.0,
+          "density_cap": 0.05,
+          "gain": 0.9
+        },
+        "certificate": {
+          "distance": 10.0,
+          "lattice_guard": 13.856406460551018,
+          "mass_floor": 0.001,
+          "missing_mass": 0.0,
+          "added_mass": 0.0
+        },
+        "distance": 0.26742143355672143,
+        "mass_distance": 0.10757969540661182,
+        "coverage_distance": 0.2971349261741349,
+        "weighted_coverage_distance": 0.26742143355672143,
+        "decay": 19.0
+      }
+    },
+    "rejected": {
+      "score": 94.48623598620338,
+      "types": [],
+      "measurements": {
+        "mean_delta_e": 1.08,
+        "palette_size": [
+          2,
+          2
+        ],
+        "support_size": [
+          2,
+          2
+        ],
+        "support_matching": {
+          "method": "chroma_compressed_lab_and_opposite_hue_shortlist",
+          "candidate_limit": 40,
+          "lab_candidates": 32,
+          "opposite_hue_candidates": 8,
+          "approximate": [
+            false,
+            false
+          ]
+        },
+        "top_deltas": [
+          2.2,
+          0.0
+        ],
+        "transport_delta_e": 0.11,
+        "support_delta_e": 1.08,
+        "shifted_mass": 0.0
+      }
+    }
+  },
+  {
+    "fraction": 0.075,
+    "v2": {
+      "score": 98.72353443298701,
+      "types": [],
+      "measurements": {
+        "metric": "soft_grid_source_density_scaled_clearance_v2",
+        "units": "chroma_compressed_lab_proxy",
+        "coordinate_system": {
+          "base": "D65_CIELab",
+          "chroma_compression": 0.045
+        },
+        "lattice": {
+          "step": 4.0,
+          "origin": [
+            0.0,
+            -48.0,
+            -48.0
+          ],
+          "shape": [
+            26,
+            25,
+            25
+          ],
+          "nodes": 16250,
+          "assignment": "trilinear_all_pixels",
+          "pixel_batch": 65536
+        },
+        "mass_method": {
+          "name": "max_sliced_wasserstein_1d",
+          "directions": 64,
+          "exact_3d_transport": false
+        },
+        "coverage_method": {
+          "name": "source_density_scaled_bidirectional_soft_clearance",
+          "radii": [
+            0.0,
+            2.0,
+            4.0,
+            6.0,
+            8.0,
+            10.0,
+            14.0,
+            20.0,
+            28.0,
+            40.0,
+            60.0,
+            90.0,
+            140.0
+          ],
+          "mass_scale": 0.001,
+          "density_sigma": 10.0,
+          "density_cap": 0.05,
+          "gain": 0.9,
+          "source_alpha": "density_cap / max(source_density, density_cap)",
+          "query_mass_resolution": "mass_scale / source_alpha",
+          "occupancy_scaling": "same_source_query_alpha_for_own_and_target"
+        },
+        "certificate": {
+          "distance": 10.0,
+          "lattice_guard": 13.856406460551018,
+          "mass_floor": 0.001,
+          "missing_mass": 0.0,
+          "added_mass": 0.0
+        },
+        "distance": 0.24408965350569273,
+        "mass_distance": 0.161369543109915,
+        "coverage_distance": 0.27121072611743635,
+        "weighted_coverage_distance": 0.24408965350569273,
+        "decay": 19.0
+      }
+    },
+    "v1": {
+      "score": 99.15428309234944,
+      "types": [],
+      "measurements": {
+        "metric": "soft_grid_max_sliced_and_soft_clearance_v1",
+        "units": "chroma_compressed_lab_proxy",
+        "coordinate_system": {
+          "base": "D65_CIELab",
+          "chroma_compression": 0.045
+        },
+        "lattice": {
+          "step": 4.0,
+          "origin": [
+            0.0,
+            -48.0,
+            -48.0
+          ],
+          "shape": [
+            26,
+            25,
+            25
+          ],
+          "nodes": 16250,
+          "assignment": "trilinear_all_pixels",
+          "pixel_batch": 65536
+        },
+        "mass_method": {
+          "name": "max_sliced_wasserstein_1d",
+          "directions": 64,
+          "exact_3d_transport": false
+        },
+        "coverage_method": {
+          "name": "bidirectional_soft_clearance",
+          "radii": [
+            0.0,
+            2.0,
+            4.0,
+            6.0,
+            8.0,
+            10.0,
+            14.0,
+            20.0,
+            28.0,
+            40.0,
+            60.0,
+            90.0,
+            140.0
+          ],
+          "mass_scale": 0.001,
+          "density_sigma": 10.0,
+          "density_cap": 0.05,
+          "gain": 0.9
+        },
+        "certificate": {
+          "distance": 10.0,
+          "lattice_guard": 13.856406460551018,
+          "mass_floor": 0.001,
+          "missing_mass": 0.0,
+          "added_mass": 0.0
+        },
+        "distance": 0.161369543109915,
+        "mass_distance": 0.161369543109915,
+        "coverage_distance": 0.17254259722052098,
+        "weighted_coverage_distance": 0.15528833749846888,
+        "decay": 19.0
+      }
+    },
+    "rejected": {
+      "score": 94.48623598620338,
+      "types": [],
+      "measurements": {
+        "mean_delta_e": 1.08,
+        "palette_size": [
+          2,
+          2
+        ],
+        "support_size": [
+          2,
+          2
+        ],
+        "support_matching": {
+          "method": "chroma_compressed_lab_and_opposite_hue_shortlist",
+          "candidate_limit": 40,
+          "lab_candidates": 32,
+          "opposite_hue_candidates": 8,
+          "approximate": [
+            false,
+            false
+          ]
+        },
+        "top_deltas": [
+          2.2,
+          0.0
+        ],
+        "transport_delta_e": 0.16,
+        "support_delta_e": 1.08,
+        "shifted_mass": 0.0
+      }
+    }
+  },
+  {
+    "fraction": 0.1,
+    "v2": {
+      "score": 98.72353443298702,
+      "types": [],
+      "measurements": {
+        "metric": "soft_grid_source_density_scaled_clearance_v2",
+        "units": "chroma_compressed_lab_proxy",
+        "coordinate_system": {
+          "base": "D65_CIELab",
+          "chroma_compression": 0.045
+        },
+        "lattice": {
+          "step": 4.0,
+          "origin": [
+            0.0,
+            -48.0,
+            -48.0
+          ],
+          "shape": [
+            26,
+            25,
+            25
+          ],
+          "nodes": 16250,
+          "assignment": "trilinear_all_pixels",
+          "pixel_batch": 65536
+        },
+        "mass_method": {
+          "name": "max_sliced_wasserstein_1d",
+          "directions": 64,
+          "exact_3d_transport": false
+        },
+        "coverage_method": {
+          "name": "source_density_scaled_bidirectional_soft_clearance",
+          "radii": [
+            0.0,
+            2.0,
+            4.0,
+            6.0,
+            8.0,
+            10.0,
+            14.0,
+            20.0,
+            28.0,
+            40.0,
+            60.0,
+            90.0,
+            140.0
+          ],
+          "mass_scale": 0.001,
+          "density_sigma": 10.0,
+          "density_cap": 0.05,
+          "gain": 0.9,
+          "source_alpha": "density_cap / max(source_density, density_cap)",
+          "query_mass_resolution": "mass_scale / source_alpha",
+          "occupancy_scaling": "same_source_query_alpha_for_own_and_target"
+        },
+        "certificate": {
+          "distance": 10.0,
+          "lattice_guard": 13.856406460551018,
+          "mass_floor": 0.001,
+          "missing_mass": 0.0,
+          "added_mass": 0.0
+        },
+        "distance": 0.24408965350568812,
+        "mass_distance": 0.21515939081322177,
+        "coverage_distance": 0.27121072611743124,
+        "weighted_coverage_distance": 0.24408965350568812,
+        "decay": 19.0
+      }
+    },
+    "v1": {
+      "score": 98.87396986989224,
+      "types": [],
+      "measurements": {
+        "metric": "soft_grid_max_sliced_and_soft_clearance_v1",
+        "units": "chroma_compressed_lab_proxy",
+        "coordinate_system": {
+          "base": "D65_CIELab",
+          "chroma_compression": 0.045
+        },
+        "lattice": {
+          "step": 4.0,
+          "origin": [
+            0.0,
+            -48.0,
+            -48.0
+          ],
+          "shape": [
+            26,
+            25,
+            25
+          ],
+          "nodes": 16250,
+          "assignment": "trilinear_all_pixels",
+          "pixel_batch": 65536
+        },
+        "mass_method": {
+          "name": "max_sliced_wasserstein_1d",
+          "directions": 64,
+          "exact_3d_transport": false
+        },
+        "coverage_method": {
+          "name": "bidirectional_soft_clearance",
+          "radii": [
+            0.0,
+            2.0,
+            4.0,
+            6.0,
+            8.0,
+            10.0,
+            14.0,
+            20.0,
+            28.0,
+            40.0,
+            60.0,
+            90.0,
+            140.0
+          ],
+          "mass_scale": 0.001,
+          "density_sigma": 10.0,
+          "density_cap": 0.05,
+          "gain": 0.9
+        },
+        "certificate": {
+          "distance": 10.0,
+          "lattice_guard": 13.856406460551018,
+          "mass_floor": 0.001,
+          "missing_mass": 0.0,
+          "added_mass": 0.0
+        },
+        "distance": 0.21515939081322177,
+        "mass_distance": 0.21515939081322177,
+        "coverage_distance": 0.10162389943829024,
+        "weighted_coverage_distance": 0.09146150949446122,
+        "decay": 19.0
+      }
+    },
+    "rejected": {
+      "score": 94.48623598620338,
+      "types": [],
+      "measurements": {
+        "mean_delta_e": 1.08,
+        "palette_size": [
+          2,
+          2
+        ],
+        "support_size": [
+          2,
+          2
+        ],
+        "support_matching": {
+          "method": "chroma_compressed_lab_and_opposite_hue_shortlist",
+          "candidate_limit": 40,
+          "lab_candidates": 32,
+          "opposite_hue_candidates": 8,
+          "approximate": [
+            false,
+            false
+          ]
+        },
+        "top_deltas": [
+          2.2,
+          0.0
+        ],
+        "transport_delta_e": 0.22,
+        "support_delta_e": 1.08,
+        "shifted_mass": 0.0
+      }
+    }
+  }
+]
